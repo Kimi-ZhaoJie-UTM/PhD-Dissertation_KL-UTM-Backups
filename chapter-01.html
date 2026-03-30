@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 01 - Introduction | 第一章 绪论</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .serif-sc {
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        /* Three Panel Layout - Critical for independent scrolling */
+        .three-panel-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr 1fr;
+            gap: 1.5rem;
+            height: 100%;
+            padding: 1.5rem;
+        }
+        
+        .panel-card {
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: 1rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            height: 100%;
+        }
+        
+        .panel-header {
+            padding: 1.25rem;
+            border-bottom: 1px solid #e2e8f0;
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            flex-shrink: 0;
+        }
+        
+        .panel-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.25rem;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(0,0,0,0.15) transparent;
+        }
+        
+        .panel-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        .panel-content::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.03);
+            border-radius: 3px;
+        }
+        .panel-content::-webkit-scrollbar-thumb {
+            background: rgba(0,0,0,0.15);
+            border-radius: 3px;
+        }
+        .panel-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(0,0,0,0.25);
+        }
+
+        /* Blue theme for Chapter 01 */
+        .border-t-blue { border-top-color: #2563eb; }
+        .bg-blue-50 { background-color: #eff6ff; }
+        .border-blue-200 { border-color: #bfdbfe; }
+        .text-blue-900 { color: #1e3a8a; }
+        .text-blue-800 { color: #1e40af; }
+        .text-blue-700 { color: #1d4ed8; }
+        .bg-gradient-to-br { background-image: linear-gradient(to bottom right, var(--tw-gradient-stops)); }
+        .from-blue-50 { --tw-gradient-from: #eff6ff; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(239, 246, 255, 0)); }
+        
+        /* Content Styling */
+        .bilingual-item {
+            margin-bottom: 0.75rem;
+        }
+        .bilingual-en {
+            display: block;
+            font-size: 0.75rem;
+            line-height: 1.4;
+            color: #475569;
+        }
+        .bilingual-cn {
+            display: block;
+            font-size: 0.7rem;
+            line-height: 1.4;
+            color: #64748b;
+            font-family: 'Noto Serif SC', serif;
+            margin-top: 0.15rem;
+        }
+        
+        /* RO-RQ Matrix Table Styles */
+        .correspondence-matrix {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            font-size: 0.7rem;
+            margin-bottom: 0.75rem;
+        }
+        .correspondence-matrix th {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            color: white;
+            padding: 0.5rem 0.3rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.65rem;
+        }
+        .correspondence-matrix th:first-child { border-radius: 0.5rem 0 0 0; width: 30%; }
+        .correspondence-matrix th:nth-child(2) { width: 20%; }
+        .correspondence-matrix th:last-child { border-radius: 0 0.5rem 0 0; width: 50%; }
+        .correspondence-matrix td {
+            padding: 0.4rem 0.3rem;
+            border-bottom: 1px solid #e2e8f0;
+            vertical-align: top;
+        }
+        .correspondence-matrix tr:last-child td:first-child { border-radius: 0 0 0 0.5rem; }
+        .correspondence-matrix tr:last-child td:last-child { border-radius: 0 0 0.5rem 0; }
+        .correspondence-matrix tr:nth-child(even) { background: #f8fafc; }
+        
+        .ro-cell { display: flex; flex-direction: column; gap: 0.15rem; }
+        .ro-badge {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            font-size: 0.6rem;
+            font-weight: bold;
+            padding: 0.1rem 0.35rem;
+            border-radius: 9999px;
+            display: inline-block;
+            width: fit-content;
+        }
+        .ro-title { font-weight: 600; color: #1e3a8a; line-height: 1.3; font-size: 0.7rem; }
+        .ro-cn { font-size: 0.65rem; color: #64748b; font-family: 'Noto Serif SC', serif; }
+        
+        .rq-tags { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+        .rq-tag {
+            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+            border: 1px solid #fdba74;
+            color: #c2410c;
+            font-size: 0.6rem;
+            padding: 0.1rem 0.3rem;
+            border-radius: 0.25rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+        .reason-cell { color: #475569; line-height: 1.3; font-size: 0.65rem; }
+        .reason-cell .cn { display: block; color: #64748b; font-size: 0.6rem; margin-top: 0.1rem; font-family: 'Noto Serif SC', serif; }
+        
+        /* RQ Detail Section */
+        .rq-detailed-section {
+            background: linear-gradient(135deg, #fff7ed 0%, #ffffff 100%);
+            border: 1px solid #fed7aa;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+        .rq-detailed-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #9a3412;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-family: 'Noto Serif SC', serif;
+        }
+        .rq-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 0.4rem; }
+        .rq-item {
+            font-size: 0.7rem;
+            color: #475569;
+            padding: 0.4rem;
+            background: rgba(255, 255, 255, 0.8);
+            border-left: 3px solid #f97316;
+            border-radius: 0 0.25rem 0.25rem 0;
+            line-height: 1.4;
+        }
+        .rq-number { font-weight: 700; color: #ea580c; margin-right: 0.25rem; }
+        .rq-en { display: block; margin-bottom: 0.15rem; }
+        .rq-cn { display: block; color: #78716c; font-size: 0.65rem; font-family: 'Noto Serif SC', serif; }
+        
+        /* Significance Section */
+        .significance-section { border-top: 1px solid #e2e8f0; padding-top: 0.75rem; margin-top: 0.5rem; }
+        .significance-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .significance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+        .significance-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 0.6rem;
+        }
+        .significance-card.theory { border-top: 3px solid #8b5cf6; }
+        .significance-card.practice { border-top: 3px solid #10b981; }
+        .significance-card-title {
+            font-size: 0.7rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.2rem;
+        }
+        .significance-card.theory .significance-card-title { color: #7c3aed; }
+        .significance-card.practice .significance-card-title { color: #059669; }
+        .significance-list { list-style: none; padding: 0; margin: 0; }
+        .significance-list li {
+            font-size: 0.65rem;
+            color: #475569;
+            margin-bottom: 0.3rem;
+            padding-left: 0.6rem;
+            position: relative;
+            line-height: 1.35;
+        }
+        .significance-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.35rem;
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+        }
+        .significance-card.theory .significance-list li::before { background: #8b5cf6; }
+        .significance-card.practice .significance-list li::before { background: #10b981; }
+        .significance-list .cn { display: block; color: #64748b; font-size: 0.6rem; margin-top: 0.05rem; font-family: 'Noto Serif SC', serif; }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .three-panel-grid {
+                grid-template-columns: 1fr;
+                height: auto;
+                overflow-y: auto;
+            }
+            .panel-card {
+                height: auto;
+                max-height: none;
+            }
+            .panel-content {
+                max-height: 600px;
+            }
+            .significance-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .three-panel-grid {
+                padding: 1rem;
+                gap: 1rem;
+            }
+            .correspondence-matrix th,
+            .correspondence-matrix td {
+                padding: 0.4rem 0.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Three Panel Layout -->
+    <div class="three-panel-grid">
+        
+        <!-- Left Panel: Background & Problem -->
+        <div class="panel-card border-t-4 border-t-blue">
+            <div class="panel-header">
+                <h3 class="text-lg font-bold text-slate-800">Background & Problem | 背景与问题</h3>
+            </div>
+            <div class="panel-content space-y-4">
+                <div class="bg-gradient-to-br from-amber-50 to-white border-l-4 border-amber-500 p-3 rounded-r-lg shadow-sm">
+                    <h4 class="font-bold text-slate-800 text-xs mb-2">Global Trends | 全球金融格局变革</h4>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en font-medium">Islamic Finance: Global assets exceeding $3 trillion, prohibition of Riba (interest), emphasizing risk-sharing mechanisms and ethical investment.</span>
+                        <span class="bilingual-cn">伊斯兰金融资产逾3万亿美元，禁止利息（Riba），强调风险分担机制与道德投资。</span>
+                    </div>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en font-medium">Belt & Road Initiative: Covering 140+ countries since 2013, infrastructure needs exceeding USD 26 trillion, creating massive financing demands.</span>
+                        <span class="bilingual-cn">一带一路倡议覆盖140多国，基建融资需求超过26万亿美元，创造巨大融资需求。</span>
+                    </div>
+                </div>
+
+                <div class="bg-slate-50 border border-slate-200 rounded-lg p-3">
+                    <h4 class="font-bold text-slate-800 text-xs mb-2">Critical Case | 关键案例定位</h4>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en">Dual identity: Global Islamic Finance Hub + Key BRI Participant. Interaction mechanisms should be most observable in KL.</span>
+                        <span class="bilingual-cn">双重身份：全球伊斯兰金融中心 + 一带一路关键参与者。互动机制在吉隆坡最为可观察。</span>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-r from-red-50 to-orange-50 border border-red-200 rounded-lg p-3">
+                    <h4 class="font-bold text-red-900 text-xs mb-2">Four Research Gaps | 四大研究空白</h4>
+                    <div class="space-y-2 text-xs">
+                        <div class="bg-white/80 rounded p-2 border border-red-200">
+                            <div class="bilingual-en font-bold text-red-700">01 Discursive Fragmentation | 话语割裂</div>
+                            <div class="bilingual-cn text-slate-600">Islamic finance and BRI studies operate in parallel tracks</div>
+                        </div>
+                        <div class="bg-white/80 rounded p-2 border border-red-200">
+                            <div class="bilingual-en font-bold text-red-700">02 Single-Level Analysis | 单一层次分析</div>
+                            <div class="bilingual-cn text-slate-600">Lack of meso-level framework connecting macro-strategy to micro-market</div>
+                        </div>
+                        <div class="bg-white/80 rounded p-2 border border-red-200">
+                            <div class="bilingual-en font-bold text-red-700">03 Lack of Case Focus | 案例聚焦不足</div>
+                            <div class="bilingual-cn text-slate-600">Limited systematic case study on KL's internationalization pathway</div>
+                        </div>
+                        <div class="bg-white/80 rounded p-2 border border-red-200">
+                            <div class="bilingual-en font-bold text-red-700">04 Limited Mechanisms | 机制识别有限</div>
+                            <div class="bilingual-cn text-slate-600">Describing existence of interaction rather than explaining causal mechanisms</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-blue-50 to-white border border-blue-200 rounded-lg p-3">
+                    <h4 class="font-bold text-blue-900 text-xs mb-1">Core Research Question | 核心研究问题</h4>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en font-medium text-slate-800">How does the interaction between Islamic finance and the Belt and Road Initiative shape and drive the internationalization pathway of Kuala Lumpur as an international financial center?</span>
+                        <span class="bilingual-cn text-blue-800">伊斯兰金融与"一带一路"倡议之间的互动，通过何种具体机制塑造并推动了吉隆坡作为国际金融中心的国际化发展路径？</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Center Panel: Objectives, Questions & Significance -->
+        <div class="panel-card border-t-4 border-t-blue">
+            <div class="panel-header">
+                <h3 class="text-lg font-bold text-slate-800">Objectives, Questions & Significance | 目标、问题与意义</h3>
+            </div>
+            <div class="panel-content">
+                <table class="correspondence-matrix">
+                    <thead>
+                        <tr>
+                            <th>Research Objective<br><span class="font-normal opacity-80" style="font-family: 'Noto Serif SC', serif;">研究目标</span></th>
+                            <th>Research Question<br><span class="font-normal opacity-80" style="font-family: 'Noto Serif SC', serif;">对应问题</span></th>
+                            <th>Logic<br><span class="font-normal opacity-80" style="font-family: 'Noto Serif SC', serif;">对应理由</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="ro-cell">
+                                    <span class="ro-badge">RO1</span>
+                                    <span class="ro-title">Construct 3D Framework</span>
+                                    <span class="ro-cn">构建三维分析框架</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="rq-tags">
+                                    <span class="rq-tag">RQ1</span>
+                                    <span class="rq-tag">RQ2</span>
+                                    <span class="rq-tag">RQ3</span>
+                                </div>
+                            </td>
+                            <td class="reason-cell">
+                                Provide theoretical tools for mechanism identification
+                                <span class="cn">为识别机制提供理论工具，进行维度分类</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="ro-cell">
+                                    <span class="ro-badge">RO2</span>
+                                    <span class="ro-title">Apply Framework to KL</span>
+                                    <span class="ro-cn">应用框架追溯演化路径</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="rq-tags">
+                                    <span class="rq-tag">RQ1</span>
+                                    <span class="rq-tag">RQ2</span>
+                                    <span class="rq-tag">RQ3</span>
+                                </div>
+                            </td>
+                            <td class="reason-cell">
+                                Empirically reveal mechanisms and elaborate dimensional operations
+                                <span class="cn">实证揭示机制并详述其维度运作</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="ro-cell">
+                                    <span class="ro-badge">RO3</span>
+                                    <span class="ro-title">ECRL Case Study</span>
+                                    <span class="ro-cn">ECRL案例深描与验证</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="rq-tags">
+                                    <span class="rq-tag">RQ4</span>
+                                </div>
+                            </td>
+                            <td class="reason-cell">
+                                Demonstrate mechanism operation using critical case evidence
+                                <span class="cn">利用关键案例实证证据展示机制在实践中的运作</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="ro-cell">
+                                    <span class="ro-badge">RO4</span>
+                                    <span class="ro-title">Assessment & Comparison</span>
+                                    <span class="ro-cn">评估结果与比较定位</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="rq-tags">
+                                    <span class="rq-tag">RQ1-5</span>
+                                </div>
+                            </td>
+                            <td class="reason-cell">
+                                Evaluate real-world results and positioning issues
+                                <span class="cn">评估机制的现实世界结果与定位问题</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="ro-cell">
+                                    <span class="ro-badge">RO5</span>
+                                    <span class="ro-title">Theoretical & Practical Implications</span>
+                                    <span class="ro-cn">提炼理论与实践启示</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="rq-tags">
+                                    <span class="rq-tag">RQ1-5</span>
+                                </div>
+                            </td>
+                            <td class="reason-cell">
+                                Distill theoretical contributions and policy guidance
+                                <span class="cn">基于全部发现提炼理论贡献和政策指导</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="rq-detailed-section">
+                    <div class="rq-detailed-title">
+                        <svg class="w-4 h-4 text-orange-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        Research Questions (RQ) Detail | 研究问题详解
+                    </div>
+                    <ul class="rq-list">
+                        <li class="rq-item">
+                            <span class="rq-number">RQ1:</span>
+                            <span class="rq-en">What is the evolutionary foundation of KL as a specialized financial center? How did KL develop Islamic finance capabilities for BRI interaction?</span>
+                            <span class="rq-cn">吉隆坡作为专业金融中心的演化基础是什么？如何发展出与一带一路深度互动的伊斯兰金融能力？</span>
+                        </li>
+                        <li class="rq-item">
+                            <span class="rq-number">RQ2:</span>
+                            <span class="rq-en">How does institutional interaction unfold? How does KL's Islamic finance ecosystem coordinate with BRI financing needs?</span>
+                            <span class="rq-cn">制度层面互动如何展开？吉隆坡伊斯兰金融制度生态如何与一带一路融资需求实现协同？</span>
+                        </li>
+                        <li class="rq-item">
+                            <span class="rq-number">RQ3:</span>
+                            <span class="rq-en">How is market integration manifested? How do financial product innovation and capital flows reflect this interaction?</span>
+                            <span class="rq-cn">市场层面互动如何体现？金融产品创新、资本流动和机构合作如何反映这种互动？</span>
+                        </li>
+                        <li class="rq-item">
+                            <span class="rq-number">RQ4:</span>
+                            <span class="rq-en">How does ECRL SDG Sukuk embody the 3D interaction mechanism? Can it validate the framework's explanatory power?</span>
+                            <span class="rq-cn">ECRL SDG Sukuk如何体现三维互动机制？能否验证框架解释力并揭示风险分担、SDG等关键议题？</span>
+                        </li>
+                        <li class="rq-item">
+                            <span class="rq-number">RQ5:</span>
+                            <span class="rq-en">Compared with Hong Kong and Dubai, what are the unique results and characteristics of KL's internationalization pathway?</span>
+                            <span class="rq-cn">与香港、迪拜相比，吉隆坡国际化路径的独特结果和特征是什么？</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="significance-section">
+                    <div class="significance-title">
+                        <svg class="w-4 h-4 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        Research Significance | 研究意义
+                    </div>
+                    <div class="significance-grid">
+                        <div class="significance-card theory">
+                            <div class="significance-card-title">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                                Theoretical | 理论贡献
+                            </div>
+                            <ul class="significance-list">
+                                <li>
+                                    Propose "Strategic-Institutional-Market" 3D framework as integrated meso-level analytical tool
+                                    <span class="cn">提出三维互动框架，提供整合性中观分析工具</span>
+                                </li>
+                                <li>
+                                    Enrich financial center theory by revealing interaction mechanisms between specialized centers and external forces
+                                    <span class="cn">丰富金融中心理论，揭示专业化中心与外部力量的互动机制</span>
+                                </li>
+                                <li>
+                                    Advance Islamic finance-BRI intersection research beyond "potential discourse"
+                                    <span class="cn">推进伊斯兰金融与一带一路交叉研究，超越"潜力论述"</span>
+                                </li>
+                                <li>
+                                    Deepen understanding of "developmental state" application in financial sector
+                                    <span class="cn">深化对"发展型国家"在金融领域应用的理解</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="significance-card practice">
+                            <div class="significance-card-title">
+                                <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                Practical | 实践意义
+                            </div>
+                            <ul class="significance-list">
+                                <li>
+                                    <strong>Malaysian Policymakers:</strong> Evidence-based assessment for optimizing Islamic finance strategy
+                                    <span class="cn">马来西亚政策制定者：优化伊斯兰金融战略的循证评估</span>
+                                </li>
+                                <li>
+                                    <strong>Chinese Institutions:</strong> Guidance for navigating KL's ecosystem and Shariah-compliant financing
+                                    <span class="cn">中国金融机构：在吉隆坡生态系统导航及符合教法融资指导</span>
+                                </li>
+                                <li>
+                                    <strong>Other BRI Countries:</strong> Reference "KL Model" for developing Islamic finance capabilities
+                                    <span class="cn">其他一带一路国家：借鉴"吉隆坡模式"发展伊斯兰金融能力</span>
+                                </li>
+                                <li>
+                                    <strong>Global Practitioners:</strong> ECRL SDG Sukuk as reference model for innovative infrastructure financing
+                                    <span class="cn">全球金融从业者：ECRL SDG Sukuk作为创新基础设施融资参考</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Core Concepts -->
+        <div class="panel-card border-t-4 border-t-blue">
+            <div class="panel-header">
+                <h3 class="text-lg font-bold text-slate-800">Core Concepts | 核心概念界定</h3>
+            </div>
+            <div class="panel-content space-y-4">
+                <div class="bg-slate-50 rounded-lg p-3 border-l-4 border-blue-500">
+                    <h4 class="font-bold text-slate-800 text-sm mb-1">Islamic Finance | 伊斯兰金融</h4>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en">Financial system adhering to Shariah principles: prohibition of Riba (interest), Gharar (excessive uncertainty), emphasis on risk-sharing, asset-backing, and ethical investment.</span>
+                        <span class="bilingual-cn">遵循伊斯兰教法原则的金融体系：禁止利息与过度不确定性，强调风险分担、资产支持与道德投资。</span>
+                    </div>
+                </div>
+                
+                <div class="bg-slate-50 rounded-lg p-3 border-l-4 border-amber-500">
+                    <h4 class="font-bold text-slate-800 text-sm mb-1">Belt and Road Initiative | 一带一路倡议</h4>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en">Transnational infrastructure cooperation framework proposed by China in 2013, covering policy coordination, facilities connectivity, unimpeded trade, financial integration, and people-to-people bonds.</span>
+                        <span class="bilingual-cn">2013年中国提出的跨国基础设施与发展合作框架，涵盖政策沟通、设施联通、贸易畅通、资金融通、民心相通五大领域。</span>
+                    </div>
+                </div>
+                
+                <div class="bg-slate-50 rounded-lg p-3 border-l-4 border-green-500">
+                    <h4 class="font-bold text-slate-800 text-sm mb-1">International Financial Center | 国际金融中心</h4>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en">Global nodes concentrating financial institutions, transactions, and talents. KL represents the "specialized" type with Islamic finance as core competency.</span>
+                        <span class="bilingual-cn">聚集金融机构、交易与人才的全球节点。吉隆坡代表"专业型"金融中心，以伊斯兰金融为核心竞争力。</span>
+                    </div>
+                </div>
+                
+                <div class="bg-slate-50 rounded-lg p-3 border-l-4 border-purple-500">
+                    <h4 class="font-bold text-slate-800 text-sm mb-1">Interaction Mechanism | 互动机制</h4>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en">Processes of mutual influence at strategic, institutional, and market levels, with dynamic bidirectional interactions (top-down empowerment, bottom-up feedback, horizontal spillover, recursive reinforcement).</span>
+                        <span class="bilingual-cn">战略、制度、市场三个层面上的相互影响过程，具有动态双向互动特征（自上而下赋能、自下而上反馈、横向溢出、递归强化）。</span>
+                    </div>
+                </div>
+
+                <div class="bg-blue-50 rounded-lg p-3 border border-blue-200">
+                    <h4 class="font-bold text-blue-900 text-xs mb-1">Significance Summary | 意义总结</h4>
+                    <div class="space-y-1 text-xs">
+                        <div class="bilingual-item">
+                            <span class="bilingual-en"><span class="font-medium">Theoretical:</span> Proposing 3D framework, enriching IFC theory, advancing South-South finance research</span>
+                            <span class="bilingual-cn">理论：提出三维框架，丰富金融中心理论，推进南南金融研究</span>
+                        </div>
+                        <div class="bilingual-item">
+                            <span class="bilingual-en"><span class="font-medium">Practical:</span> Policy guidance for Malaysia, China, and other BRI countries</span>
+                            <span class="bilingual-cn">实践：为马来西亚、中国及其他一带一路国家提供政策指导</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
