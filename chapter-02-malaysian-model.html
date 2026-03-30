@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Malaysian Model of Islamic Finance | 伊斯兰金融的马来西亚模式</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #1e5631;
+            --secondary-green: #2e7d32;
+            --gold: #d4af37;
+            --light-gold: #f4e8c1;
+            --dark-bg: #0f1f14;
+            --text-dark: #1a1a1a;
+            --text-light: #f5f5f5;
+            --accent-teal: #00695c;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1a2f1f 100%);
+            min-height: 100vh;
+            color: var(--text-light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Geometric Islamic Pattern Overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(212, 175, 55, 0.03) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(30, 86, 49, 0.2) 0%, transparent 20%),
+                repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(212, 175, 55, 0.02) 35px, rgba(212, 175, 55, 0.02) 70px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header Section */
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 40px 0;
+            border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+            position: relative;
+        }
+
+        .header::after {
+            content: '❋';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--gold);
+            font-size: 24px;
+            background: var(--dark-bg);
+            padding: 0 20px;
+        }
+
+        .title-main {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .title-sub {
+            font-size: 2rem;
+            color: var(--light-gold);
+            font-weight: 300;
+            margin-bottom: 20px;
+        }
+
+        .theory-tag {
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.15);
+            border: 1px solid var(--gold);
+            padding: 10px 30px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            color: var(--gold);
+            margin-top: 20px;
+            letter-spacing: 2px;
+        }
+
+        /* Introduction Section */
+        .intro {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(10px);
+            border-left: 4px solid var(--gold);
+            padding: 30px;
+            margin-bottom: 50px;
+            border-radius: 0 12px 12px 0;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .intro-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #e0e0e0;
+        }
+
+        .intro-text .zh {
+            color: #b0b0b0;
+            font-size: 0.95rem;
+            display: block;
+            margin-top: 8px;
+            font-family: 'Microsoft YaHei', 'SimHei', sans-serif;
+        }
+
+        /* Cards Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .feature-card {
+            background: linear-gradient(145deg, rgba(30, 86, 49, 0.3) 0%, rgba(15, 31, 20, 0.8) 100%);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 16px;
+            padding: 35px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--gold);
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3), 0 0 20px rgba(212, 175, 55, 0.1);
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--gold), var(--secondary-green), var(--gold));
+            opacity: 0.7;
+        }
+
+        .card-number {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: rgba(212, 175, 55, 0.1);
+            line-height: 1;
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 28px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            color: var(--gold);
+            margin-bottom: 8px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .card-title-zh {
+            font-size: 1.1rem;
+            color: var(--secondary-green);
+            margin-bottom: 20px;
+            font-weight: 500;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+
+        .card-content {
+            color: #d0d0d0;
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        .card-content .zh {
+            display: block;
+            margin-top: 10px;
+            color: #888;
+            font-size: 0.95rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 10px;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+
+        /* Key Concepts Section */
+        .concepts-section {
+            background: rgba(0, 105, 92, 0.1);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 50px;
+            border: 1px solid rgba(0, 105, 92, 0.3);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 30px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+
+        .concepts-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .concept-item {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(212, 175, 55, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .concept-item:hover {
+            background: rgba(212, 175, 55, 0.05);
+            transform: scale(1.05);
+        }
+
+        .concept-term {
+            color: var(--gold);
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .concept-term-zh {
+            color: #666;
+            font-size: 0.9rem;
+            font-family: 'Microsoft YaHei', sans-serif;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 60px;
+            padding: 30px;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .islamic-pattern {
+            margin: 20px 0;
+            color: var(--gold);
+            opacity: 0.5;
+            letter-spacing: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .title-main { font-size: 2rem; }
+            .title-sub { font-size: 1.5rem; }
+            .features-grid { grid-template-columns: 1fr; }
+            .concepts-grid { grid-template-columns: 1fr; }
+            .feature-card { padding: 25px; }
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .feature-card {
+            animation: fadeInUp 0.6s ease forwards;
+        }
+
+        .feature-card:nth-child(1) { animation-delay: 0.1s; }
+        .feature-card:nth-child(2) { animation-delay: 0.2s; }
+        .feature-card:nth-child(3) { animation-delay: 0.3s; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- Header -->
+    <header class="header">
+        <h1 class="title-main">The Malaysian Model</h1>
+        <h2 class="title-sub">马来西亚伊斯兰金融模式</h2>
+        <div class="theory-tag">Islamic Finance Theory | 伊斯兰金融理论</div>
+    </header>
+
+    <!-- Introduction -->
+    <div class="intro">
+        <p class="intro-text">
+            <strong>A Unique Regulatory Framework for Islamic Finance Integration</strong>
+            <span class="zh">独特的伊斯兰金融整合监管框架</span>
+        </p>
+        <p style="margin-top: 15px; color: #aaa; font-size: 0.95rem;">
+            Malaysia has developed a distinctive model that harmonizes Islamic financial principles with modern banking infrastructure, serving as a global benchmark for dual financial system integration.
+            <span class="zh" style="color: #777;">马来西亚发展出一种独特的模式，将伊斯兰金融原则与现代银行基础设施相协调，成为双重金融系统整合的全球标杆。</span>
+        </p>
+    </div>
+
+    <!-- Main Features -->
+    <div class="features-grid">
+        <!-- Card 1: Dual Banking -->
+        <div class="feature-card">
+            <div class="card-number">01</div>
+            <div class="card-icon">⚖️</div>
+            <h3 class="card-title">Dual Banking System</h3>
+            <div class="card-title-zh">双银行体系</div>
+            <div class="card-content">
+                Conventional and Islamic banks operating in parallel with unified regulatory framework
+                <span class="zh">传统与伊斯兰银行并行运作，统一监管框架</span>
+            </div>
+        </div>
+
+        <!-- Card 2: Centralized SAC -->
+        <div class="feature-card">
+            <div class="card-number">02</div>
+            <div class="card-icon">📜</div>
+            <h3 class="card-title">Centralized SAC</h3>
+            <div class="card-title-zh">集中化教法委员会</div>
+            <div class="card-content">
+                Shariah Advisory Council providing binding rulings for entire industry
+                <span class="zh">为全行业提供具有约束力的教法裁决</span>
+            </div>
+        </div>
+
+        <!-- Card 3: Embedded in NEP -->
+        <div class="feature-card">
+            <div class="card-number">03</div>
+            <div class="card-icon">🌟</div>
+            <h3 class="card-title">Embedded in NEP</h3>
+            <div class="card-title-zh">嵌入新经济政策</div>
+            <div class="card-content">
+                Linked to Bumiputera economic empowerment policy, creating political legitimacy
+                <span class="zh">与土著经济政策关联，创造政治合法性</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Key Concepts -->
+    <div class="concepts-section">
+        <h3 class="section-title">Core Theoretical Foundations | 核心理论基础</h3>
+        <p style="text-align: center; color: #aaa; margin-bottom: 30px; max-width: 800px; margin-left: auto; margin-right: auto;">
+            Islamic finance theory is grounded in Shariah principles prohibiting riba (interest), gharar (excessive uncertainty), and maysir (gambling), emphasizing risk-sharing and asset-backed transactions.
+            <span style="display: block; margin-top: 10px; color: #666; font-size: 0.9rem; font-family: 'Microsoft YaHei', sans-serif;">
+                伊斯兰金融理论建立在禁止里巴（利息）、哈拉尔（过度不确定性）和麦希尔（赌博）的教法原则之上，强调风险分担和资产支持交易。
+            </span>
+        </p>
+        
+        <div class="concepts-grid">
+            <div class="concept-item">
+                <div class="concept-term">Prohibition of Riba</div>
+                <div class="concept-term-zh">禁止利息</div>
+            </div>
+            <div class="concept-item">
+                <div class="concept-term">Risk Sharing</div>
+                <div class="concept-term-zh">风险共担</div>
+            </div>
+            <div class="concept-item">
+                <div class="concept-term">Asset-backed</div>
+                <div class="concept-term-zh">资产支持</div>
+            </div>
+            <div class="concept-item">
+                <div class="concept-term">Shariah Compliance</div>
+                <div class="concept-term-zh">教法合规</div>
+            </div>
+            <div class="concept-item">
+                <div class="concept-term">Mudarabah</div>
+                <div class="concept-term-zh">资金托管</div>
+            </div>
+            <div class="concept-item">
+                <div class="concept-term">Murabaha</div>
+                <div class="concept-term-zh">成本加成</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="islamic-pattern">❋ ❋ ❋</div>
+        <p>PhD Dissertation Proposal Component | 博士论文提案组件</p>
+        <p style="margin-top: 10px; font-size: 0.85rem; color: #555;">
+            Kuala Lumpur Financial Hub Internationalization: Islamic Finance & Belt and Road Initiative
+        </p>
+    </footer>
+</div>
+
+<script>
+    // Interactive hover effects
+    document.querySelectorAll('.feature-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.borderColor = 'var(--gold)';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.borderColor = 'rgba(212, 175, 55, 0.2)';
+        });
+    });
+
+    // Smooth scroll animation on load
+    window.addEventListener('load', () => {
+        document.body.style.opacity = '0';
+        document.body.style.transition = 'opacity 0.5s ease';
+        setTimeout(() => {
+            document.body.style.opacity = '1';
+        }, 100);
+    });
+</script>
+
+</body>
+</html>
