@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 02 - Literature Review & Framework | 第二章 文献综述与理论框架</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .serif-sc {
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        /* Three Panel Layout - Critical for independent scrolling */
+        .three-panel-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr 1fr;
+            gap: 1.5rem;
+            height: 100%;
+            padding: 1.5rem;
+        }
+        
+        .panel-card {
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: 1rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            height: 100%;
+        }
+        
+        .panel-header {
+            padding: 1.25rem;
+            border-bottom: 1px solid #e2e8f0;
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            flex-shrink: 0;
+        }
+        
+        .panel-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.25rem;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(0,0,0,0.15) transparent;
+        }
+        
+        .panel-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        .panel-content::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.03);
+            border-radius: 3px;
+        }
+        .panel-content::-webkit-scrollbar-thumb {
+            background: rgba(0,0,0,0.15);
+            border-radius: 3px;
+        }
+        .panel-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(0,0,0,0.25);
+        }
+
+        /* Amber theme for Chapter 02 (Core Chapter) */
+        .border-t-amber { border-top-color: #d97706; }
+        .bg-amber-50 { background-color: #fffbeb; }
+        .border-amber-200 { border-color: #fed7aa; }
+        .border-amber-300 { border-color: #fdba74; }
+        .text-amber-900 { color: #78350f; }
+        .text-amber-800 { color: #92400e; }
+        .text-amber-700 { color: #b45309; }
+        .bg-gradient-to-br { background-image: linear-gradient(to bottom right, var(--tw-gradient-stops)); }
+        .from-amber-50 { --tw-gradient-from: #fffbeb; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(255, 251, 235, 0)); }
+        
+        /* Content Styling */
+        .bilingual-item {
+            margin-bottom: 0.75rem;
+        }
+        .bilingual-en {
+            display: block;
+            font-size: 0.75rem;
+            line-height: 1.4;
+            color: #475569;
+        }
+        .bilingual-cn {
+            display: block;
+            font-size: 0.7rem;
+            line-height: 1.4;
+            color: #64748b;
+            font-family: 'Noto Serif SC', serif;
+            margin-top: 0.15rem;
+        }
+        
+        /* Entry Card Styling - Shared for all L3 modals */
+        .l3-entry-card {
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            border: 2px solid;
+        }
+        .l3-entry-card:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        /* 3D Framework Entry - Blue Theme */
+        .framework-entry-card {
+            background: linear-gradient(135deg, #1e3a8a 0%, #312e81 50%, #1e1b4b 100%);
+            border-color: #3b82f6;
+            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.4);
+        }
+        .framework-entry-card:hover {
+            box-shadow: 0 20px 40px -5px rgba(59, 130, 246, 0.6);
+            border-color: #60a5fa;
+        }
+        .framework-icon {
+            background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.1) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+        .pulse-ring {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px solid rgba(255,255,255,0.3);
+            animation: pulse-ring 2s infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.8); opacity: 1; }
+            100% { transform: scale(1.3); opacity: 0; }
+        }
+        
+        /* Islamic Instruments Entry - Rose/Gold Theme */
+        .instruments-entry-card {
+            background: linear-gradient(135deg, #881337 0%, #9f1239 50%, #be123c 100%);
+            border-color: #f43f5e;
+            box-shadow: 0 10px 25px -5px rgba(244, 63, 94, 0.4);
+        }
+        .instruments-entry-card:hover {
+            box-shadow: 0 20px 40px -5px rgba(244, 63, 94, 0.6);
+            border-color: #fb7185;
+        }
+        .instruments-icon {
+            background: linear-gradient(135deg, rgba(255,255,255,0.25) 0%, rgba(255,255,255,0.1) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.4);
+            box-shadow: 0 0 20px rgba(251, 191, 36, 0.4);
+        }
+        .shimmer-gold {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(251, 191, 36, 0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+        
+        /* Malaysian Model Entry - Green/Gold Theme (NEW) */
+        .malaysian-entry-card {
+            background: linear-gradient(135deg, #0f1f14 0%, #1e5631 50%, #0f2f1a 100%);
+            border-color: #d4af37;
+            box-shadow: 0 10px 25px -5px rgba(212, 175, 55, 0.4);
+        }
+        .malaysian-entry-card:hover {
+            box-shadow: 0 20px 40px -5px rgba(212, 175, 55, 0.6);
+            border-color: #f4e8c1;
+        }
+        .malaysian-icon {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.25) 0%, rgba(30, 86, 49, 0.4) 100%);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+        .shimmer-gold-green {
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(212, 175, 55, 0.15), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+        
+        /* Nested Modal (Level 3) Styling */
+        #nestedModalOverlay {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        #nestedModalOverlay .modal-container {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            border: 2px solid #3b82f6;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        #nestedModalOverlay iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: #0a0e27;
+        }
+        
+        /* Gap Cards */
+        .gap-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            border-left: 3px solid;
+        }
+        .gap-card.red { border-left-color: #dc2626; background: linear-gradient(135deg, #fef2f2 0%, #ffffff 100%); }
+        .gap-card.orange { border-left-color: #ea580c; background: linear-gradient(135deg, #fff7ed 0%, #ffffff 100%); }
+        .gap-card.yellow { border-left-color: #ca8a04; background: linear-gradient(135deg, #fefce8 0%, #ffffff 100%); }
+        .gap-card.green { border-left-color: #16a34a; background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%); }
+        .gap-card.blue { border-left-color: #2563eb; background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%); }
+        .gap-card.purple { border-left-color: #9333ea; background: linear-gradient(135deg, #faf5ff 0%, #ffffff 100%); }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .three-panel-grid {
+                grid-template-columns: 1fr;
+                height: auto;
+                overflow-y: auto;
+            }
+            .panel-card {
+                height: auto;
+                max-height: none;
+            }
+            .panel-content {
+                max-height: 600px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .three-panel-grid {
+                padding: 1rem;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Three Panel Layout -->
+    <div class="three-panel-grid">
+        
+        <!-- Left Panel: Islamic Finance Theory (With Two L3 Entries) -->
+        <div class="panel-card border-t-4 border-t-amber">
+            <div class="panel-header">
+                <h3 class="text-lg font-bold text-slate-800">Islamic Finance Theory | 伊斯兰金融理论</h3>
+            </div>
+            <div class="panel-content space-y-4">
+                <div class="bg-amber-50 rounded-lg p-3 border border-amber-200">
+                    <h4 class="font-bold text-amber-900 text-xs mb-2">Core Tension | 核心张力</h4>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en font-medium">Form-compliance vs Essence-compliance (El-Gamal, 2006; Al-Jarhi, 2017)</span>
+                        <span class="bilingual-cn">形式合规 vs 本质合规：部分产品形式上满足教法要求，但实质上接近传统债务工具</span>
+                    </div>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en">Commercial viability vs Religious authenticity tension throughout historical evolution</span>
+                        <span class="bilingual-cn">商业可行性与宗教真实性之间的贯穿性张力</span>
+                    </div>
+                </div>
+
+                <!-- Key Instruments with L3 Entry -->
+                <div class="bg-white rounded-lg p-3 border border-slate-200">
+                    <h4 class="font-bold text-slate-800 text-xs mb-2">Key Instruments | 核心金融工具谱系</h4>
+                    <div class="space-y-2 mb-3">
+                        <div class="bilingual-item">
+                            <span class="bilingual-en"><span class="font-medium">Murabaha (成本加价):</span> Cost-plus financing, most common but criticized as "debt-like"</span>
+                            <span class="bilingual-cn">成本加价融资，最常用但被批评类似债务</span>
+                        </div>
+                        <div class="bilingual-item">
+                            <span class="bilingual-en"><span class="font-medium">Ijara (租赁):</span> Leasing-based, closer to Islamic finance essence</span>
+                            <span class="bilingual-cn">租赁融资，更接近伊斯兰金融本质</span>
+                        </div>
+                        <div class="bilingual-item">
+                            <span class="bilingual-en"><span class="font-medium">Mudaraba/Musharaka (合伙):</span> Profit-sharing partnerships, essence-compliant but complex</span>
+                            <span class="bilingual-cn">利润分享合伙，符合本质但结构复杂</span>
+                        </div>
+                        <div class="bilingual-item">
+                            <span class="bilingual-en"><span class="font-medium">Sukuk (伊斯兰债券):</span> Asset-backed securities, key innovation for capital markets</span>
+                            <span class="bilingual-cn">资产支持证券，资本市场关键创新</span>
+                        </div>
+                    </div>
+                    
+                    <!-- L3 Entry 1: Islamic Instruments Spectrum -->
+                    <div class="instruments-entry-card l3-entry-card rounded-xl p-3 relative overflow-hidden group mt-3" onclick="openNestedModal('chapter-02-islamic-instruments.html')">
+                        <div class="shimmer-gold"></div>
+                        <div class="flex items-center gap-3 relative z-10">
+                            <div class="instruments-icon w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                                </svg>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2">
+                                    <h5 class="font-bold text-white text-sm">View Full Instrument Spectrum</h5>
+                                    <span class="px-1.5 py-0.5 bg-amber-500/30 border border-amber-400/50 rounded text-[9px] text-amber-100">L3</span>
+                                </div>
+                                <p class="text-rose-100 text-xs truncate">查看完整工具谱系：从形式到本质合规的渐进演化</p>
+                            </div>
+                            <svg class="w-5 h-5 text-white/80 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6l6 6-6 6"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Malaysian Model with L3 Entry (NEW) -->
+                <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-lg p-3 border border-green-200">
+                    <h4 class="font-bold text-green-900 text-xs mb-2 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                        </svg>
+                        Malaysian Model | 马来西亚模式
+                    </h4>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en"><span class="font-medium">Dual Banking System:</span> Conventional and Islamic banks operating in parallel with unified regulatory framework</span>
+                        <span class="bilingual-cn">双银行体系：传统与伊斯兰银行并行运作，统一监管框架</span>
+                    </div>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en"><span class="font-medium">Centralized SAC:</span> Shariah Advisory Council providing binding rulings for entire industry</span>
+                        <span class="bilingual-cn">集中化教法委员会（SAC）：为全行业提供具有约束力的教法裁决</span>
+                    </div>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en"><span class="font-medium">Embedded in NEP:</span> Linked to Bumiputera economic empowerment policy, creating political legitimacy</span>
+                        <span class="bilingual-cn">嵌入新经济政策（NEP）：与土著经济政策关联，创造政治合法性</span>
+                    </div>
+                    
+                    <!-- L3 Entry 3: Malaysian Model (NEW) -->
+                    <div class="malaysian-entry-card l3-entry-card rounded-xl p-3 relative overflow-hidden group mt-3" onclick="openNestedModal('chapter-02-malaysian-model.html')">
+                        <div class="shimmer-gold-green"></div>
+                        <div class="flex items-center gap-3 relative z-10">
+                            <div class="malaysian-icon w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-8a2 2 0 012-2h14a2 2 0 012 2v8M9 10a2 2 0 012-2h2a2 2 0 012 2v1H9V10zm0-4a2 2 0 012-2h2a2 2 0 012 2v1H9V6z"></path>
+                                </svg>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2">
+                                    <h5 class="font-bold text-amber-100 text-sm">Explore Malaysian Model</h5>
+                                    <span class="px-1.5 py-0.5 bg-emerald-600/50 border border-emerald-400/50 rounded text-[9px] text-emerald-100">L3</span>
+                                </div>
+                                <p class="text-emerald-100 text-xs truncate">探索马来西亚模式</p>
+                            </div>
+                            <svg class="w-5 h-5 text-amber-200/80 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6l6 6-6 6"></path>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Center Panel: 3D Framework (With Entry Point) -->
+        <div class="panel-card border-t-4 border-t-amber">
+            <div class="panel-header">
+                <h3 class="text-lg font-bold text-slate-800">3D Framework | 三维互动框架</h3>
+            </div>
+            <div class="panel-content space-y-4">
+                <div class="bg-gradient-to-br from-amber-50 to-white border border-amber-200 rounded-lg p-3">
+                    <h4 class="font-bold text-amber-900 text-xs mb-2">Framework Dimensions | 框架维度</h4>
+                    <div class="space-y-3">
+                        <div class="bg-white p-2 rounded border-l-4 border-blue-400 shadow-sm">
+                            <div class="bilingual-en font-bold text-slate-700">Strategic Alignment Layer | 战略协同层</div>
+                            <div class="bilingual-en text-xs text-slate-600">National policy coordination, bilateral agreements, political will</div>
+                            <div class="bilingual-cn text-xs text-slate-500">国家政策协调、双边协议、政治意愿、战略定位</div>
+                        </div>
+                        <div class="bg-white p-2 rounded border-l-4 border-amber-400 shadow-sm">
+                            <div class="bilingual-en font-bold text-slate-700">Institutional Coordination Layer | 制度协同层</div>
+                            <div class="bilingual-en text-xs text-slate-600">Regulatory frameworks, Shariah governance, legal infrastructure</div>
+                            <div class="bilingual-cn text-xs text-slate-500">监管框架、教法治理、法律基础设施、专业人才</div>
+                        </div>
+                        <div class="bg-white p-2 rounded border-l-4 border-green-400 shadow-sm">
+                            <div class="bilingual-en font-bold text-slate-700">Market Integration Layer | 市场融合层</div>
+                            <div class="bilingual-en text-xs text-slate-600">Product innovation, capital flows, institutional partnerships</div>
+                            <div class="bilingual-cn text-xs text-slate-500">产品创新、资本流动、机构合作、投资者网络</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- L3 Entry 2: 3D Framework -->
+                <div class="framework-entry-card l3-entry-card rounded-xl p-4 relative overflow-hidden group" onclick="openNestedModal('chapter-02-3d-framework.html')">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500 rounded-full filter blur-3xl opacity-20 -mr-10 -mt-10"></div>
+                    <div class="flex items-start gap-4 relative z-10">
+                        <div class="framework-icon w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0 relative">
+                            <div class="pulse-ring"></div>
+                            <svg class="w-8 h-8 text-white relative z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center gap-2 mb-1">
+                                <h4 class="font-bold text-white text-base">View Interactive 3D Framework</h4>
+                                <span class="px-2 py-0.5 bg-blue-500/30 border border-blue-400/50 rounded text-[10px] text-blue-100">L3</span>
+                            </div>
+                            <p class="text-blue-100 text-xs leading-relaxed mb-2">
+                                查看交互式三维框架可视化 | 3D Earth with 159 BRI Cities & Dynamic SVG Framework
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="px-2 py-1 bg-white/10 rounded text-[10px] text-white border border-white/20">3D Earth</span>
+                                <span class="px-2 py-1 bg-white/10 rounded text-[10px] text-white border border-white/20">159 Cities</span>
+                                <span class="px-2 py-1 bg-white/10 rounded text-[10px] text-white border border-white/20">Bilingual</span>
+                            </div>
+                        </div>
+                        <div class="flex-shrink-0 self-center">
+                            <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center border border-white/20 group-hover:bg-white/20 transition-all">
+                                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6l6 6-6 6"></path>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-slate-200 rounded-lg p-3">
+                    <h4 class="font-bold text-slate-800 text-xs mb-2">Interaction Logics | 互动逻辑</h4>
+                    <div class="space-y-2">
+                        <div class="bilingual-item">
+                            <span class="bilingual-en"><span class="font-medium">Top-down Empowerment:</span> Strategic commitment enables institutional development</span>
+                            <span class="bilingual-cn">自上而下赋能：战略承诺推动制度发展</span>
+                        </div>
+                        <div class="bilingual-item">
+                            <span class="bilingual-en"><span class="font-medium">Bottom-up Feedback:</span> Market success reinforces strategic commitment</span>
+                            <span class="bilingual-cn">自下而上反馈：市场成功强化战略承诺</span>
+                        </div>
+                        <div class="bilingual-item">
+                            <span class="bilingual-en"><span class="font-medium">Recursive Reinforcement:</span> Cross-dimensional self-reinforcing dynamics</span>
+                            <span class="bilingual-cn">递归强化：跨维度自我强化的动态机制</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Gaps & Theory -->
+        <div class="panel-card border-t-4 border-t-amber">
+            <div class="panel-header">
+                <h3 class="text-lg font-bold text-slate-800">Gaps & Theory | 空白与理论</h3>
+            </div>
+            <div class="panel-content space-y-3">
+                <div class="gap-card red">
+                    <h4 class="font-bold text-red-900 text-xs mb-1">Discursive Fragmentation | 话语割裂</h4>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en">Islamic finance and BRI studies operate in parallel with limited cross-fertilization</span>
+                        <span class="bilingual-cn">伊斯兰金融与一带一路研究平行运行，缺乏交叉融合</span>
+                    </div>
+                </div>
+                <div class="gap-card orange">
+                    <h4 class="font-bold text-orange-900 text-xs mb-1">Single-Level Analysis | 单一层次分析</h4>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en">Lack of meso-level framework connecting macro-strategy to micro-market</span>
+                        <span class="bilingual-cn">缺乏连接宏观战略、中观制度与微观市场的中观框架</span>
+                    </div>
+                </div>
+                <div class="gap-card yellow">
+                    <h4 class="font-bold text-yellow-900 text-xs mb-1">Case Study Deficit | 案例聚焦不足</h4>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en">Limited systematic case study on KL's pathway as specialized IFC interacting with BRI</span>
+                        <span class="bilingual-cn">缺乏将吉隆坡作为专业金融中心与一带一路互动的系统案例研究</span>
+                    </div>
+                </div>
+                <div class="gap-card green">
+                    <h4 class="font-bold text-green-900 text-xs mb-1">Mechanism Identification | 机制识别有限</h4>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en">Describing existence of interaction rather than explaining causal mechanisms</span>
+                        <span class="bilingual-cn">描述互动的存在而非解释因果机制</span>
+                    </div>
+                </div>
+                <div class="gap-card blue">
+                    <h4 class="font-bold text-blue-900 text-xs mb-1">IFC Theory | 金融中心理论</h4>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en">Specialization strategy (Poon et al., 2016), Path dependence, Frontier position</span>
+                        <span class="bilingual-cn">专业化战略、路径依赖、前沿定位理论</span>
+                    </div>
+                </div>
+                <div class="gap-card purple">
+                    <h4 class="font-bold text-purple-900 text-xs mb-1">Developmental State | 发展型国家</h4>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en">State-led industrial policy approach in financial sector (Lai, 2015; Rethel, 2021)</span>
+                        <span class="bilingual-cn">金融领域国家主导的产业政策方法</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Level 3 Nested Modal Container -->
+    <div id="nestedModalPlaceholder"></div>
+
+    <script>
+        // Level 3 Nested Modal Management - Shared Function for all three modals
+        function openNestedModal(url) {
+            // Remove existing modal if any
+            const existingModal = document.getElementById('nestedModalOverlay');
+            if (existingModal) existingModal.remove();
+            
+            // Create overlay
+            const overlay = document.createElement('div');
+            overlay.id = 'nestedModalOverlay';
+            overlay.className = 'fixed inset-0 z-[100] bg-slate-900/95 flex items-center justify-center p-4 opacity-0 transition-opacity duration-300';
+            
+            // Create modal container
+            const modalContainer = document.createElement('div');
+            modalContainer.className = 'modal-container relative w-full max-w-[95vw] h-[90vh] rounded-2xl overflow-hidden transform scale-95 transition-transform duration-300';
+            
+            // Create close button
+            const closeBtn = document.createElement('button');
+            closeBtn.className = 'absolute top-4 right-4 z-[110] w-12 h-12 rounded-full bg-white/10 backdrop-blur-md text-white flex items-center justify-center hover:bg-white/20 transition-all border border-white/30 shadow-lg group';
+            closeBtn.innerHTML = `
+                <svg class="w-6 h-6 group-hover:rotate-90 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            `;
+            closeBtn.onclick = closeNestedModal;
+            
+            // Create iframe
+            const iframe = document.createElement('iframe');
+            iframe.src = url;
+            iframe.title = 'Level 3 Detail View';
+            iframe.className = 'w-full h-full';
+            iframe.allow = 'fullscreen';
+            
+            // Assemble
+            modalContainer.appendChild(closeBtn);
+            modalContainer.appendChild(iframe);
+            overlay.appendChild(modalContainer);
+            document.body.appendChild(overlay);
+            
+            // Prevent background scroll
+            document.body.style.overflow = 'hidden';
+            
+            // Trigger animation
+            requestAnimationFrame(() => {
+                overlay.classList.remove('opacity-0');
+                modalContainer.classList.remove('scale-95');
+                modalContainer.classList.add('scale-100');
+            });
+            
+            // ESC key handler
+            const handleEsc = (e) => {
+                if (e.key === 'Escape') closeNestedModal();
+            };
+            document.addEventListener('keydown', handleEsc);
+            overlay.handleEsc = handleEsc;
+            
+            // Click outside to close
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) closeNestedModal();
+            });
+        }
+        
+        function closeNestedModal() {
+            const overlay = document.getElementById('nestedModalOverlay');
+            if (overlay) {
+                const container = overlay.querySelector('.modal-container');
+                overlay.classList.add('opacity-0');
+                container.classList.remove('scale-100');
+                container.classList.add('scale-95');
+                
+                setTimeout(() => {
+                    document.removeEventListener('keydown', overlay.handleEsc);
+                    overlay.remove();
+                    // Restore scroll only if no other modals open
+                    const otherModals = document.querySelectorAll('.glass-modal.active');
+                    if (otherModals.length === 0) {
+                        document.body.style.overflow = '';
+                    }
+                }, 300);
+            }
+        }
+    </script>
+
+</body>
+</html>
