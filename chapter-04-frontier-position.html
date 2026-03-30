@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吉隆坡作为伊斯兰金融"前沿"的定位 | Kuala Lumpur as Islamic Finance Frontier</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600&family=Noto+Naskh+Arabic:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-gold: #d4af37;
+            --primary-emerald: #059669;
+            --primary-navy: #1e3a5f;
+            --bg-cream: #faf9f6;
+            --text-charcoal: #2c3e50;
+        }
+        
+        body {
+            font-family: 'Inter', 'Noto Serif SC', sans-serif;
+            background: linear-gradient(135deg, #faf9f6 0%, #f0ede8 100%);
+            color: var(--text-charcoal);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .islamic-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0L35 25L60 30L35 35L30 60L25 35L0 30L25 25Z' fill='%23d4af37' fill-opacity='1'/%3E%3C/svg%3E");
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            box-shadow: 0 10px 40px -10px rgba(30, 58, 95, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .glass-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 60px -15px rgba(30, 58, 95, 0.15);
+            border-color: rgba(212, 175, 55, 0.4);
+        }
+        
+        .dimension-card {
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .dimension-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-gold), var(--primary-emerald));
+        }
+        
+        .hub-center {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2d5a87 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hub-center::after {
+            content: '';
+            position: absolute;
+            inset: -50%;
+            background: conic-gradient(from 0deg, transparent, rgba(212, 175, 55, 0.3), transparent);
+            animation: rotate 20s linear infinite;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .bilingual-text .en {
+            font-size: 0.85em;
+            color: #64748b;
+            font-style: italic;
+            display: block;
+            margin-top: 2px;
+        }
+        
+        .tag-pill {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(5, 150, 105, 0.1));
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            color: #92400e;
+            transition: all 0.3s ease;
+        }
+        
+        .tag-pill:hover {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(5, 150, 105, 0.2));
+            transform: scale(1.05);
+        }
+        
+        .connection-line {
+            stroke: rgba(212, 175, 55, 0.3);
+            stroke-width: 2;
+            fill: none;
+            stroke-dasharray: 5,5;
+        }
+        
+        .stat-number {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-gold), #b45309);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .modal-backdrop {
+            background: rgba(30, 58, 95, 0.6);
+            backdrop-filter: blur(8px);
+        }
+        
+        .modal-content {
+            background: rgba(255, 255, 255, 0.98);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-gold), var(--primary-emerald));
+            border-radius: 2px;
+        }
+
+        .bilingual-label {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.2;
+        }
+        
+        .bilingual-label .zh {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+        
+        .bilingual-label .en {
+            font-size: 0.65rem;
+            color: #94a3b8;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="islamic-pattern"></div>
+    
+    <div class="relative z-10 container mx-auto px-4 py-12 max-w-7xl">
+        <!-- 标题区域 -->
+        <header class="text-center mb-16">
+            <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/80 border border-amber-200 mb-6 shadow-sm">
+                <i class="fas fa-book-open text-amber-600 text-sm"></i>
+                <span class="text-xs font-semibold text-amber-800 tracking-wider">学术引用 Academic Reference: Poon, Pollard & Chow (2016)</span>
+            </div>
+            
+            <h1 class="text-4xl md:text-6xl font-bold mb-4 text-slate-800 tracking-tight">
+                吉隆坡的<span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-emerald-600">"前沿"</span>定位
+                <div class="text-xl md:text-2xl font-normal text-slate-500 mt-2 italic">Kuala Lumpur as the "Frontier" of Islamic Finance</div>
+            </h1>
+            
+            <p class="text-lg text-slate-600 max-w-3xl mx-auto leading-relaxed bilingual-text">
+                在全球伊斯兰金融网络中，吉隆坡占据着独特的中介枢纽位置，在西方金融惯例与伊斯兰原则、不同教法传统、以及中东资本与亚洲机遇之间发挥转化与协调功能。
+                <span class="en">KL occupies a unique intermediary position in the global Islamic financial network, mediating between Western conventions and Islamic principles, different Shariah traditions, and Middle Eastern capital with Asian opportunities.</span>
+            </p>
+        </header>
+
+        <!-- 中心枢纽与三维度布局 -->
+        <div class="relative">
+            <!-- SVG连接线（桌面端显示） -->
+            <svg class="absolute inset-0 w-full h-full pointer-events-none hidden lg:block" style="z-index: 0;">
+                <line x1="50%" y1="20%" x2="20%" y2="60%" class="connection-line"/>
+                <line x1="50%" y1="20%" x2="50%" y2="70%" class="connection-line"/>
+                <line x1="50%" y1="20%" x2="80%" y2="60%" class="connection-line"/>
+            </svg>
+
+            <!-- 中心枢纽 -->
+            <div class="flex justify-center mb-12 relative z-10">
+                <div class="hub-center w-48 h-48 rounded-full flex flex-col items-center justify-center text-white shadow-2xl cursor-pointer transform hover:scale-105 transition-transform duration-300" onclick="openModal('concept')">
+                    <div class="relative z-10 text-center">
+                        <i class="fas fa-landmark text-3xl mb-2 text-amber-300"></i>
+                        <div class="text-2xl font-bold mb-1">吉隆坡 <span class="text-sm font-light block text-amber-200">Kuala Lumpur</span></div>
+                        <div class="mt-2 px-3 py-1 bg-white/20 rounded-full text-xs backdrop-blur">前沿 FRONTIER</div>
+                        <div class="mt-2 text-[10px] text-amber-200/80">点击查看详情 Click for Details</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 三个维度卡片 -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 relative z-10">
+                
+                <!-- 维度1：转化能力 -->
+                <div class="glass-card dimension-card rounded-2xl p-8 cursor-pointer group" onclick="openModal('transformation')">
+                    <div class="flex items-start justify-between mb-6">
+                        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-emerald-100 to-emerald-50 flex items-center justify-center text-emerald-700 text-2xl shadow-sm group-hover:scale-110 transition-transform">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <span class="text-4xl font-bold text-slate-200">01</span>
+                    </div>
+                    
+                    <h3 class="text-2xl font-bold text-slate-800 mb-2 bilingual-text">
+                        转化能力
+                        <span class="en">Transformation Capacity</span>
+                    </h3>
+                    
+                    <p class="text-slate-600 mb-6 text-sm leading-relaxed bilingual-text">
+                        在西方金融惯例与伊斯兰原则之间建立桥梁，将传统金融概念转化为符合伊斯兰教法的形式。
+                        <span class="en">Bridging Western financial conventions and Islamic principles, translating conventional concepts into Shariah-compliant forms.</span>
+                    </p>
+
+                    <div class="space-y-3 mb-6">
+                        <div class="flex items-center gap-3 text-sm">
+                            <i class="fas fa-arrow-right text-emerald-600"></i>
+                            <span class="text-slate-700">传统债券 Bonds <span class="text-slate-400">→</span> Sukuk</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-sm">
+                            <i class="fas fa-arrow-right text-emerald-600"></i>
+                            <span class="text-slate-700">银行贷款 Bank Loan <span class="text-slate-400">→</span> Murabaha</span>
+                        </div>
+                        <div class="flex items-center gap-3 text-sm">
+                            <i class="fas fa-arrow-right text-emerald-600"></i>
+                            <span class="text-slate-700">定期存款 Time Deposit <span class="text-slate-400">→</span> Wadiah</span>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-slate-200">
+                        <div class="flex items-center justify-between text-xs text-slate-500">
+                            <span class="bilingual-label">
+                                <span class="zh">双银行体系</span>
+                                <span class="en">Dual Banking System</span>
+                            </span>
+                            <span class="tag-pill px-2 py-1 rounded">IFSA 2013</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 维度2：统一解释权威 -->
+                <div class="glass-card dimension-card rounded-2xl p-8 cursor-pointer group" onclick="openModal('sharia')">
+                    <div class="flex items-start justify-between mb-6">
+                        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-blue-100 to-blue-50 flex items-center justify-center text-blue-700 text-2xl shadow-sm group-hover:scale-110 transition-transform">
+                            <i class="fas fa-book-open"></i>
+                        </div>
+                        <span class="text-4xl font-bold text-slate-200">02</span>
+                    </div>
+                    
+                    <h3 class="text-2xl font-bold text-slate-800 mb-2 bilingual-text">
+                        统一解释权威
+                        <span class="en">Unified Shariah Authority</span>
+                    </h3>
+                    
+                    <p class="text-slate-600 mb-6 text-sm leading-relaxed bilingual-text">
+                        在不同伊斯兰教法解释传统之间建立共识，通过国家伊斯兰教法委员会（SAC）提供集中化、具有约束力的裁决。
+                        <span class="en">Establishing consensus among different Shariah traditions through centralized SAC authority.</span>
+                    </p>
+
+                    <div class="grid grid-cols-2 gap-2 mb-6">
+                        <div class="bg-slate-50 rounded-lg p-2 text-center text-xs text-slate-600 border border-slate-200">
+                            <div class="font-semibold">Hanafi</div>
+                            <div class="text-slate-400 scale-90">哈乃斐学派</div>
+                        </div>
+                        <div class="bg-slate-50 rounded-lg p-2 text-center text-xs text-slate-600 border border-slate-200">
+                            <div class="font-semibold">Maliki</div>
+                            <div class="text-slate-400 scale-90">马立克学派</div>
+                        </div>
+                        <div class="bg-slate-50 rounded-lg p-2 text-center text-xs text-slate-600 border border-slate-200">
+                            <div class="font-semibold">Shafi'i</div>
+                            <div class="text-slate-400 scale-90">沙斐仪学派</div>
+                        </div>
+                        <div class="bg-slate-50 rounded-lg p-2 text-center text-xs text-slate-600 border border-slate-200">
+                            <div class="font-semibold">Hanbali</div>
+                            <div class="text-slate-400 scale-90">罕百里学派</div>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-slate-200">
+                        <div class="flex items-center justify-between text-xs text-slate-500">
+                            <span class="bilingual-label">
+                                <span class="zh">SAC集中化权威</span>
+                                <span class="en">Centralized Authority</span>
+                            </span>
+                            <span class="tag-pill px-2 py-1 rounded">Global Fatwa</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 维度3：中介枢纽功能 -->
+                <div class="glass-card dimension-card rounded-2xl p-8 cursor-pointer group" onclick="openModal('capital')">
+                    <div class="flex items-start justify-between mb-6">
+                        <div class="w-14 h-14 rounded-xl bg-gradient-to-br from-amber-100 to-amber-50 flex items-center justify-center text-amber-700 text-2xl shadow-sm group-hover:scale-110 transition-transform">
+                            <i class="fas fa-globe-asia"></i>
+                        </div>
+                        <span class="text-4xl font-bold text-slate-200">03</span>
+                    </div>
+                    
+                    <h3 class="text-2xl font-bold text-slate-800 mb-2 bilingual-text">
+                        中介枢纽功能
+                        <span class="en">Intermediary Hub Function</span>
+                    </h3>
+                    
+                    <p class="text-slate-600 mb-6 text-sm leading-relaxed bilingual-text">
+                        连接海湾合作委员会（GCC）的伊斯兰资本池与亚洲快速增长的基础设施投资机会，特别是"一带一路"倡议下的项目。
+                        <span class="en">Connecting GCC Islamic capital pools with Asian infrastructure investment opportunities, especially under BRI.</span>
+                    </p>
+
+                    <div class="flex justify-between items-center mb-6 bg-gradient-to-r from-amber-50 to-emerald-50 rounded-lg p-4 border border-amber-100">
+                        <div class="text-center">
+                            <div class="stat-number text-2xl">$3.5T</div>
+                            <div class="text-xs text-slate-600 mt-1 bilingual-label">
+                                <span class="zh">GCC资本池</span>
+                                <span class="en">GCC Capital</span>
+                            </div>
+                        </div>
+                        <i class="fas fa-arrows-alt-h text-amber-400 text-xl"></i>
+                        <div class="text-center">
+                            <div class="stat-number text-2xl">6%+</div>
+                            <div class="text-xs text-slate-600 mt-1 bilingual-label">
+                                <span class="zh">亚洲增长</span>
+                                <span class="en">Asian Growth</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-slate-200">
+                        <div class="flex items-center justify-between text-xs text-slate-500">
+                            <span class="bilingual-label">
+                                <span class="zh">ECRL等旗舰项目</span>
+                                <span class="en">Flagship Projects</span>
+                            </span>
+                            <span class="tag-pill px-2 py-1 rounded">BRI Integration</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 核心竞争优势 -->
+        <div class="mt-12 glass-card rounded-2xl p-8 border-t-4 border-t-slate-700">
+            <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+                <div class="flex items-center gap-4">
+                    <div class="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center text-white text-2xl shadow-lg">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-slate-800 bilingual-text">
+                            核心竞争优势
+                            <span class="en">Core Competitive Advantages</span>
+                        </h3>
+                        <p class="text-slate-600 text-sm mt-1">制度深度 + 专业知识 + 国际网络 <span class="text-slate-400 italic">Institutional Depth + Expertise + Network</span></p>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full md:w-auto">
+                    <div class="flex items-center gap-3 bg-emerald-50 px-4 py-3 rounded-lg border border-emerald-100">
+                        <i class="fas fa-university text-emerald-600"></i>
+                        <div>
+                            <div class="text-sm font-semibold text-slate-800 bilingual-label">
+                                <span class="zh">制度深度</span>
+                                <span class="en">Institutional Depth</span>
+                            </div>
+                            <div class="text-xs text-slate-500">IFSA 2013 · SAC · BNM</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 bg-blue-50 px-4 py-3 rounded-lg border border-blue-100">
+                        <i class="fas fa-user-graduate text-blue-600"></i>
+                        <div>
+                            <div class="text-sm font-semibold text-slate-800 bilingual-label">
+                                <span class="zh">专业知识</span>
+                                <span class="en">Professional Expertise</span>
+                            </div>
+                            <div class="text-xs text-slate-500">INCEIF · ISRA · KLIFD</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3 bg-amber-50 px-4 py-3 rounded-lg border border-amber-100">
+                        <i class="fas fa-network-wired text-amber-600"></i>
+                        <div>
+                            <div class="text-sm font-semibold text-slate-800 bilingual-label">
+                                <span class="zh">国际网络</span>
+                                <span class="en">International Network</span>
+                            </div>
+                            <div class="text-xs text-slate-500">IFSB · IIFM · AAOIFI</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 页脚引用 -->
+        <footer class="mt-12 text-center text-slate-400 text-sm">
+            <p class="mb-2">基于 Poon, Pollard & Chow (2016) 学术研究 <span class="italic">Based on Academic Research</span></p>
+            <p class="text-xs italic">"The Rise of Kuala Lumpur as an Islamic Finance Frontier" in Regional Studies <span class="not-italic text-slate-300">|</span> 区域研究期刊</p>
+        </footer>
+    </div>
+
+    <!-- 详细模态框 -->
+    <div id="detailModal" class="fixed inset-0 modal-backdrop hidden items-center justify-center p-4 z-50 opacity-0 transition-opacity duration-300">
+        <div class="modal-content w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-2xl shadow-2xl transform scale-95 transition-transform duration-300" onclick="event.stopPropagation()">
+            <div class="sticky top-0 bg-white/95 backdrop-blur border-b border-amber-200 p-6 flex items-center justify-between">
+                <div>
+                    <h3 id="modalTitle" class="text-2xl font-bold text-slate-800"></h3>
+                    <p id="modalSubtitle" class="text-slate-500 italic mt-1"></p>
+                </div>
+                <button onclick="closeModal()" class="w-10 h-10 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center text-slate-600 transition-colors" title="关闭 Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div id="modalBody" class="p-6">
+                <!-- 动态内容 -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const modalData = {
+            transformation: {
+                title: "转化能力 / Transformation Capacity",
+                subtitle: "在西方金融惯例与伊斯兰原则之间搭建桥梁 Bridging Western Conventions and Islamic Principles",
+                content: `
+                    <div class="space-y-6">
+                        <div class="bg-gradient-to-r from-emerald-50 to-teal-50 border-l-4 border-emerald-500 p-4 rounded-r-lg">
+                            <p class="text-slate-700 leading-relaxed text-sm md:text-base">
+                                吉隆坡积累了将<span class="font-bold text-emerald-700">传统金融概念转化为符合伊斯兰教法形式</span>的专业知识，这种转化能力使得与西方金融机构和伊斯兰投资者的沟通成为可能，实现了真正的"双重适用"。
+                                <span class="block mt-2 text-sm text-slate-500 italic">KL has accumulated expertise in translating conventional financial concepts into Shariah-compliant forms, enabling communication between Western institutions and Islamic investors.</span>
+                            </p>
+                        </div>
+
+                        <div>
+                            <h4 class="font-bold text-slate-800 mb-4 flex items-center gap-2 text-lg">
+                                <i class="fas fa-exchange-alt text-emerald-600"></i>
+                                核心转化机制 / Key Transformation Mechanisms
+                            </h4>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="bg-white border border-slate-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                                    <div class="flex items-center gap-3 mb-3">
+                                        <span class="bg-emerald-100 text-emerald-700 px-2 py-1 rounded text-xs font-bold">债务类 Debt</span>
+                                        <i class="fas fa-arrow-right text-slate-400"></i>
+                                    </div>
+                                    <div class="flex justify-between items-center mb-2 text-sm">
+                                        <span class="text-slate-600">传统债券 Bonds</span>
+                                        <i class="fas fa-long-arrow-alt-right text-emerald-500"></i>
+                                        <span class="font-bold text-emerald-700">Sukuk 伊斯兰债券</span>
+                                    </div>
+                                    <p class="text-xs text-slate-500">资产支持、收益共享而非固定收益 <span class="italic">Asset-backed profit sharing</span></p>
+                                </div>
+
+                                <div class="bg-white border border-slate-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                                    <div class="flex items-center gap-3 mb-3">
+                                        <span class="bg-emerald-100 text-emerald-700 px-2 py-1 rounded text-xs font-bold">融资类 Financing</span>
+                                        <i class="fas fa-arrow-right text-slate-400"></i>
+                                    </div>
+                                    <div class="flex justify-between items-center mb-2 text-sm">
+                                        <span class="text-slate-600">银行贷款 Bank Loan</span>
+                                        <i class="fas fa-long-arrow-alt-right text-emerald-500"></i>
+                                        <span class="font-bold text-emerald-700">Murabaha 成本加成</span>
+                                    </div>
+                                    <p class="text-xs text-slate-500">实物资产交易而非货币借贷 <span class="italic">Asset-based trade</span></p>
+                                </div>
+
+                                <div class="bg-white border border-slate-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                                    <div class="flex items-center gap-3 mb-3">
+                                        <span class="bg-emerald-100 text-emerald-700 px-2 py-1 rounded text-xs font-bold">存款类 Deposit</span>
+                                        <i class="fas fa-arrow-right text-slate-400"></i>
+                                    </div>
+                                    <div class="flex justify-between items-center mb-2 text-sm">
+                                        <span class="text-slate-600">定期存款 Time Deposit</span>
+                                        <i class="fas fa-long-arrow-alt-right text-emerald-500"></i>
+                                        <span class="font-bold text-emerald-700">Wadiah 安全保管</span>
+                                    </div>
+                                    <p class="text-xs text-slate-500">保管合同而非债权债务关系 <span class="italic">Safekeeping contract</span></p>
+                                </div>
+
+                                <div class="bg-white border border-slate-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                                    <div class="flex items-center gap-3 mb-3">
+                                        <span class="bg-emerald-100 text-emerald-700 px-2 py-1 rounded text-xs font-bold">租赁类 Lease</span>
+                                        <i class="fas fa-arrow-right text-slate-400"></i>
+                                    </div>
+                                    <div class="flex justify-between items-center mb-2 text-sm">
+                                        <span class="text-slate-600">租赁 Lease</span>
+                                        <i class="fas fa-long-arrow-alt-right text-emerald-500"></i>
+                                        <span class="font-bold text-emerald-700">Ijarah 伊斯兰租赁</span>
+                                    </div>
+                                    <p class="text-xs text-slate-500">使用权转让与租金收益 <span class="italic">Usufruct transfer</span></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 rounded-lg p-5 border border-slate-200">
+                            <h4 class="font-bold text-slate-800 mb-3 flex items-center gap-2">
+                                <i class="fas fa-landmark text-emerald-600"></i>
+                                双银行体系优势 / Dual Banking System Advantage
+                            </h4>
+                            <p class="text-sm text-slate-600 leading-relaxed mb-3">
+                                马来西亚独特的双银行体系允许传统银行与伊斯兰银行并存竞争，促进了知识转移和产品创新。传统银行通过伊斯兰窗口（Islamic Window）或子公司进入伊斯兰金融领域，带来了成熟的金融技术和风险管理经验。
+                                <span class="block mt-2 text-xs text-slate-500 italic">Malaysia's unique dual banking system allows coexistence and competition between conventional and Islamic banks, facilitating knowledge transfer and product innovation.</span>
+                            </p>
+                            <div class="flex flex-wrap gap-2 mt-3">
+                                <span class="bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded">IFSA 2013 伊斯兰金融服务法</span>
+                                <span class="bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded">Dual Banking 双银行体系</span>
+                                <span class="bg-emerald-100 text-emerald-800 text-xs px-2 py-1 rounded">Islamic Window 伊斯兰窗口</span>
+                            </div>
+                        </div>
+                    </div>
+                `
+            },
+            sharia: {
+                title: "统一解释权威 / Unified Shariah Authority",
+                subtitle: "在不同伊斯兰教法传统间建立共识 Establishing Consensus Among Shariah Traditions",
+                content: `
+                    <div class="space-y-6">
+                        <div class="bg-gradient-to-r from-blue-50 to-indigo-50 border-l-4 border-blue-500 p-4 rounded-r-lg">
+                            <p class="text-slate-700 leading-relaxed text-sm md:text-base">
+                                伊斯兰世界包含<span class="font-bold text-blue-700">四大法学派别（Mazhab）</span>，吉隆坡务实的、以发展为导向的，并由<span class="font-bold text-blue-700">国家伊斯兰教法委员会（SAC）</span>支持的方法，代表了一种已在全球范围内获得相当程度接受的独特立场。
+                                <span class="block mt-2 text-sm text-slate-500 italic">The Islamic world comprises four major schools of law. KL's pragmatic, development-oriented approach supported by the centralized SAC represents a unique position globally accepted.</span>
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            <div class="bg-white border-2 border-slate-200 rounded-lg p-4 text-center hover:border-blue-400 transition-colors">
+                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2 text-blue-700 font-bold text-lg">1</div>
+                                <div class="font-bold text-slate-800">Hanafi</div>
+                                <div class="text-xs text-slate-500">哈乃斐学派</div>
+                                <div class="text-xs text-slate-400 mt-1 italic">Rationalist tradition</div>
+                            </div>
+                            <div class="bg-white border-2 border-slate-200 rounded-lg p-4 text-center hover:border-blue-400 transition-colors">
+                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2 text-blue-700 font-bold text-lg">2</div>
+                                <div class="font-bold text-slate-800">Maliki</div>
+                                <div class="text-xs text-slate-500">马立克学派</div>
+                                <div class="text-xs text-slate-400 mt-1 italic">Medinan tradition</div>
+                            </div>
+                            <div class="bg-white border-2 border-slate-200 rounded-lg p-4 text-center hover:border-blue-400 transition-colors">
+                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2 text-blue-700 font-bold text-lg">3</div>
+                                <div class="font-bold text-slate-800">Shafi'i</div>
+                                <div class="text-xs text-slate-500">沙斐仪学派</div>
+                                <div class="text-xs text-slate-400 mt-1 italic">Mainstream in Malaysia</div>
+                            </div>
+                            <div class="bg-white border-2 border-slate-200 rounded-lg p-4 text-center hover:border-blue-400 transition-colors">
+                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-2 text-blue-700 font-bold text-lg">4</div>
+                                <div class="font-bold text-slate-800">Hanbali</div>
+                                <div class="text-xs text-slate-500">罕百里学派</div>
+                                <div class="text-xs text-slate-400 mt-1 italic">Conservative tradition</div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white border border-blue-200 rounded-lg p-5">
+                            <h4 class="font-bold text-blue-800 mb-4 flex items-center gap-2 text-lg">
+                                <i class="fas fa-landmark"></i>
+                                马来西亚国家伊斯兰教法委员会 (SAC of BNM)
+                                <span class="text-sm font-normal text-slate-500 block mt-1 italic">Shariah Advisory Council of Bank Negara Malaysia</span>
+                            </h4>
+                            <ul class="space-y-4">
+                                <li class="flex items-start gap-3">
+                                    <i class="fas fa-check-circle text-blue-500 mt-1"></i>
+                                    <div>
+                                        <span class="font-semibold text-slate-800 block">集中化权威 Centralized Authority</span>
+                                        <p class="text-sm text-slate-600">为国家层面提供统一的、具有约束力的伊斯兰教法裁决，避免不同机构间解释冲突。<span class="italic text-slate-500 text-xs block mt-1">Provides unified, binding Shariah rulings at national level.</span></p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fas fa-check-circle text-blue-500 mt-1"></i>
+                                    <div>
+                                        <span class="font-semibold text-slate-800 block">务实导向 Pragmatic Orientation</span>
+                                        <p class="text-sm text-slate-600">注重实际可行性和经济发展需求，而非纯粹理论推演，支持金融创新。<span class="italic text-slate-500 text-xs block mt-1">Emphasizes feasibility and economic development needs.</span></p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fas fa-check-circle text-blue-500 mt-1"></i>
+                                    <div>
+                                        <span class="font-semibold text-slate-800 block">全球认可 Global Recognition</span>
+                                        <p class="text-sm text-slate-600">马来西亚SAC的标准已获得国际伊斯兰金融市场广泛接受，成为全球伊斯兰金融产品认证的重要参考。<span class="italic text-slate-500 text-xs block mt-1">Globally recognized as important reference for Shariah compliance.</span></p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="bg-blue-50 rounded-lg p-4 border border-blue-100">
+                            <p class="text-sm text-blue-900 leading-relaxed italic">
+                                "马来西亚的伊斯兰教法治理方法通过建立国家级的统一标准，解决了跨国伊斯兰金融交易中的合规不确定性问题，这是吉隆坡成为全球伊斯兰金融中心的关键制度基础。"
+                                <span class="block mt-2 not-italic text-xs text-blue-700">"Malaysia's Shariah governance solves cross-border compliance uncertainties through unified national standards."</span>
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+            capital: {
+                title: "中介枢纽功能 / Intermediary Hub Function",
+                subtitle: "连接GCC资本与亚洲增长机遇 Connecting GCC Capital with Asian Growth Opportunities",
+                content: `
+                    <div class="space-y-6">
+                        <div class="bg-gradient-to-r from-amber-50 to-orange-50 border-l-4 border-amber-500 p-4 rounded-r-lg">
+                            <p class="text-slate-700 leading-relaxed text-sm md:text-base">
+                                吉隆坡作为<span class="font-bold text-amber-700">中介节点</span>，连接着集中在<span class="font-bold text-amber-700">海湾合作委员会（GCC）国家</span>的伊斯兰资本池与<span class="font-bold text-amber-700">快速增长亚洲经济体</span>的投资机会，特别是在"一带一路"倡议下的基础设施项目。
+                                <span class="block mt-2 text-sm text-slate-500 italic">KL serves as an intermediary connecting GCC Islamic capital pools with rapidly growing Asian economies, especially infrastructure projects under BRI.</span>
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="bg-white border border-amber-200 rounded-lg p-5 text-center shadow-sm">
+                                <i class="fas fa-oil-can text-amber-500 text-2xl mb-2"></i>
+                                <div class="stat-number text-3xl mb-1">$3.5T</div>
+                                <div class="text-sm font-semibold text-slate-800">GCC伊斯兰资本池</div>
+                                <div class="text-xs text-slate-500 italic">GCC Islamic Capital Pool</div>
+                                <div class="text-xs text-slate-400 mt-2">主权基金、伊斯兰银行、Takaful资金 <span class="italic">Sovereign funds, Islamic banks</span></div>
+                            </div>
+                            
+                            <div class="bg-white border border-emerald-200 rounded-lg p-5 text-center shadow-sm">
+                                <i class="fas fa-chart-line text-emerald-500 text-2xl mb-2"></i>
+                                <div class="stat-number text-3xl mb-1">6%+</div>
+                                <div class="text-sm font-semibold text-slate-800">亚洲GDP增长率</div>
+                                <div class="text-xs text-slate-500 italic">Asian GDP Growth Rate</div>
+                                <div class="text-xs text-slate-400 mt-2">基础设施需求巨大、投资回报率高 <span class="italic">High infrastructure demand</span></div>
+                            </div>
+                            
+                            <div class="bg-white border border-blue-200 rounded-lg p-5 text-center shadow-sm">
+                                <i class="fas fa-train text-blue-500 text-2xl mb-2"></i>
+                                <div class="stat-number text-3xl mb-1">$44B</div>
+                                <div class="text-sm font-semibold text-slate-800">ECRL项目规模</div>
+                                <div class="text-xs text-slate-500 italic">ECRL Project Scale</div>
+                                <div class="text-xs text-slate-400 mt-2">首个政府担保SDG Sukuk案例 <span class="italic">First sovereign-guaranteed SDG Sukuk</span></div>
+                            </div>
+                        </div>
+
+                        <div class="bg-white border border-slate-200 rounded-lg p-5">
+                            <h4 class="font-bold text-slate-800 mb-4 flex items-center gap-2 text-lg">
+                                <i class="fas fa-project-diagram text-amber-600"></i>
+                                资本流动机制 / Capital Flow Mechanism
+                            </h4>
+                            
+                            <div class="relative mb-6">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex-1 text-center">
+                                        <div class="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-2 text-amber-700">
+                                            <i class="fas fa-building text-xl"></i>
+                                        </div>
+                                        <div class="text-sm font-bold">中东投资者</div>
+                                        <div class="text-xs text-slate-500 italic">Middle East Investors</div>
+                                    </div>
+                                    
+                                    <div class="flex-1 px-2">
+                                        <div class="h-0.5 bg-gradient-to-r from-amber-400 to-emerald-400 relative">
+                                            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white px-2">
+                                                <i class="fas fa-arrow-right text-emerald-500"></i>
+                                            </div>
+                                        </div>
+                                        <div class="text-center mt-2 text-xs text-slate-600">
+                                            吉隆坡中介枢纽<br>
+                                            <span class="italic">KL Intermediary Hub</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="flex-1 text-center">
+                                        <div class="w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-2 text-emerald-700">
+                                            <i class="fas fa-hard-hat text-xl"></i>
+                                        </div>
+                                        <div class="text-sm font-bold">亚洲项目</div>
+                                        <div class="text-xs text-slate-500 italic">Asian Projects</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div class="bg-slate-50 rounded p-4">
+                                    <div class="font-semibold text-slate-800 text-sm mb-2 flex items-center gap-2">
+                                        <i class="fas fa-money-bill-wave text-amber-500"></i>
+                                        资金来源 Sources of Capital
+                                    </div>
+                                    <ul class="text-xs text-slate-600 space-y-1">
+                                        <li>• 沙特公共投资基金 (PIF) <span class="italic">Saudi PIF</span></li>
+                                        <li>• 卡塔尔投资局 (QIA) <span class="italic">Qatar Investment Authority</span></li>
+                                        <li>• 阿布扎比投资局 (ADIA) <span class="italic">Abu Dhabi Investment Authority</span></li>
+                                        <li>• 伊斯兰开发银行 (IsDB) <span class="italic">Islamic Development Bank</span></li>
+                                    </ul>
+                                </div>
+                                <div class="bg-slate-50 rounded p-4">
+                                    <div class="font-semibold text-slate-800 text-sm mb-2 flex items-center gap-2">
+                                        <i class="fas fa-map-marker-alt text-emerald-500"></i>
+                                        投资标的 Investment Targets
+                                    </div>
+                                    <ul class="text-xs text-slate-600 space-y-1">
+                                        <li>• ECRL东海岸铁路 <span class="italic">East Coast Rail Link</span></li>
+                                        <li>• 大马城 (Bandar Malaysia) <span class="italic">Bandar Malaysia</span></li>
+                                        <li>• 关丹产业园 (MCKIP) <span class="italic">Kuantan Industrial Park</span></li>
+                                        <li>• 绿色能源项目 <span class="italic">Green Energy Projects</span></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-amber-50 rounded-lg p-5 border border-amber-200">
+                            <h4 class="font-bold text-amber-900 mb-3 flex items-center gap-2">
+                                <i class="fas fa-lightbulb"></i>
+                                战略重要性 / Strategic Importance
+                            </h4>
+                            <p class="text-sm text-amber-900 leading-relaxed">
+                                随着亚洲基础设施需求的扩大（预计2030年前需求超过<span class="font-bold">26万亿美元</span>），吉隆坡的中介功能变得愈发重要。通过伊斯兰金融工具（如Sukuk），中东资本可以合规地参与"一带一路"项目，实现资本增值与宗教伦理的双重目标。
+                                <span class="block mt-2 text-xs text-amber-800 italic">With Asia's infrastructure needs exceeding $26 trillion by 2030, KL's intermediary role becomes increasingly vital.</span>
+                            </p>
+                        </div>
+                    </div>
+                `
+            },
+            concept: {
+                title: "前沿概念阐释 / Concept of 'Frontier'",
+                subtitle: "什么是伊斯兰金融的'前沿'定位？ What is the 'Frontier' Position in Islamic Finance?",
+                content: `
+                    <div class="space-y-6">
+                        <div class="bg-gradient-to-r from-slate-800 to-slate-900 text-white p-6 rounded-lg">
+                            <h4 class="text-xl font-bold mb-3">"Frontier" 前沿定义 Definition</h4>
+                            <p class="leading-relaxed mb-4 text-sm">
+                                在金融地理学中，"前沿"（Frontier）指处于不同金融传统、监管制度和文化背景交汇处的<span class="text-amber-400 font-bold">战略节点</span>。它不仅是地理中心，更是制度转换与价值调解的空间。
+                            </p>
+                            <p class="text-sm text-slate-300 italic">
+                                In financial geography, "Frontier" refers to strategic nodes at the intersection of different financial traditions, regulatory systems, and cultural contexts.
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="border border-slate-200 rounded-lg p-5 hover:border-amber-400 transition-colors bg-white">
+                                <div class="w-10 h-10 bg-amber-100 rounded-full flex items-center justify-center text-amber-700 font-bold mb-3">1</div>
+                                <h5 class="font-bold text-slate-800 mb-2">中介位置</h5>
+                                <p class="text-xs text-slate-600 mb-2">处于多种金融传统交汇处的战略节点，不是简单的地理中心，而是制度转换的空间。</p>
+                                <p class="text-xs text-slate-400 italic">Strategic node at intersection of multiple traditions.</p>
+                            </div>
+                            <div class="border border-slate-200 rounded-lg p-5 hover:border-emerald-400 transition-colors bg-white">
+                                <div class="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center text-emerald-700 font-bold mb-3">2</div>
+                                <h5 class="font-bold text-slate-800 mb-2">转化能力</h5>
+                                <p class="text-xs text-slate-600 mb-2">将不同金融概念、产品和标准转化为兼容形式的能力，实现"双重适用"。</p>
+                                <p class="text-xs text-slate-400 italic">Ability to translate concepts into compatible forms.</p>
+                            </div>
+                            <div class="border border-slate-200 rounded-lg p-5 hover:border-blue-400 transition-colors bg-white">
+                                <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-700 font-bold mb-3">3</div>
+                                <h5 class="font-bold text-slate-800 mb-2">协调功能</h5>
+                                <p class="text-xs text-slate-600 mb-2">统一不同标准、解释传统和监管要求，降低跨境交易成本。</p>
+                                <p class="text-xs text-slate-400 italic">Harmonizing standards and reducing cross-border costs.</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-50 rounded-lg p-6 border border-slate-200">
+                            <h4 class="font-bold text-slate-800 mb-4 flex items-center gap-2 text-lg">
+                                <i class="fas fa-star text-amber-500"></i>
+                                吉隆坡的独特性 / KL's Uniqueness
+                            </h4>
+                            <p class="text-slate-700 leading-relaxed mb-4 text-sm">
+                                根据Poon, Pollard & Chow (2016)的研究，吉隆坡的"前沿"定位不同于传统的国际金融中心（如纽约、伦敦）或单纯的伊斯兰金融中心（如迪拜、麦纳麦）。它同时具备：
+                                <span class="italic text-slate-500 block mt-2">According to Poon, Pollard & Chow (2016), KL's frontier position differs from traditional IFCs or pure Islamic centers.</span>
+                            </p>
+                            <ul class="space-y-3 text-sm text-slate-700">
+                                <li class="flex items-start gap-3">
+                                    <i class="fas fa-star text-amber-500 mt-1"></i>
+                                    <div>
+                                        <span class="font-semibold">西方金融成熟度 Western Financial Sophistication</span>
+                                        <p class="text-xs text-slate-500 mt-1">继承英国普通法传统，拥有成熟的资本市场基础设施 <span class="italic">Inherited British common law tradition with mature capital market infrastructure.</span></p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fas fa-star text-amber-500 mt-1"></i>
+                                    <div>
+                                        <span class="font-semibold">伊斯兰宗教合法性 Islamic Religious Legitimacy</span>
+                                        <p class="text-xs text-slate-500 mt-1">穆斯林占多数人口，深厚的伊斯兰文化底蕴 <span class="italic">Muslim-majority population with deep Islamic cultural heritage.</span></p>
+                                    </div>
+                                </li>
+                                <li class="flex items-start gap-3">
+                                    <i class="fas fa-star text-amber-500 mt-1"></i>
+                                    <div>
+                                        <span class="font-semibold">亚洲地理优势 Asian Geographic Advantage</span>
+                                        <p class="text-xs text-slate-500 mt-1">位于中东资本与东亚/东南亚增长市场的交汇点 <span class="italic">Located at intersection of Middle East capital and East/Southeast Asian markets.</span></p>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                `
+            }
+        };
+
+        function openModal(type) {
+            const data = modalData[type];
+            if (!data) return;
+            
+            document.getElementById('modalTitle').textContent = data.title;
+            document.getElementById('modalSubtitle').textContent = data.subtitle;
+            document.getElementById('modalBody').innerHTML = data.content;
+            
+            const modal = document.getElementById('detailModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            void modal.offsetWidth;
+            modal.classList.add('opacity-100');
+            modal.querySelector('.modal-content').classList.remove('scale-95');
+            modal.querySelector('.modal-content').classList.add('scale-100');
+            
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('detailModal');
+            modal.classList.remove('opacity-100');
+            modal.querySelector('.modal-content').classList.remove('scale-100');
+            modal.querySelector('.modal-content').classList.add('scale-95');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        document.getElementById('detailModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
