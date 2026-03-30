@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spectrum of Islamic Financial Instruments | 伊斯兰金融工具谱系</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --accent-emerald: #059669;
+            --accent-sapphire: #1e40af;
+            --accent-coral: #ea580c;
+            --accent-rose: #be123c;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            overflow-x: hidden;
+        }
+        
+        .serif { font-family: 'Noto Serif SC', serif; }
+        .serif-en { font-family: 'Playfair Display', serif; }
+        
+        .islamic-pattern {
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.03) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(5, 150, 105, 0.03) 0%, transparent 50%);
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .spectrum-line {
+            background: linear-gradient(90deg, 
+                var(--accent-rose) 0%, 
+                var(--accent-coral) 25%, 
+                var(--accent-sapphire) 50%, 
+                var(--accent-emerald) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .spectrum-line::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+        
+        .instrument-card {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .instrument-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.15);
+        }
+        
+        .instrument-card.active {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .timeline-node {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-node.active {
+            transform: scale(1.15);
+        }
+        
+        .timeline-node.active .timeline-dot {
+            box-shadow: 0 0 0 4px rgba(255,255,255,0.8), 0 0 0 8px currentColor;
+            animation: pulse-ring 2s infinite;
+        }
+        
+        @keyframes pulse-ring {
+            0% { box-shadow: 0 0 0 4px rgba(255,255,255,0.8), 0 0 0 0 currentColor; }
+            70% { box-shadow: 0 0 0 4px rgba(255,255,255,0.8), 0 0 0 12px transparent; }
+            100% { box-shadow: 0 0 0 4px rgba(255,255,255,0.8), 0 0 0 0 transparent; }
+        }
+        
+        .detail-overlay {
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .detail-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .detail-content {
+            transform: scale(0.95) translateY(20px);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .detail-overlay.active .detail-content {
+            transform: scale(1) translateY(0);
+            opacity: 1;
+        }
+        
+        .bilingual-text .en { display: block; }
+        .bilingual-text .zh { display: block; font-size: 0.85em; opacity: 0.85; margin-top: 0.2em; }
+        
+        .card-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+        
+        .detail-section h4 {
+            font-size: 0.95rem;
+            color: #1e293b;
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e2e8f0;
+            font-weight: 700;
+        }
+        
+        .detail-bilingual {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        
+        @media (min-width: 768px) {
+            .detail-bilingual {
+                grid-template-columns: 1fr 1fr;
+                gap: 1.5rem;
+            }
+        }
+        
+        .detail-bilingual .lang-block {
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 0.5rem;
+            border-left: 3px solid;
+        }
+        
+        .detail-bilingual .lang-block.en { border-color: #cbd5e1; }
+        .detail-bilingual .lang-block.zh { border-color: #059669; }
+        
+        .detail-bilingual h5 {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+            color: #64748b;
+        }
+        
+        .detail-bilingual p, .detail-bilingual li {
+            font-size: 0.875rem;
+            line-height: 1.6;
+            color: #334155;
+        }
+        
+        .glow {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(40px);
+        }
+        
+        .list-bilingual {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .list-bilingual li {
+            display: flex;
+            flex-direction: column;
+            gap: 0.1rem;
+        }
+        
+        .list-bilingual .en-text { font-size: 0.85rem; color: #475569; }
+        .list-bilingual .zh-text { font-size: 0.8rem; color: #64748b; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col text-slate-800 relative">
+    <div class="islamic-pattern"></div>
+    <div class="glow top-0 left-1/4"></div>
+    <div class="glow bottom-0 right-1/4"></div>
+
+    <main class="relative z-10 container mx-auto px-4 py-8 max-w-7xl flex flex-col min-h-screen">
+        
+        <!-- Header Bilingual -->
+        <header class="text-center mb-12 space-y-4 mt-4">
+            <div class="inline-block mb-2">
+                <span class="px-4 py-1.5 rounded-full bg-slate-900 text-amber-400 text-xs font-semibold tracking-widest uppercase border border-amber-400/30">
+                    Islamic Finance Architecture · 伊斯兰金融体系架构
+                </span>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-bold text-slate-900 leading-tight serif-en">
+                Spectrum of Islamic Finance
+            </h1>
+            <h2 class="text-2xl md:text-3xl font-bold text-slate-700 serif mt-2">
+                伊斯兰金融工具谱系
+            </h2>
+            <div class="text-slate-500 text-base max-w-2xl mx-auto font-light leading-relaxed mt-4 space-y-1">
+                <p>From Form-based to Substance-based Compliance with Shariah Principles</p>
+                <p class="serif text-slate-400">从形式合规到本质合规：教法精神的渐进实现</p>
+            </div>
+        </header>
+
+        <!-- Spectrum Axis Bilingual -->
+        <section class="mb-16 relative">
+            <div class="glass-panel rounded-2xl p-6 md:p-8 shadow-xl shadow-slate-200/50">
+                <div class="flex flex-col md:flex-row justify-between items-center mb-6 text-sm font-medium text-slate-500 gap-4">
+                    <div class="text-center md:text-left">
+                        <div class="text-rose-700 font-bold text-lg">Form-based Compliance</div>
+                        <div class="text-rose-600 font-medium text-base serif">形式合规</div>
+                        <div class="text-xs text-slate-400 mt-1">Technical Avoidance of Riba · 技术性规避利息禁令</div>
+                    </div>
+                    
+                    <div class="flex-1 w-full mx-0 md:mx-8 relative my-4 md:my-0">
+                        <div class="spectrum-line h-2 rounded-full w-full shadow-inner"></div>
+                        <div class="absolute -top-6 left-1/2 transform -translate-x-1/2 flex flex-col md:flex-row gap-2 md:gap-8 text-xs text-slate-400 whitespace-nowrap text-center">
+                            <span>◀ Increasing Risk-sharing · 风险共担程度递增</span>
+                            <span>Asset Backing · 资产支持程度递增 ▶</span>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center md:text-right">
+                        <div class="text-emerald-700 font-bold text-lg">Substance-based Compliance</div>
+                        <div class="text-emerald-600 font-medium text-base serif">本质合规</div>
+                        <div class="text-xs text-slate-400 mt-1">Embodiment of Islamic Ethos · 教法精神内核体现</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Cards Grid -->
+        <section class="flex-1 mb-16">
+            <div class="flex items-center justify-center gap-2 mb-8 text-slate-400 text-sm">
+                <span class="w-8 h-px bg-slate-300"></span>
+                <span class="italic">Progression · 渐进演化路径</span>
+                <span class="text-lg">→</span>
+                <span class="text-lg">→</span>
+                <span class="text-lg">→</span>
+                <span class="w-8 h-px bg-slate-300"></span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
+                
+                <!-- Murabaha -->
+                <div class="instrument-card group cursor-pointer bg-white rounded-2xl shadow-lg shadow-slate-200/50 border border-slate-100 flex flex-col" data-id="murabaha">
+                    <div class="h-1 bg-rose-600"></div>
+                    <div class="p-6 flex flex-col flex-1">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-14 h-14 rounded-2xl bg-rose-50 flex items-center justify-center text-2xl border border-rose-100 group-hover:scale-110 transition-transform duration-300">
+                                💰
+                            </div>
+                            <span class="card-badge bg-rose-50 text-rose-700 border border-rose-100 text-xs">
+                                Entry Level · 入门级
+                            </span>
+                        </div>
+                        
+                        <h3 class="serif-en text-2xl font-bold text-rose-700 mb-0">Murabaha</h3>
+                        <p class="serif text-lg font-medium text-rose-600 mb-1">成本加价</p>
+                        <p class="text-xs text-rose-400 mb-4 uppercase tracking-wider">Cost-Plus Sale</p>
+                        
+                        <ul class="space-y-3 text-sm flex-1 list-bilingual">
+                            <li class="border-b border-rose-50 pb-2 last:border-0">
+                                <span class="en-text text-slate-700">Fixed predetermined markup</span>
+                                <span class="zh-text">固定利润率 (markup)</span>
+                            </li>
+                            <li class="border-b border-rose-50 pb-2 last:border-0">
+                                <span class="en-text text-slate-700">Debt-based financing structure</span>
+                                <span class="zh-text">债务型融资结构</span>
+                            </li>
+                            <li class="border-b border-rose-50 pb-2 last:border-0">
+                                <span class="en-text text-slate-700">Minimal risk-sharing mechanism</span>
+                                <span class="zh-text">最低程度风险共担机制</span>
+                            </li>
+                            <li class="border-b border-rose-50 pb-2 last:border-0">
+                                <span class="en-text text-slate-700">Resembles conventional loan</span>
+                                <span class="zh-text">类似传统银行贷款</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Ijarah -->
+                <div class="instrument-card group cursor-pointer bg-white rounded-2xl shadow-lg shadow-slate-200/50 border border-slate-100 flex flex-col" data-id="ijarah">
+                    <div class="h-1 bg-orange-600"></div>
+                    <div class="p-6 flex flex-col flex-1">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-14 h-14 rounded-2xl bg-orange-50 flex items-center justify-center text-2xl border border-orange-100 group-hover:scale-110 transition-transform duration-300">
+                                🏢
+                            </div>
+                            <span class="card-badge bg-orange-50 text-orange-700 border border-orange-100 text-xs">
+                                Intermediate · 进阶级
+                            </span>
+                        </div>
+                        
+                        <h3 class="serif-en text-2xl font-bold text-orange-700 mb-0">Ijarah</h3>
+                        <p class="serif text-lg font-medium text-orange-600 mb-1">租赁融资</p>
+                        <p class="text-xs text-orange-400 mb-4 uppercase tracking-wider">Leasing Contract</p>
+                        
+                        <ul class="space-y-3 text-sm flex-1 list-bilingual">
+                            <li class="border-b border-orange-50 pb-2 last:border-0">
+                                <span class="en-text text-slate-700">Real asset-backed financing</span>
+                                <span class="zh-text">真实资产支持融资</span>
+                            </li>
+                            <li class="border-b border-orange-50 pb-2 last:border-0">
+                                <span class="en-text text-slate-700">Fixed rental payments</span>
+                                <span class="zh-text">固定租金支付</span>
+                            </li>
+                            <li class="border-b border-orange-50 pb-2 last:border-0">
+                                <span class="en-text text-slate-700">Transfer of usufruct only</span>
+                                <span class="zh-text">仅使用权转移</span>
+                            </li>
+                            <li class="border-b border-orange-50 pb-2 last:border-0">
+                                <span class="en-text text-slate-700">Ownership retained by lessor</span>
+                                <span class="zh-text">所有权由出租方保留</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Sukuk -->
+                <div class="instrument-card group cursor-pointer bg-white rounded-2xl shadow-lg shadow-slate-200/50 border border-slate-100 flex flex-col" data-id="sukuk">
+                    <div class="h-1 bg-blue-600"></div>
+                    <div class="p-6 flex flex-col flex-1">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-14 h-14 rounded-2xl bg-blue-50 flex items-center justify-center text-2xl border border-blue-100 group-hover:scale-110 transition-transform duration-300">
+                                📊
+                            </div>
+                            <span class="card-badge bg-blue-50 text-blue-700 border border-blue-100 text-xs">
+                                Hybrid · 融合级
+                            </span>
+                        </div>
+                        
+                        <h3 class="serif-en text-2xl font-bold text-blue-700 mb-0">Sukuk</h3>
+                        <p class="serif text-lg font-medium text-blue-600 mb-1">伊斯兰债券</p>
+                        <p class="text-xs text-blue-400 mb-4 uppercase tracking-wider">Islamic Bonds</p>
+                        
+                        <ul class="space-y-3 text-sm flex-1 list-bilingual">
+                            <li class="border-b border-blue-50 pb-2 last:border-0">
+                                <span class="en-text text-slate-700">Asset pool backing required</span>
+                                <span class="zh-text">资产池连结支持</span>
+                            </li>
+                            <li class="border-b border-blue-50 pb-2 last:border-0">
+                                <span class="en-text text-slate-700">Variable/uncertain returns</span>
+                                <span class="zh-text">收益浮动不确定</span>
+                            </li>
+                            <li class="border-b border-blue-50 pb-2 last:border-0">
+                                <span class="en-text text-slate-700">Securitized hybrid structure</span>
+                                <span class="zh-text">证券化混合结构</span>
+                            </li>
+                            <li class="border-b border-blue-50 pb-2 last:border-0">
+                                <span class="en-text text-slate-700">Tradable investment certificates</span>
+                                <span class="zh-text">可交易投资凭证</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Mudaraba/Musharaka -->
+                <div class="instrument-card group cursor-pointer bg-gradient-to-br from-white to-emerald-50/50 rounded-2xl shadow-xl shadow-emerald-100/50 border-2 border-emerald-500/30 flex flex-col" data-id="mudaraba">
+                    <div class="h-1 bg-emerald-600"></div>
+                    <div class="p-6 flex flex-col flex-1">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="w-14 h-14 rounded-2xl bg-emerald-100 flex items-center justify-center text-2xl border border-emerald-200 group-hover:scale-110 transition-transform duration-300 shadow-inner">
+                                🤝
+                            </div>
+                            <span class="card-badge bg-emerald-600 text-white border border-emerald-500 shadow-md text-xs">
+                                Ideal Type · 本质级
+                            </span>
+                        </div>
+                        
+                        <h3 class="serif-en text-xl font-bold text-emerald-800 mb-0">Mudaraba / Musharaka</h3>
+                        <p class="serif text-base font-medium text-emerald-700 mb-1">利润分享 / 股权合伙</p>
+                        <p class="text-xs text-emerald-500 mb-4 uppercase tracking-wider">Profit-Loss Sharing / Equity Partnership</p>
+                        
+                        <ul class="space-y-3 text-sm flex-1 list-bilingual">
+                            <li class="border-b border-emerald-100 pb-2 last:border-0">
+                                <span class="en-text text-slate-700 font-medium">Authentic profit-loss sharing</span>
+                                <span class="zh-text">真正的盈亏共享</span>
+                            </li>
+                            <li class="border-b border-emerald-100 pb-2 last:border-0">
+                                <span class="en-text text-slate-700 font-medium">Full risk participation by all parties</span>
+                                <span class="zh-text">完全风险参与承担</span>
+                            </li>
+                            <li class="border-b border-emerald-100 pb-2 last:border-0">
+                                <span class="en-text text-slate-700 font-medium">Equity-based partnership structure</span>
+                                <span class="zh-text">权益型合伙关系</span>
+                            </li>
+                            <li class="border-b border-emerald-100 pb-2 last:border-0">
+                                <span class="en-text text-slate-700 font-medium">Ideal-typical Islamic contract</span>
+                                <span class="zh-text">理想型合同范式</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Timeline Bilingual -->
+        <section class="mb-12">
+            <div class="glass-panel rounded-2xl p-8 shadow-lg">
+                <h2 class="text-xl font-bold text-center text-slate-800 mb-2 serif-en">
+                    Core Principles of Islamic Finance: Progressive Realization
+                </h2>
+                <h3 class="text-lg font-bold text-center text-slate-600 mb-8 serif">
+                    伊斯兰金融核心原则递进：渐进实现
+                </h2>
+                
+                <div class="relative">
+                    <div class="absolute top-8 left-[12%] right-[12%] h-0.5 bg-gradient-to-r from-rose-400 via-orange-400 via-blue-400 to-emerald-500"></div>
+                    
+                    <div class="grid grid-cols-4 gap-2 md:gap-4 relative" id="timelineContainer">
+                        <div class="timeline-node flex flex-col items-center text-center cursor-pointer" data-step="0">
+                            <div class="timeline-dot w-12 h-12 md:w-16 md:h-16 rounded-full bg-white border-2 border-rose-500 text-rose-600 flex items-center justify-center font-bold text-lg md:text-xl shadow-md mb-3 transition-all duration-300">1</div>
+                            <h4 class="font-bold text-slate-800 text-xs md:text-sm mb-1">Prohibition of Riba</h4>
+                            <p class="text-xs text-rose-600 serif">禁止利息</p>
+                            <p class="text-[10px] md:text-xs text-slate-400 mt-1 hidden md:block">Elimination of Interest<br>利息禁令的形式规避</p>
+                        </div>
+                        
+                        <div class="timeline-node flex flex-col items-center text-center cursor-pointer" data-step="1">
+                            <div class="timeline-dot w-12 h-12 md:w-16 md:h-16 rounded-full bg-white border-2 border-orange-500 text-orange-600 flex items-center justify-center font-bold text-lg md:text-xl shadow-md mb-3 transition-all duration-300">2</div>
+                            <h4 class="font-bold text-slate-800 text-xs md:text-sm mb-1">Asset Backing</h4>
+                            <p class="text-xs text-orange-600 serif">资产支持</p>
+                            <p class="text-[10px] md:text-xs text-slate-400 mt-1 hidden md:block">Materiality Requirement<br>真实资产的物质性要求</p>
+                        </div>
+                        
+                        <div class="timeline-node flex flex-col items-center text-center cursor-pointer" data-step="2">
+                            <div class="timeline-dot w-12 h-12 md:w-16 md:h-16 rounded-full bg-white border-2 border-blue-500 text-blue-600 flex items-center justify-center font-bold text-lg md:text-xl shadow-md mb-3 transition-all duration-300">3</div>
+                            <h4 class="font-bold text-slate-800 text-xs md:text-sm mb-1">Risk Sharing</h4>
+                            <p class="text-xs text-blue-600 serif">风险分担</p>
+                            <p class="text-[10px] md:text-xs text-slate-400 mt-1 hidden md:block">Distributive Justice<br>分配正义的实现机制</p>
+                        </div>
+                        
+                        <div class="timeline-node flex flex-col items-center text-center cursor-pointer" data-step="3">
+                            <div class="timeline-dot w-12 h-12 md:w-16 md:h-16 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-lg md:text-xl shadow-lg shadow-emerald-200 mb-3 transition-all duration-300 ring-4 ring-emerald-100">4</div>
+                            <h4 class="font-bold text-emerald-800 text-xs md:text-sm mb-1">Profit-Loss Sharing</h4>
+                            <p class="text-xs text-emerald-700 serif">盈亏共享</p>
+                            <p class="text-[10px] md:text-xs text-slate-400 mt-1 hidden md:block">Economic Partnership<br>经济伙伴关系的建立</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer Bilingual -->
+        <footer class="text-center space-y-4 pb-4">
+            <div class="inline-block p-4 md:p-6 rounded-xl bg-slate-900 text-amber-50 max-w-3xl shadow-xl">
+                <p class="text-sm md:text-base leading-relaxed mb-2">
+                    <span class="text-amber-400 font-bold">🎯 Key Insight:</span> Mudaraba and Musharaka embody the substantive spirit of Islamic finance—"risk-sharing and asset-backed investment"—representing the ideal-typical contractual paradigm
+                </p>
+                <p class="text-sm leading-relaxed text-amber-100/90 serif border-t border-amber-400/30 pt-2 mt-2">
+                    <span class="text-amber-300 font-bold">核心观点：</span>Mudaraba 与 Musharaka 体现伊斯兰金融<span class="text-amber-300 font-semibold">"风险共担、资产支持"</span>的本质精神，是理想型合同范式
+                </p>
+            </div>
+            <p class="text-xs text-slate-400 italic">
+                Data Source: AAOIFI, IFSB Standards · 数据来源：AAOIFI (伊斯兰金融会计与审计组织) 、IFSB (伊斯兰金融服务委员会) 标准
+            </p>
+        </footer>
+
+    </main>
+
+    <!-- Detail Panel Bilingual -->
+    <div id="detailPanel" class="detail-overlay fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+        <div class="detail-content bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl">
+            <div class="sticky top-0 bg-white/90 backdrop-blur-md border-b border-slate-100 p-6 flex justify-between items-start z-10">
+                <div>
+                    <h3 id="detailTitle" class="serif-en text-3xl font-bold text-slate-900 mb-1"></h3>
+                    <p id="detailSubtitle" class="text-slate-500 font-medium serif text-lg"></p>
+                </div>
+                <button onclick="closeDetail()" class="w-10 h-10 rounded-full hover:bg-slate-100 flex items-center justify-center transition-colors text-slate-400 hover:text-slate-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div id="detailBody" class="p-6 space-y-6"></div>
+        </div>
+    </div>
+
+    <script>
+        // Full Bilingual Content - Side by Side Display
+        const contentData = {
+            murabaha: {
+                color: '#be123c',
+                title: 'Murabaha · 成本加价',
+                subtitle: 'Cost-Plus Sale · 成本加价',
+                content: `
+                    <div class="detail-bilingual">
+                        <div class="lang-block en">
+                            <h5>Definition / 定义</h5>
+                            <p>A sales contract where the seller discloses the cost of acquisition and adds a predetermined profit margin (markup). The buyer pays the total price in installments or deferred lump sum.</p>
+                        </div>
+                        <div class="lang-block zh">
+                            <h5>定义 / Definition</h5>
+                            <p>销售合同的一种，卖方披露收购成本并添加预定利润率（加价）。买方以分期付款或延期一次性付款方式支付总价。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-bilingual">
+                        <div class="lang-block en">
+                            <h5>Shariah Structure / 教法结构</h5>
+                            <ul class="list-disc pl-4 space-y-1">
+                                <li>Commodity purchase by financier (actual or constructive)</li>
+                                <li>Immediate sale to customer at marked-up price</li>
+                                <li>Deferred payment creates time value without interest</li>
+                            </ul>
+                        </div>
+                        <div class="lang-block zh">
+                            <h5>教法结构 / Shariah Structure</h5>
+                            <ul class="list-disc pl-4 space-y-1">
+                                <li>融资方购买商品（实际或推定）</li>
+                                <li>立即以加价后价格出售给客户</li>
+                                <li>延期付款产生不含利息的时间价值</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="detail-bilingual">
+                        <div class="lang-block en">
+                            <h5>Critique: Form vs. Substance / 形式与本质批判</h5>
+                            <p>While technically compliant, Murabaha is criticized as "Islamicized interest" due to fixed returns and minimal risk transfer. It represents <b>formal compliance</b> rather than substantive embodiment of Islamic finance ethics.</p>
+                        </div>
+                        <div class="lang-block zh">
+                            <h5>形式与本质批判 / Form vs. Substance</h5>
+                            <p>虽然技术上合规，Murabaha被批评为"伊斯兰化利息"，因其固定回报和最小风险转移。它代表<b>形式合规</b>而非伊斯兰金融伦理的实质性体现。</p>
+                        </div>
+                    </div>
+
+                    <div class="detail-bilingual">
+                        <div class="lang-block en">
+                            <h5>Market Share / 市场份额</h5>
+                            <p>Approximately 70-80% of Islamic banking assets globally, reflecting the dominance of debt-like instruments in practice.</p>
+                        </div>
+                        <div class="lang-block zh">
+                            <h5>市场份额 / Market Share</h5>
+                            <p>约占全球伊斯兰银行资产的 70-80%，反映了实践中债务类工具的主导地位。</p>
+                        </div>
+                    </div>
+                `
+            },
+            ijarah: {
+                color: '#ea580c',
+                title: 'Ijarah · 租赁融资',
+                subtitle: 'Leasing Contract · 租赁合约',
+                content: `
+                    <div class="detail-bilingual">
+                        <div class="lang-block en">
+                            <h5>Definition / 定义</h5>
+                            <p>A lease contract transferring only the <i>usufruct</i> (benefits of use) of an asset for a specified period in return for rent, without transferring ownership.</p>
+                        </div>
+                        <div class="lang-block zh">
+                            <h5>定义 / Definition</h5>
+                            <p>仅转让资产<i>使用权</i>（用益权）的租赁合同，指定期限内收取租金，不转让所有权。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-bilingual">
+                        <div class="lang-block en">
+                            <h5>Key Variants / 主要变体</h5>
+                            <ul class="list-disc pl-4 space-y-1">
+                                <li><b>Ijarah Tashghiliyah:</b> Operating lease (lessor maintains asset)</li>
+                                <li><b>Ijarah Muntahia Bittamleek:</b> Lease ending with ownership transfer</li>
+                            </ul>
+                        </div>
+                        <div class="lang-block zh">
+                            <h5>主要变体 / Key Variants</h5>
+                            <ul class="list-disc pl-4 space-y-1">
+                                <li><b>经营租赁：</b>出租方维护资产</li>
+                                <li><b>融资租赁：</b>租期结束转移所有权</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="detail-bilingual">
+                        <div class="lang-block en">
+                            <h5>Progression from Murabaha / 相对于 Murabaha 的进步</h5>
+                            <p>Introduces <b>genuine asset backing</b>—the financier must own the leased asset, creating material link between financing and real economy. However, returns remain fixed (rental payments), limiting risk-sharing.</p>
+                        </div>
+                        <div class="lang-block zh">
+                            <h5>相对于 Murabaha 的进步 / Progression</h5>
+                            <p>引入了<b>真正的资产支持</b>——融资方必须拥有租赁资产，在融资与实体经济之间建立物质联系。然而，回报仍固定（租金支付），限制了风险分担。</p>
+                        </div>
+                    </div>
+
+                    <div class="detail-bilingual">
+                        <div class="lang-block en">
+                            <h5>Contemporary Application / 当代应用</h5>
+                            <p>Widely used for equipment, aircraft, and real estate financing. Often combined with purchase undertaking (wa'd) in Ijarah Muntahia Bittamleek, creating debt-like economic exposure.</p>
+                        </div>
+                        <div class="lang-block zh">
+                            <h5>当代应用 / Contemporary Application</h5>
+                            <p>广泛用于设备、飞机和房地产融资。常与购买承诺（wa'd）结合使用，产生类似债务的经济敞口。</p>
+                        </div>
+                    </div>
+                `
+            },
+            sukuk: {
+                color: '#1e40af',
+                title: 'Sukuk · 伊斯兰债券',
+                subtitle: 'Islamic Bonds · 伊斯兰债券',
+                content: `
+                    <div class="detail-bilingual">
+                        <div class="lang-block en">
+                            <h5>Definition / 定义</h5>
+                            <p>Investment certificates representing proportionate ownership in an underlying asset pool, generating returns from asset cash flows rather than interest.</p>
+                        </div>
+                        <div class="lang-block zh">
+                            <h5>定义 / Definition</h5>
+                            <p>代表标的资产池比例所有权的投资凭证，收益来自资产现金流而非利息。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-bilingual">
+                        <div class="lang-block en">
+                            <h5>Structural Evolution / 结构演进</h5>
+                            <ul class="list-disc pl-4 space-y-1">
+                                <li><b>Asset-backed Sukuk:</b> True sale, investor bears asset risk</li>
+                                <li><b>Asset-based Sukuk:</b> Recourse to originator, credit risk dominant</li>
+                                <li><b>Hybrid structures:</b> Combining Ijarah, Murabaha, and Mudaraba pools</li>
+                            </ul>
+                        </div>
+                        <div class="lang-block zh">
+                            <h5>结构演进 / Structural Evolution</h5>
+                            <ul class="list-disc pl-4 space-y-1">
+                                <li><b>资产支持型：</b>真实出售，投资者承担资产风险</li>
+                                <li><b>资产担保型：</b>对发起人有追索权，信用风险为主</li>
+                                <li><b>混合结构：</b>结合 Ijarah、Murabaha 和 Mudaraba 资产池</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="detail-bilingual">
+                        <div class="lang-block en">
+                            <h5>Hybrid Nature / 混合本质</h5>
+                            <p>Sukuk occupies the <b>middle ground</b>—more substance-compliant than pure debt, yet often structured with purchase undertakings that replicate conventional bond economics. The AAOIFI 2008 Sukuk pronouncement emphasized need for genuine risk-sharing.</p>
+                        </div>
+                        <div class="lang-block zh">
+                            <h5>混合本质 / Hybrid Nature</h5>
+                            <p>Sukuk 占据<b>中间地带</b>——比纯债务更符合实质，但常以购买承诺构建，复制传统债券经济特征。AAOIFI 2008 年 Sukuk 声明强调了真正的风险分担需求。</p>
+                        </div>
+                    </div>
+
+                    <div class="detail-bilingual">
+                        <div class="lang-block en">
+                            <h5>Global Market / 全球市场</h5>
+                            <p>Estimated $200+ billion market, with sovereign Sukuk (e.g., Malaysia, Saudi Arabia, Indonesia) driving liquidity and standardization.</p>
+                        </div>
+                        <div class="lang-block zh">
+                            <h5>全球市场 / Global Market</h5>
+                            <p>估计超过 2000 亿美元，主权 Sukuk（马来西亚、沙特阿拉伯、印度尼西亚）推动流动性与标准化。</p>
+                        </div>
+                    </div>
+                `
+            },
+            mudaraba: {
+                color: '#059669',
+                title: 'Mudaraba / Musharaka · 利润分享/股权合伙',
+                subtitle: 'Profit-Loss Sharing / Equity Partnership · 利润分享/股权合伙',
+                content: `
+                    <div class="detail-bilingual">
+                        <div class="lang-block en">
+                            <h5>Mudaraba (Trustee Finance) / 信托融资</h5>
+                            <p>A partnership where one party (<i>Rab-ul-Maal</i>) provides capital and another (<i>Mudarib</i>) provides expertise/management. Profits shared by pre-agreed ratio; losses borne by capital provider unless negligence proven.</p>
+                        </div>
+                        <div class="lang-block zh">
+                            <h5>信托融资 / Mudaraba</h5>
+                            <p>一方（<i>Rab-ul-Maal</i>）提供资金，另一方（<i>Mudarib</i>）提供专业知识/管理。利润按预设比例分享；损失由资金提供方承担，除非证明存在过失。</p>
+                        </div>
+                    </div>
+                    
+                    <div class="detail-bilingual">
+                        <div class="lang-block en">
+                            <h5>Musharaka (Joint Venture) / 合资经营</h5>
+                            <p>All partners contribute capital and share profits/losses proportionally. Management may be shared or delegated. Ultimate form of risk-sharing in Islamic finance.</p>
+                        </div>
+                        <div class="lang-block zh">
+                            <h5>合资经营 / Musharaka</h5>
+                            <p>所有合伙人按比例出资并分享利润/损失。管理可共享或委托。伊斯兰金融中风险分担的终极形式。</p>
+                        </div>
+                    </div>
+
+                    <div class="detail-bilingual">
+                        <div class="lang-block en">
+                            <h5>Substantive Compliance / 实质性合规</h5>
+                            <p>These instruments embody the <b>ideal-typical</b> Islamic finance paradigm:</p>
+                            <ul class="list-disc pl-4 space-y-1 mt-2">
+                                <li>Authentic <b>risk-sharing</b> (not mere risk transfer)</li>
+                                <li><b>Profit-loss sharing</b> aligning incentives</li>
+                                <li>Direct <b>asset participation</b> in productive enterprise</li>
+                                <li>Conformity with <i>Maqasid al-Shariah</i> (higher objectives)</li>
+                            </ul>
+                        </div>
+                        <div class="lang-block zh">
+                            <h5>实质性合规 / Substantive Compliance</h5>
+                            <p>这些工具体现<b>理想型</b>伊斯兰金融范式：</p>
+                            <ul class="list-disc pl-4 space-y-1 mt-2">
+                                <li>真正的<b>风险分担</b>（而非单纯风险转移）</li>
+                                <li><b>盈亏分享</b>使激励一致</li>
+                                <li>生产性企业的直接<b>资产参与</b></li>
+                                <li>符合<i>Maqasid al-Shariah</i>（教法更高目标）</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="detail-bilingual">
+                        <div class="lang-block en">
+                            <h5>Implementation Challenges / 实施挑战</h5>
+                            <p>Despite theoretical superiority, Mudaraba/Musharaka constitute less than 10% of Islamic banking assets due to: (a) governance complexities, (b) information asymmetry, (c) regulatory capital treatment, and (d) depositor preference for capital certainty.</p>
+                        </div>
+                        <div class="lang-block zh">
+                            <h5>实施挑战 / Implementation Challenges</h5>
+                            <p>尽管理论上优越，Mudaraba/Musharaka 仅占伊斯兰银行资产不到 10%，原因包括：(a) 治理复杂性，(b) 信息不对称，(c) 监管资本处理，以及 (d) 存款人资本确定性偏好。</p>
+                        </div>
+                    </div>
+
+                    <div class="detail-bilingual">
+                        <div class="lang-block en">
+                            <h5>Policy Implications / 政策含义</h5>
+                            <p>Regulatory initiatives (IFSB, national regulators) increasingly incentivize PLS instruments through capital adequacy frameworks and disclosure requirements, seeking to shift practice toward substance-based compliance.</p>
+                        </div>
+                        <div class="lang-block zh">
+                            <h5>政策含义 / Policy Implications</h5>
+                            <p>监管举措（IFSB、各国监管机构）日益通过资本充足框架和披露要求激励 PLS 工具，寻求将实践转向基于实质的合规。</p>
+                        </div>
+                    </div>
+                `
+            }
+        };
+
+        // Detail Panel Functions
+        function showDetail(id) {
+            const data = contentData[id];
+            const panel = document.getElementById('detailPanel');
+            
+            document.getElementById('detailTitle').textContent = data.title;
+            document.getElementById('detailTitle').style.color = data.color;
+            document.getElementById('detailSubtitle').textContent = data.subtitle;
+            document.getElementById('detailBody').innerHTML = data.content;
+            
+            panel.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDetail() {
+            document.getElementById('detailPanel').classList.remove('active');
+            document.body.style.overflow = '';
+            document.querySelectorAll('.instrument-card').forEach(c => c.classList.remove('active'));
+        }
+
+        // Card Click Events
+        document.querySelectorAll('.instrument-card').forEach(card => {
+            card.addEventListener('click', () => {
+                document.querySelectorAll('.instrument-card').forEach(c => c.classList.remove('active'));
+                card.classList.add('active');
+                showDetail(card.getAttribute('data-id'));
+            });
+        });
+
+        // Close events
+        document.getElementById('detailPanel').addEventListener('click', (e) => {
+            if (e.target.id === 'detailPanel') closeDetail();
+        });
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeDetail();
+        });
+
+        // Timeline Auto-Pulse Animation
+        let currentStep = 0;
+        const steps = document.querySelectorAll('.timeline-node');
+        
+        function pulseStep() {
+            steps.forEach((step, index) => {
+                if (index === currentStep) {
+                    step.classList.add('active');
+                    step.querySelector('.timeline-dot').style.transform = 'scale(1.1)';
+                } else {
+                    step.classList.remove('active');
+                    step.querySelector('.timeline-dot').style.transform = 'scale(1)';
+                }
+            });
+            
+            currentStep = (currentStep + 1) % steps.length;
+        }
+
+        setInterval(pulseStep, 2000);
+        pulseStep();
+
+        // Entrance Animation
+        window.addEventListener('load', () => {
+            document.querySelectorAll('.instrument-card').forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 100);
+            });
+        });
+    </script>
+</body>
+</html>
