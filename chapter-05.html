@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 05 - Institutional Coordination | 第五章 制度协同分析</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .serif-sc {
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        /* Three Panel Layout */
+        .three-panel-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.4fr 1fr;
+            gap: 1.5rem;
+            height: 100%;
+            padding: 1.5rem;
+        }
+        
+        .panel-card {
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: 1rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            height: 100%;
+        }
+        
+        .panel-header {
+            padding: 1.25rem;
+            border-bottom: 1px solid #e2e8f0;
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            flex-shrink: 0;
+        }
+        
+        .panel-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.25rem;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(0,0,0,0.15) transparent;
+        }
+        
+        .panel-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        .panel-content::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.03);
+            border-radius: 3px;
+        }
+        .panel-content::-webkit-scrollbar-thumb {
+            background: rgba(0,0,0,0.15);
+            border-radius: 3px;
+        }
+        .panel-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(0,0,0,0.25);
+        }
+
+        /* Blue theme for Chapter 05 (Non-Core Chapter) */
+        .border-t-blue { border-top-color: #2563eb; }
+        .bg-blue-50 { background-color: #eff6ff; }
+        .border-blue-200 { border-color: #bfdbfe; }
+        .text-blue-900 { color: #1e3a8a; }
+        .text-blue-800 { color: #1e40af; }
+        .text-blue-700 { color: #1d4ed8; }
+        
+        /* Content Styling */
+        .bilingual-item {
+            margin-bottom: 0.75rem;
+        }
+        .bilingual-en {
+            display: block;
+            font-size: 0.75rem;
+            line-height: 1.4;
+            color: #475569;
+        }
+        .bilingual-cn {
+            display: block;
+            font-size: 0.7rem;
+            line-height: 1.4;
+            color: #64748b;
+            font-family: 'Noto Serif SC', serif;
+            margin-top: 0.15rem;
+        }
+        
+        /* Mechanism card */
+        .mechanism-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            border-left: 3px solid #3b82f6;
+        }
+        .mechanism-title {
+            font-weight: 700;
+            color: #1e40af;
+            font-size: 0.7rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        /* Challenge card */
+        .challenge-card {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            border: 1px solid #fecaca;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            margin-top: 0.5rem;
+        }
+        .challenge-title {
+            font-weight: 700;
+            color: #991b1b;
+            font-size: 0.7rem;
+            margin-bottom: 0.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        /* Governance item */
+        .governance-item {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .governance-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, #10b981, #059669);
+        }
+        
+        /* Tag styles */
+        .tag {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.15rem 0.5rem;
+            background: #dbeafe;
+            color: #1e40af;
+            font-size: 0.6rem;
+            font-weight: 600;
+            border-radius: 0.25rem;
+            margin-right: 0.25rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        /* Highlight box */
+        .highlight-box {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 1px solid #3b82f6;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            margin-top: 0.5rem;
+        }
+        
+        /* Capability gap */
+        .capability-gap {
+            background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
+            border: 1px solid #fecaca;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+        .capability-gap .title {
+            color: #991b1b;
+            font-weight: 700;
+            font-size: 0.7rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        /* Training card */
+        .training-card {
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border: 1px solid #bfdbfe;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+        }
+        .training-card .title {
+            color: #1e40af;
+            font-weight: 700;
+            font-size: 0.7rem;
+            margin-bottom: 0.25rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .three-panel-grid {
+                grid-template-columns: 1fr;
+                height: auto;
+                overflow-y: auto;
+            }
+            .panel-card {
+                height: auto;
+                max-height: none;
+            }
+            .panel-content {
+                max-height: 600px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .three-panel-grid {
+                padding: 1rem;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Three Panel Layout -->
+    <div class="three-panel-grid">
+        
+        <!-- Left Panel: Regulatory Coordination -->
+        <div class="panel-card border-t-4 border-t-blue">
+            <div class="panel-header">
+                <h3 class="text-lg font-bold text-slate-800">Regulatory Coordination | 监管协调</h3>
+            </div>
+            <div class="panel-content space-y-4">
+                <div class="bg-blue-50 rounded-lg p-3 border border-blue-200">
+                    <h4 class="font-bold text-blue-900 text-xs mb-2">Cross-border Mechanisms | 跨境机制</h4>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en">BNM-PBOC dialogue mechanisms, SC-CSRC cooperation, regulatory MOUs</span>
+                        <span class="bilingual-cn">马来西亚国家银行与中国人民银行对话机制、证券委员会与中国证监会合作、监管备忘录</span>
+                    </div>
+                </div>
+
+                <div class="challenge-card">
+                    <div class="challenge-title">
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        Challenges | 挑战
+                    </div>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en">Differences in Shariah interpretation, recognition of cross-border security interests</span>
+                        <span class="bilingual-cn">教法解释差异、跨境担保权益认可、监管理念差异</span>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <h4 class="font-bold text-blue-900 text-xs mb-1">Mutual Recognition | 互认机制</h4>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en">Development of mutual recognition frameworks for Islamic finance products between Malaysia and China</span>
+                        <span class="bilingual-cn">发展中马伊斯兰金融产品互认框架</span>
+                    </div>
+                </div>
+
+                <div class="mechanism-card">
+                    <div class="mechanism-title">Regulatory Dialogue | 监管对话</div>
+                    <div class="bilingual-en text-xs">Regular high-level meetings between financial regulators to align policies and address cross-border issues</div>
+                    <div class="bilingual-cn text-xs">金融监管机构间定期高层会晤，协调政策并解决跨境问题</div>
+                </div>
+
+                <div class="mechanism-card">
+                    <div class="mechanism-title">Supervisory Cooperation | 监管合作</div>
+                    <div class="bilingual-en text-xs">Information sharing and coordinated supervision of cross-border financial institutions</div>
+                    <div class="bilingual-cn text-xs">信息共享与跨境金融机构的协调监管</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Center Panel: Shariah Governance -->
+        <div class="panel-card border-t-4 border-t-blue">
+            <div class="panel-header">
+                <h3 class="text-lg font-bold text-slate-800">Shariah Governance | 教法治理</h3>
+            </div>
+            <div class="panel-content space-y-4">
+                <div class="governance-item">
+                    <h4 class="font-bold text-slate-800 text-xs mb-2">Malaysian SAC Model | 马来西亚教法委员会模式</h4>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en">Centralized Authority providing binding rulings for entire industry, reducing uncertainty</span>
+                        <span class="bilingual-cn">集中化权威为全行业提供具有约束力的教法裁决，减少不确定性</span>
+                    </div>
+                    <div class="flex flex-wrap mt-2">
+                        <span class="tag">BNM Shariah Advisory Council</span>
+                        <span class="tag">Securities Commission SAC</span>
+                    </div>
+                </div>
+
+                <div class="bg-green-50 rounded-lg p-3 border border-green-200">
+                    <h4 class="font-bold text-green-900 text-xs mb-1">Legal Infrastructure | 法律基础设施</h4>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en">Arbitration frameworks (KLRCA), dispute resolution mechanisms for cross-border transactions</span>
+                        <span class="bilingual-cn">仲裁框架（吉隆坡区域仲裁中心）、跨境交易争议解决机制</span>
+                    </div>
+                </div>
+
+                <div class="bg-amber-50 rounded-lg p-3 border border-amber-200">
+                    <h4 class="font-bold text-amber-900 text-xs mb-1">Standardization | 标准化努力</h4>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en">Efforts to harmonize Shariah standards across jurisdictions for BRI projects</span>
+                        <span class="bilingual-cn">为一带一路项目协调跨司法管辖区教法标准的努力</span>
+                    </div>
+                </div>
+
+                <div class="bg-white border border-slate-200 rounded-lg p-3">
+                    <h4 class="font-bold text-slate-800 text-xs mb-2">Key Features | 关键特征</h4>
+                    <div class="space-y-2">
+                        <div class="flex items-start gap-2">
+                            <div class="w-5 h-5 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-xs flex-shrink-0">1</div>
+                            <div>
+                                <div class="bilingual-en text-xs font-medium">Centralized vs Decentralized</div>
+                                <div class="bilingual-cn text-xs">马来西亚集中式 vs 中东分散式教法治理</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <div class="w-5 h-5 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-xs flex-shrink-0">2</div>
+                            <div>
+                                <div class="bilingual-en text-xs font-medium">Binding Authority</div>
+                                <div class="bilingual-cn text-xs">教法委员会裁决具有法律约束力</div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-2">
+                            <div class="w-5 h-5 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center text-xs flex-shrink-0">3</div>
+                            <div>
+                                <div class="bilingual-en text-xs font-medium">Cross-border Recognition</div>
+                                <div class="bilingual-cn text-xs">跨境教法认证互认机制</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Human Capital -->
+        <div class="panel-card border-t-4 border-t-blue">
+            <div class="panel-header">
+                <h3 class="text-lg font-bold text-slate-800">Human Capital | 专业人才培养</h3>
+            </div>
+            <div class="panel-content space-y-4">
+                <div class="bg-white border border-slate-200 rounded-lg p-3">
+                    <h4 class="font-bold text-slate-800 text-xs mb-2">Talent Development | 人才发展</h4>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en">INCEIF education hub, CIFP certification, bilingual expertise (Islamic finance + Mandarin)</span>
+                        <span class="bilingual-cn">国际伊斯兰金融教育中心、特许伊斯兰金融专业人士资格、双语专业能力</span>
+                    </div>
+                    <div class="flex flex-wrap mt-2">
+                        <span class="tag">INCEIF</span>
+                        <span class="tag">CIFP</span>
+                        <span class="tag">CII</span>
+                        <span class="tag">Dual Language</span>
+                    </div>
+                </div>
+
+                <div class="capability-gap">
+                    <div class="title">Capability Gaps | 能力缺口</div>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en">Shortage of professionals fluent in both Islamic finance and Chinese language/culture</span>
+                        <span class="bilingual-cn">精通伊斯兰金融与中文/中国文化的专业人才短缺</span>
+                    </div>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en">Limited cross-cultural negotiation expertise for BRI projects</span>
+                        <span class="bilingual-cn">缺乏针对一带一路项目的跨文化谈判专长</span>
+                    </div>
+                </div>
+
+                <div class="training-card">
+                    <div class="title">Capacity Building | 能力建设</div>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en">Training programs for Chinese financial professionals in Islamic finance principles</span>
+                        <span class="bilingual-cn">为中国金融专业人士提供的伊斯兰金融原则培训项目</span>
+                    </div>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en">Exchange programs between Malaysian and Chinese financial institutions</span>
+                        <span class="bilingual-cn">马中金融机构间的人才交流项目</span>
+                    </div>
+                </div>
+
+                <div class="bg-purple-50 rounded-lg p-3 border border-purple-200">
+                    <h4 class="font-bold text-purple-900 text-xs mb-1">Future Needs | 未来需求</h4>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en">Development of trilingual experts (English, Malay, Mandarin) with Shariah and conventional finance expertise</span>
+                        <span class="bilingual-cn">培养掌握教法与传统金融知识的三语专家（英、马、中）</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
