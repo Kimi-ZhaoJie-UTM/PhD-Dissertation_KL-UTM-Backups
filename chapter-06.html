@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 06 - Market Integration Analysis | 第六章 市场融合分析</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .serif-sc {
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        /* Three Panel Layout - Critical for independent scrolling */
+        .three-panel-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1.5rem;
+            height: 100%;
+            padding: 1.5rem;
+        }
+        
+        .panel-card {
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: 1rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            height: 100%;
+        }
+        
+        .panel-header {
+            padding: 1.25rem;
+            border-bottom: 1px solid #e2e8f0;
+            background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            flex-shrink: 0;
+        }
+        
+        .panel-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.25rem;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(0,0,0,0.15) transparent;
+        }
+        
+        .panel-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        .panel-content::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.03);
+            border-radius: 3px;
+        }
+        .panel-content::-webkit-scrollbar-thumb {
+            background: rgba(0,0,0,0.15);
+            border-radius: 3px;
+        }
+        .panel-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(0,0,0,0.25);
+        }
+
+        /* Blue theme for Chapter 06 */
+        .border-t-blue { border-top-color: #2563eb; }
+        .bg-blue-50 { background-color: #eff6ff; }
+        .border-blue-200 { border-color: #bfdbfe; }
+        .text-blue-900 { color: #1e3a8a; }
+        .text-blue-800 { color: #1e40af; }
+        .text-blue-700 { color: #1d4ed8; }
+        .text-blue-600 { color: #2563eb; }
+        
+        /* Content Styling */
+        .bilingual-item {
+            margin-bottom: 0.75rem;
+        }
+        .bilingual-en {
+            display: block;
+            font-size: 0.75rem;
+            line-height: 1.4;
+            color: #475569;
+        }
+        .bilingual-cn {
+            display: block;
+            font-size: 0.7rem;
+            line-height: 1.4;
+            color: #64748b;
+            font-family: 'Noto Serif SC', serif;
+            margin-top: 0.15rem;
+        }
+        
+        /* Card accent colors */
+        .border-l-blue { border-left-color: #3b82f6; }
+        .border-l-green { border-left-color: #10b981; }
+        .border-l-amber { border-left-color: #f59e0b; }
+        .border-l-purple { border-left-color: #8b5cf6; }
+        .bg-green-50 { background-color: #f0fdf4; }
+        .border-green-200 { border-color: #bbf7d0; }
+        .text-green-900 { color: #14532d; }
+        .text-green-800 { color: #166534; }
+        .bg-amber-50 { background-color: #fffbeb; }
+        .border-amber-200 { border-color: #fde68a; }
+        .text-amber-900 { color: #78350f; }
+        .text-amber-800 { color: #92400e; }
+        .bg-purple-50 { background-color: #faf5ff; }
+        .border-purple-200 { border-color: #e9d5ff; }
+        .text-purple-900 { color: #581c87; }
+        .text-purple-800 { color: #6b21a8; }
+        
+        /* Section headers */
+        .section-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        
+        /* List styling */
+        .detail-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .detail-item {
+            font-size: 0.7rem;
+            color: #475569;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.8);
+            border-left: 3px solid #3b82f6;
+            border-radius: 0 0.25rem 0.25rem 0;
+            line-height: 1.4;
+        }
+        .detail-item strong {
+            color: #1e40af;
+            font-weight: 600;
+        }
+        .detail-item .cn {
+            display: block;
+            color: #64748b;
+            font-size: 0.65rem;
+            font-family: 'Noto Serif SC', serif;
+            margin-top: 0.1rem;
+        }
+        
+        /* Feature cards */
+        .feature-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+        .feature-card.border-accent-blue { border-top: 3px solid #3b82f6; }
+        .feature-card.border-accent-green { border-top: 3px solid #10b981; }
+        .feature-card.border-accent-amber { border-top: 3px solid #f59e0b; }
+        .feature-card.border-accent-purple { border-top: 3px solid #8b5cf6; }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .three-panel-grid {
+                grid-template-columns: 1fr;
+                height: auto;
+                overflow-y: auto;
+            }
+            .panel-card {
+                height: auto;
+                max-height: none;
+                margin-bottom: 1rem;
+            }
+            .panel-content {
+                max-height: 500px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .three-panel-grid {
+                padding: 1rem;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Three Panel Layout -->
+    <div class="three-panel-grid">
+        
+        <!-- Left Panel: Sukuk Innovation -->
+        <div class="panel-card border-t-4 border-t-blue">
+            <div class="panel-header">
+                <h3 class="text-lg font-bold text-slate-800">Sukuk Innovation | 伊斯兰债券创新</h3>
+            </div>
+            <div class="panel-content space-y-4">
+                
+                <!-- Product Structures -->
+                <div class="feature-card border-accent-blue">
+                    <h4 class="section-title">
+                        <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                        Product Structures | 产品结构
+                    </h4>
+                    <ul class="detail-list">
+                        <li class="detail-item">
+                            <strong>Ijarah (租赁):</strong> Lease-based Sukuk, asset-backed with rental income
+                            <span class="cn">租赁型伊斯兰债券，以租金收入为基础的资产支持证券</span>
+                        </li>
+                        <li class="detail-item">
+                            <strong>Musharakah (合伙):</strong> Equity partnership structure, profit-sharing based on ownership
+                            <span class="cn">股权合伙结构，基于所有权的利润分享模式</span>
+                        </li>
+                        <li class="detail-item">
+                            <strong>Wakalah (代理):</strong> Agency structure with investment agent managing underlying assets
+                            <span class="cn">代理结构，投资代理人管理基础资产</span>
+                        </li>
+                        <li class="detail-item">
+                            <strong>Hybrid Structures:</strong> Combining multiple Islamic finance principles for complex financing needs
+                            <span class="cn">混合结构，结合多种伊斯兰金融原则满足复杂融资需求</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Innovation Pioneer -->
+                <div class="bg-blue-50 rounded-lg p-3 border border-blue-200">
+                    <h4 class="font-bold text-blue-900 text-xs mb-2 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        Innovation Pioneer | 创新先驱
+                    </h4>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en font-medium">Malaysia pioneered Green Sukuk (2017) and SDG Sukuk (2024), aligning Islamic finance with sustainable development goals and creating new asset classes for ESG investors.</span>
+                        <span class="bilingual-cn">马来西亚率先发行绿色伊斯兰债券（2017）和SDG伊斯兰债券（2024），将伊斯兰金融与可持续发展目标对齐，为ESG投资者创造新资产类别。</span>
+                    </div>
+                    <div class="mt-2 text-xs text-blue-800 bg-white/50 p-2 rounded">
+                        <span class="font-medium">Key Features:</span> Asset-backed, ethical screening, risk-sharing, SDG alignment
+                        <span class="block text-blue-700 font-serif-sc mt-1">关键特征：资产支持、道德筛选、风险分担、SDG对齐</span>
+                    </div>
+                </div>
+
+                <!-- BRI Applications -->
+                <div class="bg-amber-50 rounded-lg p-3 border border-amber-200">
+                    <h4 class="font-bold text-amber-900 text-xs mb-2 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        BRI Applications | 一带一路应用
+                    </h4>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en">Infrastructure financing through Sukuk for rail, energy, and port projects across Southeast Asia, enabling Shariah-compliant funding for mega-projects.</span>
+                        <span class="bilingual-cn">通过伊斯兰债券为东南亚的铁路、能源和港口项目提供基础设施融资，为大型项目提供符合教法的资金。</span>
+                    </div>
+                    <div class="mt-2 space-y-1">
+                        <div class="text-xs text-amber-800">
+                            • <strong>ECRL Project:</strong> RM44 billion railway financing
+                            <span class="font-serif-sc text-amber-700 block ml-2">东海岸铁路项目：440亿令吉铁路融资</span>
+                        </div>
+                        <div class="text-xs text-amber-800">
+                            • <strong>Energy Sector:</strong> Renewable energy Sukuk for solar/wind
+                            <span class="font-serif-sc text-amber-700 block ml-2">能源领域：太阳能/风能可再生能源债券</span>
+                        </div>
+                        <div class="text-xs text-amber-800">
+                            • <strong>Port Development:</strong> Maritime infrastructure funding
+                            <span class="font-serif-sc text-amber-700 block ml-2">港口发展：海事基础设施融资</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Structural Innovation -->
+                <div class="feature-card border-accent-purple">
+                    <h4 class="section-title">
+                        <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+                        Structural Design | 结构设计
+                    </h4>
+                    <div class="space-y-2 text-xs">
+                        <div class="bilingual-item">
+                            <span class="bilingual-en"><span class="font-medium">Asset-Based:</span> Underlying tangible assets provide return and security</span>
+                            <span class="bilingual-cn">资产基础：基础有形资产提供回报和保障</span>
+                        </div>
+                        <div class="bilingual-item">
+                            <span class="bilingual-en"><span class="font-medium">Multi-tranche:</span> Senior and subordinate tranches for different risk appetites</span>
+                            <span class="bilingual-cn">多批次：优先和次级批次满足不同风险偏好</span>
+                        </div>
+                        <div class="bilingual-item">
+                            <span class="bilingual-en"><span class="font-medium">ESG-Linked Pricing:</span> Coupon rates tied to sustainability performance metrics</span>
+                            <span class="bilingual-cn">ESG挂钩定价：票面利率与可持续发展绩效指标挂钩</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Center Panel: Capital Flows -->
+        <div class="panel-card border-t-4 border-t-blue">
+            <div class="panel-header">
+                <h3 class="text-lg font-bold text-slate-800">Capital Flows | 资本流动</h3>
+            </div>
+            <div class="panel-content space-y-4">
+                
+                <!-- Investor Profiles -->
+                <div class="feature-card border-accent-green">
+                    <h4 class="section-title">
+                        <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        Investor Profiles | 投资者构成
+                    </h4>
+                    <div class="space-y-2">
+                        <div class="bg-green-50 p-2 rounded border-l-2 border-green-400">
+                            <div class="bilingual-en font-bold text-green-800 text-xs">Middle East (GCC)</div>
+                            <div class="bilingual-en text-xs text-slate-700">Sovereign wealth funds, Islamic banks, family offices seeking Asian diversification</div>
+                            <div class="bilingual-cn text-xs text-slate-500">海湾主权财富基金、伊斯兰银行、寻求亚洲多元化的家族办公室</div>
+                        </div>
+                        <div class="bg-blue-50 p-2 rounded border-l-2 border-blue-400">
+                            <div class="bilingual-en font-bold text-blue-800 text-xs">Malaysia Domestic</div>
+                            <div class="bilingual-en text-xs text-slate-700">EPF (Employees Provident Fund), insurance companies, pension funds</div>
+                            <div class="bilingual-cn text-xs text-slate-500">雇员公积金、保险公司、养老基金</div>
+                        </div>
+                        <div class="bg-purple-50 p-2 rounded border-l-2 border-purple-400">
+                            <div class="bilingual-en font-bold text-purple-800 text-xs">International</div>
+                            <div class="bilingual-en text-xs text-slate-700">ESG-focused funds, multilateral development banks, ethical investors</div>
+                            <div class="bilingual-cn text-xs text-slate-500">ESG专注基金、多边开发银行、道德投资者</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Intermediary Hub -->
+                <div class="bg-amber-50 rounded-lg p-3 border border-amber-200">
+                    <h4 class="font-bold text-amber-900 text-xs mb-2 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+                        Intermediary Hub | 中介枢纽
+                    </h4>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en font-medium">KL serves as bridge between Middle Eastern Islamic capital and Asian BRI infrastructure projects, channeling surplus liquidity into high-yield development investments.</span>
+                        <span class="bilingual-cn">吉隆坡作为中东伊斯兰资本与亚洲一带一路基础设施项目之间的桥梁，将盈余流动性引入高收益发展投资。</span>
+                    </div>
+                    <div class="mt-2 bg-white/60 p-2 rounded text-xs text-amber-800">
+                        <strong>Flow Direction:</strong> GCC → KL Hub → BRI Projects (Malaysia, Indonesia, Central Asia)
+                        <span class="block text-amber-700 font-serif-sc mt-1">资金流向：海湾合作委员会 → 吉隆坡枢纽 → 一带一路项目</span>
+                    </div>
+                </div>
+
+                <!-- Currency Dynamics -->
+                <div class="bg-blue-50 rounded-lg p-3 border border-blue-200">
+                    <h4 class="font-bold text-blue-900 text-xs mb-2 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        Currency Dynamics | 货币动态
+                    </h4>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en">Multi-currency Sukuk issuance (USD, MYR, CNY) facilitates cross-border investment and manages foreign exchange exposure for international investors.</span>
+                        <span class="bilingual-cn">多币种伊斯兰债券发行（美元、令吉、人民币）促进跨境投资，管理国际投资者的外汇敞口。</span>
+                    </div>
+                    <div class="mt-2 grid grid-cols-3 gap-2 text-xs">
+                        <div class="bg-white/70 p-1.5 rounded text-center">
+                            <div class="font-bold text-blue-700">USD</div>
+                            <div class="text-blue-600 text-[10px]">Global standard</div>
+                        </div>
+                        <div class="bg-white/70 p-1.5 rounded text-center">
+                            <div class="font-bold text-blue-700">MYR</div>
+                            <div class="text-blue-600 text-[10px]">Local market</div>
+                        </div>
+                        <div class="bg-white/70 p-1.5 rounded text-center">
+                            <div class="font-bold text-blue-700">CNY</div>
+                            <div class="text-blue-600 text-[10px]">BRI trade</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Flow Mechanisms -->
+                <div class="feature-card border-accent-blue">
+                    <h4 class="section-title">
+                        <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"></path></svg>
+                        Flow Mechanisms | 流动机制
+                    </h4>
+                    <ul class="detail-list">
+                        <li class="detail-item">
+                            <strong>Primary Market:</strong> Book-building and subscription for new Sukuk issuance
+                            <span class="cn">一级市场：新伊斯兰债券的簿记建档和认购</span>
+                        </li>
+                        <li class="detail-item">
+                            <strong>Secondary Trading:</strong> Bursa Malaysia and over-the-counter (OTC) liquidity provision
+                            <span class="cn">二级交易：马来西亚证券交易所和场外交易流动性提供</span>
+                        </li>
+                        <li class="detail-item">
+                            <strong>Cross-border Settlement:</strong> Integration with Euroclear/Clearstream for international clearing
+                            <span class="cn">跨境结算：与Euroclear/Clearstream整合进行国际清算</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Institutional Partnerships -->
+        <div class="panel-card border-t-4 border-t-blue">
+            <div class="panel-header">
+                <h3 class="text-lg font-bold text-slate-800">Institutional Partnerships | 机构合作</h3>
+            </div>
+            <div class="panel-content space-y-4">
+                
+                <!-- Cooperation Models -->
+                <div class="feature-card border-accent-purple">
+                    <h4 class="section-title">
+                        <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+                        Cooperation Models | 合作模式
+                    </h4>
+                    <ul class="detail-list">
+                        <li class="detail-item" style="border-left-color: #8b5cf6;">
+                            <strong>Syndicated Financing:</strong> Islamic banks + Chinese policy banks (CDB, Exim Bank) co-lending for large infrastructure
+                            <span class="cn">银团融资：伊斯兰银行 + 中国政策性银行（国开行、进出口银行）为大型基础设施共同放贷</span>
+                        </li>
+                        <li class="detail-item" style="border-left-color: #8b5cf6;">
+                            <strong>Joint Ventures:</strong> Establishing Islamic banking subsidiaries or windows in partner countries
+                            <span class="cn">合资企业：在伙伴国设立伊斯兰银行子公司或窗口</span>
+                        </li>
+                        <li class="detail-item" style="border-left-color: #8b5cf6;">
+                            <strong>Product Distribution:</strong> Malaysian Islamic banks distributing products through Chinese bank networks
+                            <span class="cn">产品分销：马来西亚伊斯兰银行通过中国银行网络分销产品</span>
+                        </li>
+                        <li class="detail-item" style="border-left-color: #8b5cf6;">
+                            <strong>Technical Cooperation:</strong> Knowledge transfer on Shariah governance and risk management
+                            <span class="cn">技术合作：关于教法治理和风险管理的技术转让</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Success Factors -->
+                <div class="bg-green-50 rounded-lg p-3 border border-green-200">
+                    <h4 class="font-bold text-green-900 text-xs mb-2 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        Success Factors | 成功因素
+                    </h4>
+                    <div class="space-y-2 text-xs">
+                        <div class="bilingual-item">
+                            <span class="bilingual-en"><span class="font-medium text-green-800">Complementary Strengths:</span> Islamic finance expertise + Chinese project execution capability</span>
+                            <span class="bilingual-cn">互补优势：伊斯兰金融专长 + 中国项目执行能力</span>
+                        </div>
+                        <div class="bilingual-item">
+                            <span class="bilingual-en"><span class="font-medium text-green-800">Risk Sharing:</span> Equitable distribution of construction, operational, and market risks</span>
+                            <span class="bilingual-cn">风险分担：建设、运营和市场风险的公平分配</span>
+                        </div>
+                        <div class="bilingual-item">
+                            <span class="bilingual-en"><span class="font-medium text-green-800">Regulatory Alignment:</span> Mutual recognition frameworks enabling cross-border operations</span>
+                            <span class="bilingual-cn">监管对齐：互认框架实现跨境运营</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Banking Collaboration -->
+                <div class="bg-purple-50 rounded-lg p-3 border border-purple-200">
+                    <h4 class="font-bold text-purple-900 text-xs mb-2 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z"></path></svg>
+                        Banking Collaboration | 银行业协作
+                    </h4>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en font-medium">Maybank, CIMB, and other Malaysian Islamic banks leading syndication with Chinese banks (ICBC, Bank of China) for BRI project financing, leveraging local market knowledge and international networks.</span>
+                        <span class="bilingual-cn">马来亚银行、联昌国际等马来西亚伊斯兰银行引领与中国银行（工行、中行）的银团合作，利用本地市场知识和国际网络。</span>
+                    </div>
+                    <div class="mt-2 space-y-1 text-xs">
+                        <div class="flex justify-between items-center bg-white/60 p-1.5 rounded">
+                            <span class="font-medium text-purple-800">Maybank Islamic</span>
+                            <span class="text-purple-600">Lead Arranger</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-white/60 p-1.5 rounded">
+                            <span class="font-medium text-purple-800">CIMB Islamic</span>
+                            <span class="text-purple-600">Co-lead</span>
+                        </div>
+                        <div class="flex justify-between items-center bg-white/60 p-1.5 rounded">
+                            <span class="font-medium text-purple-800">Chinese Banks</span>
+                            <span class="text-purple-600">Participating</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Partnership Ecosystem -->
+                <div class="bg-slate-50 rounded-lg p-3 border border-slate-200">
+                    <h4 class="font-bold text-slate-800 text-xs mb-2">Partnership Ecosystem | 合作生态系统</h4>
+                    <div class="text-xs space-y-1 text-slate-600">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
+                            <span>Malaysian regulators (BNM, SC) providing enabling framework</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                            <span>Shariah advisors ensuring compliance across jurisdictions</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                            <span>Legal firms structuring cross-border transactions</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 bg-purple-500 rounded-full"></span>
+                            <span>Rating agencies assessing Sukuk creditworthiness</span>
+                        </div>
+                    </div>
+                    <div class="mt-2 text-[10px] text-slate-500 font-serif-sc">
+                        马来西亚监管机构提供支持框架 → 教法顾问确保跨境合规 → 律师事务所构建交易结构 → 评级机构评估信用状况
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
