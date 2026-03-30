@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>吉隆坡金融中心演化时间线 | Evolution Timeline</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;600&family=Playfair+Display:wght@400;600&family=Inter:wght@400;500&display=swap');
+        
+        :root {
+            --bg-primary: #f8f9fa;
+            --bg-card: #ffffff;
+            --text-primary: #1a1a1a;
+            --text-secondary: #4a5568;
+            --text-muted: #718096;
+            --border: #e2e8f0;
+            --gold: #c9a227;
+            --gold-light: #e6d5a8;
+            --emerald: #0d4a38;
+            --emerald-light: #1e6b52;
+            
+            /* Phase Colors matching original */
+            --phase-1: #8b4513; /* 奠基期 - SaddleBrown */
+            --phase-2: #2c5282; /* 国际化期 - SteelBlue */
+            --phase-3: #2f855a; /* 创新期 - SeaGreen */
+            --phase-4: #b7791f; /* 融合期 - DarkGoldenrod */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f0f4f8 0%, #e2e8f0 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Main Container */
+        .timeline-container {
+            width: 100%;
+            max-width: 1200px;
+            background: var(--bg-card);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(0, 0, 0, 0.02);
+            padding: 50px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Decorative top border */
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--phase-1), var(--phase-2), var(--phase-3), var(--phase-4));
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            font-family: 'Noto Serif SC', 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--emerald);
+            margin-bottom: 8px;
+            letter-spacing: 0.05em;
+        }
+
+        .header .subtitle {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* Timeline Grid */
+        .timeline-main {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        /* Phase Headers */
+        .phase-header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .phase-header:nth-child(1) { color: var(--phase-1); border-color: var(--phase-1); }
+        .phase-header:nth-child(2) { color: var(--phase-2); border-color: var(--phase-2); }
+        .phase-header:nth-child(3) { color: var(--phase-3); border-color: var(--phase-3); }
+        .phase-header:nth-child(4) { color: var(--phase-4); border-color: var(--phase-4); }
+
+        .phase-header .en {
+            display: block;
+            font-size: 0.75rem;
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 0.1em;
+            opacity: 0.8;
+            margin-top: 4px;
+            font-weight: 400;
+        }
+
+        /* Year Badge */
+        .year-badge {
+            background: linear-gradient(135deg, #f7fafc, #edf2f7);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 12px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        /* Event Cards */
+        .event-card {
+            background: linear-gradient(to bottom, #ffffff, #f7fafc);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.03);
+            transition: all 0.3s ease;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .event-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            opacity: 0.8;
+        }
+
+        .column:nth-child(1) .event-card::after { background: var(--phase-1); }
+        .column:nth-child(2) .event-card::after { background: var(--phase-2); }
+        .column:nth-child(3) .event-card::after { background: var(--phase-3); }
+        .column:nth-child(4) .event-card::after { background: var(--phase-4); }
+
+        .event-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+            border-color: #cbd5e0;
+        }
+
+        /* Icons */
+        .event-icon {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, #f0f4f8, #e2e8f0);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            border: 2px solid white;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .column:nth-child(1) .event-icon { background: linear-gradient(135deg, rgba(139, 69, 19, 0.1), rgba(139, 69, 19, 0.05)); }
+        .column:nth-child(2) .event-icon { background: linear-gradient(135deg, rgba(44, 82, 130, 0.1), rgba(44, 82, 130, 0.05)); }
+        .column:nth-child(3) .event-icon { background: linear-gradient(135deg, rgba(47, 133, 90, 0.1), rgba(47, 133, 90, 0.05)); }
+        .column:nth-child(4) .event-icon { background: linear-gradient(135deg, rgba(183, 121, 31, 0.1), rgba(183, 121, 31, 0.05)); }
+
+        /* Card Content */
+        .event-title {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+
+        .event-subtitle {
+            font-family: 'Playfair Display', serif;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-style: italic;
+            margin-bottom: 16px;
+            letter-spacing: 0.02em;
+        }
+
+        .event-desc {
+            font-size: 0.85rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            margin-top: auto;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .event-desc .zh {
+            display: block;
+            margin-top: 8px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Connection Arrows */
+        .connections {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin: 30px 0;
+            position: relative;
+        }
+
+        .arrow-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .arrow-container:not(:last-child)::after {
+            content: '→';
+            font-size: 2rem;
+            color: #cbd5e0;
+            position: absolute;
+            right: -25px;
+            font-weight: 300;
+        }
+
+        .impact-box {
+            background: linear-gradient(to right, rgba(237, 242, 247, 0.5), rgba(226, 232, 240, 0.3));
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            font-family: 'Noto Serif SC', serif;
+        }
+
+        /* Context Events Section */
+        .context-section {
+            margin-top: 50px;
+            padding-top: 40px;
+            border-top: 2px solid var(--border);
+        }
+
+        .context-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 30px;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--emerald);
+        }
+
+        .context-header::before {
+            content: '◆';
+            color: var(--gold);
+            font-size: 0.8rem;
+        }
+
+        .context-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .context-card {
+            background: #f7fafc;
+            border-left: 4px solid;
+            border-radius: 8px;
+            padding: 20px;
+            position: relative;
+        }
+
+        .context-card:nth-child(1) { border-left-color: #e53e3e; }
+        .context-card:nth-child(2) { border-left-color: #3182ce; }
+        .context-card:nth-child(3) { border-left-color: #805ad5; }
+
+        .context-year {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .context-card:nth-child(1) .context-year { color: #c53030; }
+        .context-card:nth-child(2) .context-year { color: #2b6cb0; }
+        .context-card:nth-child(3) .context-year { color: #6b46c1; }
+
+        .context-text {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .context-text .zh {
+            display: block;
+            margin-top: 6px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .timeline-main {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            .connections {
+                display: none;
+            }
+            
+            .context-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .timeline-container {
+                padding: 30px 20px;
+            }
+            
+            .timeline-main {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="timeline-container">
+        <!-- Header -->
+        <div class="header">
+            <h1>吉隆坡金融中心演化时间线</h1>
+            <div class="subtitle">Evolution Timeline of Kuala Lumpur Financial Centre</div>
+        </div>
+
+        <!-- Phase Headers -->
+        <div class="timeline-main" style="margin-bottom: 0; gap: 0;">
+            <div class="phase-header">
+                奠基期
+                <span class="en">Foundation Phase</span>
+            </div>
+            <div class="phase-header">
+                国际化期
+                <span class="en">Internationalization</span>
+            </div>
+            <div class="phase-header">
+                创新期
+                <span class="en">Innovation Phase</span>
+            </div>
+            <div class="phase-header">
+                融合期
+                <span class="en">Integration Phase</span>
+            </div>
+        </div>
+
+        <!-- Year Badges -->
+        <div class="timeline-main" style="margin-bottom: 0; margin-top: 20px;">
+            <div class="column">
+                <div class="year-badge">1983年</div>
+            </div>
+            <div class="column">
+                <div class="year-badge">2006年</div>
+            </div>
+            <div class="column">
+                <div class="year-badge">2017年</div>
+            </div>
+            <div class="column">
+                <div class="year-badge">2024年</div>
+            </div>
+        </div>
+
+        <!-- Event Cards -->
+        <div class="timeline-main">
+            <!-- 1983 -->
+            <div class="column">
+                <div class="event-card">
+                    <div class="event-icon">🏛️</div>
+                    <div class="event-title">Bank Islam 成立</div>
+                    <div class="event-subtitle">First Islamic Bank</div>
+                    <div class="event-desc">
+                        马来西亚首家伊斯兰银行开业，双银行体系初步形成，建立独立法律框架。
+                        <span class="zh">Establishment of first Islamic bank under special parliamentary act, creating dual banking system foundation.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2006 -->
+            <div class="column">
+                <div class="event-card">
+                    <div class="event-icon">🌐</div>
+                    <div class="event-title">MIFC 启动</div>
+                    <div class="event-subtitle">Malaysia International Islamic Financial Centre</div>
+                    <div class="event-desc">
+                        国际金融中心倡议启动，国际定位战略确立，整合监管与人才体系。
+                        <span class="zh">Strategic initiative launched to establish KL as global hub, integrating INCEIF and regulatory infrastructure.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2017 -->
+            <div class="column">
+                <div class="event-card">
+                    <div class="event-icon">🌱</div>
+                    <div class="event-title">绿色 Sukuk 首发</div>
+                    <div class="event-subtitle">World's First Green Sukuk</div>
+                    <div class="event-desc">
+                        全球首支绿色伊斯兰债券发行，可持续融合创新起点，教法合规与ESG目标结合。
+                        <span class="zh">Pioneering issuance integrating Shariah compliance with ESG goals, establishing template for sustainable Islamic finance.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2024 -->
+            <div class="column">
+                <div class="event-card">
+                    <div class="event-icon">🚄</div>
+                    <div class="event-title">ECRL SDG Sukuk</div>
+                    <div class="event-subtitle">Belt & Road Infrastructure</div>
+                    <div class="event-desc">
+                        东海岸铁路SDG Sukuk发行，一带一路互动标志性案例，政府担保SDG债券。
+                        <span class="zh">First government-guaranteed SDG Sukuk for BRI infrastructure, demonstrating intermediary hub function.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Connections & Impacts -->
+        <div class="connections">
+            <div class="arrow-container">
+                <div class="impact-box">
+                    双银行系统<br>初步成型
+                    <div style="font-size: 0.75rem; margin-top: 4px; opacity: 0.7;">Dual Banking Emerges</div>
+                </div>
+            </div>
+            <div class="arrow-container">
+                <div class="impact-box">
+                    国际定位<br>战略确立
+                    <div style="font-size: 0.75rem; margin-top: 4px; opacity: 0.7;">Global Strategy Set</div>
+                </div>
+            </div>
+            <div class="arrow-container">
+                <div class="impact-box">
+                    可持续融合<br>创新起点
+                    <div style="font-size: 0.75rem; margin-top: 4px; opacity: 0.7;">Sustainable Innovation</div>
+                </div>
+            </div>
+            <div class="arrow-container">
+                <div class="impact-box">
+                    一带一路互动<br>标志性案例
+                    <div style="font-size: 0.75rem; margin-top: 4px; opacity: 0.7;">BRI Integration Landmark</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Context Events -->
+        <div class="context-section">
+            <div class="context-header">
+                关键背景事件与制度变迁 | Key Contextual Events & Institutional Transformations
+            </div>
+            
+            <div class="context-grid">
+                <div class="context-card">
+                    <div class="context-year">1997–1998</div>
+                    <div class="context-text">
+                        亚洲金融危机→强化伊斯兰金融发展承诺，推动金融多元化，暴露传统金融脆弱性。
+                        <span class="zh">Asian Financial Crisis reinforced commitment to Islamic finance as diversification strategy.</span>
+                    </div>
+                </div>
+                
+                <div class="context-card">
+                    <div class="context-year">2013</div>
+                    <div class="context-text">
+                        一带一路倡议启动→为吉隆坡伊斯兰金融带来新机遇与跨境合作空间，创造基础设施融资需求。
+                        <span class="zh">BRI launch created new opportunities for KL's Islamic finance ecosystem and cross-border cooperation.</span>
+                    </div>
+                </div>
+                
+                <div class="context-card">
+                    <div class="context-year">2018–2022</div>
+                    <div class="context-text">
+                        政权更迭→项目调整与制度韧性考验，伊斯兰金融保持相对稳定，NEP嵌入性确保连续性。
+                        <span class="zh">Political transitions tested institutional resilience; Islamic finance remained stable due to NEP embeddedness.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
