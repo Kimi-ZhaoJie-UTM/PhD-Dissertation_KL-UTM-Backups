@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strategic-Institutional-Market Framework | 三维互动框架构建</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', 'PingFang SC', sans-serif;
+            background: radial-gradient(ellipse at center, #1a1f3a 0%, #0a0e27 100%);
+            color: #fff;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+        }
+
+        .lang-switch {
+            position: fixed;
+            top: 15px;
+            right: 20px;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            padding: 5px;
+            display: flex;
+            gap: 5px;
+            transition: opacity 0.5s;
+        }
+
+        .lang-btn {
+            padding: 6px 16px;
+            border: none;
+            background: transparent;
+            color: #fff;
+            cursor: pointer;
+            border-radius: 20px;
+            transition: all 0.3s;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .lang-btn.active {
+            background: #4a9eff;
+            box-shadow: 0 0 20px rgba(74, 158, 255, 0.5);
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .main-title {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #4a9eff 0%, #00ffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(74, 158, 255, 0.3);
+            white-space: nowrap;
+            cursor: pointer;
+            user-select: none;
+            transition: transform 0.3s, filter 0.3s;
+            padding: 10px 20px;
+            border-radius: 10px;
+        }
+
+        .main-title:hover {
+            transform: scale(1.05);
+            filter: brightness(1.2);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .main-title.hidden-mode {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 20px;
+            margin-bottom: 0;
+            z-index: 100;
+        }
+
+        .earth-scene {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100vmin;
+            height: 100vmin;
+            transform: translate(-50%, -50%);
+            perspective: 1500px;
+            z-index: 0;
+            transition: all 0.8s ease;
+        }
+
+        .earth-scene.fullscreen {
+            width: 100vw;
+            height: 100vh;
+            perspective: 2000px;
+        }
+
+        /* 地球水平自转 - 不倾斜，从正上方俯视 */
+        .earth-wrapper {
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            /* 移除倾斜，保持水平正上方视角 */
+            transform: rotateX(0deg);
+        }
+
+        .earth-spin {
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            animation: earthRotate 60s linear infinite;
+        }
+
+        @keyframes earthRotate {
+            from { transform: rotateY(0deg); }
+            to { transform: rotateY(360deg); }
+        }
+
+        .earth-wireframe {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 85vmin;
+            height: 85vmin;
+            margin-left: -42.5vmin;
+            margin-top: -42.5vmin;
+            transform-style: preserve-3d;
+        }
+
+        .ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border-radius: 50%;
+            transform-style: preserve-3d;
+        }
+
+        .meridian {
+            width: 85vmin;
+            height: 85vmin;
+            margin-left: -42.5vmin;
+            margin-top: -42.5vmin;
+            border: 1px solid rgba(74, 158, 255, 0.2);
+        }
+
+        .parallel {
+            border: 1px dashed rgba(74, 158, 255, 0.15);
+        }
+
+        /* 赤道 - 实线 */
+        .equator {
+            width: 85vmin;
+            height: 85vmin;
+            margin-left: -42.5vmin;
+            margin-top: -42.5vmin;
+            border: 2px solid rgba(0, 255, 200, 0.8);
+            box-shadow: 0 0 15px rgba(0, 255, 200, 0.4);
+            transform: rotateX(90deg) translateZ(0);
+        }
+
+        /* 北回归线 - 虚线 */
+        .tropic-cancer {
+            width: 78vmin;
+            height: 78vmin;
+            margin-left: -39vmin;
+            margin-top: -39vmin;
+            border: 2px dashed rgba(255, 200, 100, 0.7);
+            box-shadow: 0 0 10px rgba(255, 200, 100, 0.3);
+            transform: rotateX(90deg) translateZ(17vmin);
+        }
+
+        /* 南回归线 - 虚线 */
+        .tropic-capricorn {
+            width: 78vmin;
+            height: 78vmin;
+            margin-left: -39vmin;
+            margin-top: -39vmin;
+            border: 2px dashed rgba(255, 200, 100, 0.7);
+            box-shadow: 0 0 10px rgba(255, 200, 100, 0.3);
+            transform: rotateX(90deg) translateZ(-17vmin);
+        }
+
+        .parallel-60n {
+            width: 42.5vmin;
+            height: 42.5vmin;
+            margin-left: -21.25vmin;
+            margin-top: -21.25vmin;
+            border: 1px dashed rgba(74, 158, 255, 0.2);
+            transform: rotateX(90deg) translateZ(36.8vmin);
+        }
+
+        .parallel-30n {
+            width: 73.5vmin;
+            height: 73.5vmin;
+            margin-left: -36.75vmin;
+            margin-top: -36.75vmin;
+            border: 1px dashed rgba(74, 158, 255, 0.15);
+            transform: rotateX(90deg) translateZ(21.25vmin);
+        }
+
+        .parallel-30s {
+            width: 73.5vmin;
+            height: 73.5vmin;
+            margin-left: -36.75vmin;
+            margin-top: -36.75vmin;
+            border: 1px dashed rgba(74, 158, 255, 0.15);
+            transform: rotateX(90deg) translateZ(-21.25vmin);
+        }
+
+        .parallel-60s {
+            width: 42.5vmin;
+            height: 42.5vmin;
+            margin-left: -21.25vmin;
+            margin-top: -21.25vmin;
+            border: 1px dashed rgba(74, 158, 255, 0.2);
+            transform: rotateX(90deg) translateZ(-36.8vmin);
+        }
+
+        /* 4大洲虚线轮廓 - 使用椭圆模拟 */
+        .continent {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            border-radius: 50%;
+            border: 2px dashed rgba(255, 255, 255, 0.4);
+            transform-style: preserve-3d;
+        }
+
+        
+
+        
+
+        
+
+        
+
+        .city-marker {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform-style: preserve-3d;
+            pointer-events: none;
+        }
+
+        .city-point {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-left: -5px;
+            margin-top: -5px;
+            box-shadow: 0 0 15px currentColor, 0 0 30px currentColor;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.8; }
+        }
+
+        .city-label {
+            position: absolute;
+            white-space: nowrap;
+            font-size: 12px;
+            font-weight: bold;
+            text-shadow: 0 0 4px rgba(0,0,0,1), 0 0 8px rgba(0,0,0,0.8);
+            transform: translate(-50%, -22px);
+            color: currentColor;
+            pointer-events: none;
+        }
+
+        .city-label-en {
+            font-size: 10px;
+            opacity: 0.9;
+            transform: translate(-50%, -2px);
+        }
+
+        .framework-svg {
+            width: 95vw;
+            height: 90vh;
+            z-index: 10;
+            filter: drop-shadow(0 0 20px rgba(0,0,0,0.5));
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        .framework-svg.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.9);
+        }
+
+        .glass-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 14, 39, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 8;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .glass-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .layer-box {
+            fill: rgba(30, 40, 80, 0.75);
+            stroke: #4a9eff;
+            stroke-width: 2;
+            rx: 12;
+        }
+
+        .layer-title {
+            fill: #4a9eff;
+            font-size: 16px;
+            font-weight: bold;
+            text-anchor: middle;
+        }
+
+        .layer-title.en-small {
+            font-size: 12px;
+        }
+
+        .content-box {
+            fill: rgba(20, 30, 60, 0.9);
+            stroke: #6b8cce;
+            stroke-width: 1.5;
+            rx: 6;
+        }
+
+        .content-text {
+            fill: #fff;
+            font-size: 12px;
+            text-anchor: middle;
+            dominant-baseline: middle;
+        }
+
+        .label-box {
+            fill: rgba(100, 120, 180, 0.3);
+            stroke: #8aa4d0;
+            stroke-width: 1;
+            rx: 4;
+        }
+
+        .label-text {
+            fill: #b8d4f0;
+            font-size: 10px;
+            text-anchor: middle;
+            dominant-baseline: middle;
+        }
+
+        .connection-line {
+            stroke: #6b8cce;
+            stroke-width: 1.5;
+            fill: none;
+            marker-end: url(#arrowhead);
+        }
+
+        .bidirectional-line {
+            stroke: #6b8cce;
+            stroke-width: 1.5;
+            fill: none;
+            marker-start: url(#arrowhead-rev);
+            marker-end: url(#arrowhead);
+        }
+
+        .runway-line {
+            fill: none;
+            stroke: #00ffff;
+            stroke-width: 3;
+            stroke-dasharray: 10, 10;
+            opacity: 0.9;
+            filter: drop-shadow(0 0 8px #00ffff);
+        }
+
+        .runway-line-up {
+            animation: runwayUp 0.8s linear infinite;
+        }
+
+        .runway-line-down {
+            animation: runwayDown 0.8s linear infinite;
+        }
+
+        @keyframes runwayUp {
+            to { stroke-dashoffset: -20; }
+        }
+
+        @keyframes runwayDown {
+            to { stroke-dashoffset: 20; }
+        }
+
+        .hint-text {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            z-index: 20;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            text-shadow: 0 0 10px rgba(0,0,0,0.8);
+        }
+
+        .hint-text.visible {
+            opacity: 1;
+        }
+
+        @media (max-width: 900px) {
+            .main-title { font-size: 18px; }
+            .city-label { font-size: 10px; }
+            .city-label-en { font-size: 8px; }
+            .layer-title { font-size: 14px; }
+            .content-text { font-size: 11px; }
+            .label-text { font-size: 9px; }
+        }
+            .region-legend {
+            position: fixed;
+            top: 15px;
+            left: 20px;
+            z-index: 1000;
+            background: rgba(10, 14, 39, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 12px 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            transition: opacity 0.5s;
+        }
+        .legend-title {
+            color: #4a9eff;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 4px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #fff;
+            font-size: 11px;
+        }
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            box-shadow: 0 0 8px currentColor;
+        }
+        .legend-stats {
+            color: #888;
+            font-size: 10px;
+            margin-top: 4px;
+            text-align: center;
+        }
+        @media (max-width: 900px) {
+            .region-legend {
+                top: 60px;
+                left: 10px;
+                padding: 8px 10px;
+            }
+            .legend-title { font-size: 10px; }
+            .legend-item { font-size: 9px; }
+        }
+
+            .glass-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 14, 39, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 8;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+
+        .glass-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .hint-text {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            z-index: 20;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            text-shadow: 0 0 10px rgba(0,0,0,0.8);
+        }
+
+        .hint-text.visible {
+            opacity: 1;
+        }
+
+        .main-title.hidden-mode {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 20px;
+            margin-bottom: 0;
+            z-index: 100;
+        }
+
+        /* 地球模糊效果 */
+        .earth-scene.blur {
+            filter: blur(20px);
+            transition: filter 0.5s ease;
+        }
+
+    
+        /* 弹出层（模态框）样式 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 14, 39, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 2000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, rgba(30, 40, 80, 0.95) 0%, rgba(20, 30, 60, 0.98) 100%);
+            border: 2px solid #4a9eff;
+            border-radius: 20px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 40px;
+            position: relative;
+            box-shadow: 0 0 60px rgba(74, 158, 255, 0.3), inset 0 0 20px rgba(74, 158, 255, 0.1);
+            transform: scale(0.9) translateY(20px);
+            transition: transform 0.4s ease;
+        }
+
+        .modal-overlay.active .modal-content {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 100, 100, 0.3);
+            border-color: rgba(255, 100, 100, 0.5);
+            transform: rotate(90deg);
+        }
+
+        .modal-title {
+            font-size: 28px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #4a9eff 0%, #00ffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(74, 158, 255, 0.3);
+        }
+
+        .modal-text {
+            color: #e0e6ed;
+            font-size: 14px;
+            line-height: 1.6;
+            text-align: justify;
+        }
+
+        .modal-text p {
+            margin-bottom: 20px;
+        }
+
+        .modal-text strong {
+            color: #4a9eff;
+            font-weight: 600;
+        }
+
+        /* 框架模糊效果（当弹出层打开时） */
+        .framework-blur {
+            filter: blur(5px);
+            pointer-events: none;
+            transition: filter 0.4s ease;
+        }
+
+        /* 可点击框体的光标样式 */
+        .content-box {
+            cursor: pointer;
+        }
+
+        .content-box:hover {
+            fill: rgba(74, 158, 255, 0.4);
+            stroke: #00ffff;
+            filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.5));
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                padding: 25px;
+                max-height: 85vh;
+            }
+            .modal-title {
+                font-size: 22px;
+            }
+            .modal-text {
+                font-size: 14px;
+            }
+        }
+
+    
+        /* 英文版本优化样式 */
+        .content-text.en {
+            font-size: 9px;
+        }
+
+        .label-text.en {
+            font-size: 8px;
+        }
+
+        .layer-title.en {
+            font-size: 14px;
+        }
+
+    </style>
+<base target="_blank">
+</head>
+<body>
+
+    <div class="lang-switch" id="langSwitch">
+        <button class="lang-btn active" onclick="switchLang('zh')">中文</button>
+        <button class="lang-btn" onclick="switchLang('en')">English</button>
+    </div>
+
+    <div class="region-legend" id="regionLegend">
+        <div class="legend-title" data-zh="一带一路参与国（按大洲）" data-en="BRI Countries (by Region)">一带一路参与国（按大洲）</div>
+        <div class="legend-item"><span class="legend-color" style="background:#ff6b6b"></span><span data-zh="亚洲" data-en="Asia">亚洲</span></div>
+        <div class="legend-item"><span class="legend-color" style="background:#ffd93d"></span><span data-zh="非洲" data-en="Africa">非洲</span></div>
+        <div class="legend-item"><span class="legend-color" style="background:#6bcfbf"></span><span data-zh="欧洲" data-en="Europe">欧洲</span></div>
+        <div class="legend-item"><span class="legend-color" style="background:#52d681"></span><span data-zh="美洲" data-en="Americas">美洲</span></div>
+        <div class="legend-item"><span class="legend-color" style="background:#c084fc"></span><span data-zh="大洋洲" data-en="Oceania">大洋洲</span></div>
+        <div class="legend-stats" id="legendStats">共159国</div>
+    </div>
+
+    <div class="glass-overlay" id="glassOverlay"></div>
+
+    <div class="hint-text" id="hintText">点击标题隐藏框架 | Click title to hide</div>
+
+    <div class="container">
+        <h1 class="main-title" id="mainTitle" onclick="toggleFramework()">Strategic-Institutional-Market Framework | 三维互动框架构建</h1>
+
+        <div class="earth-scene" id="earthScene">
+            <div class="earth-wrapper">
+                <div class="earth-spin" id="earthSpin">
+                    <div class="earth-wireframe" id="earthWireframe">
+                        <!-- 赤道线 - 实线 -->
+                        <div class="ring equator"></div>
+                        <!-- 北回归线 - 虚线 -->
+                        <div class="ring tropic-cancer"></div>
+                        <!-- 南回归线 - 虚线 -->
+                        <div class="ring tropic-capricorn"></div>
+                        
+                        <!-- 其他纬线 -->
+                        <div class="ring parallel-60n"></div>
+                        <div class="ring parallel-30n"></div>
+                        <div class="ring parallel-30s"></div>
+                        <div class="ring parallel-60s"></div>
+
+                        <!-- 5大洋虚线环 -->
+
+                        <!-- 4大洲虚线轮廓 -->
+
+                        <!-- 经线（12条） -->
+                        <div class="ring meridian" style="transform: rotateY(0deg);"></div>
+                        <div class="ring meridian" style="transform: rotateY(30deg);"></div>
+                        <div class="ring meridian" style="transform: rotateY(60deg);"></div>
+                        <div class="ring meridian" style="transform: rotateY(90deg);"></div>
+                        <div class="ring meridian" style="transform: rotateY(120deg);"></div>
+                        <div class="ring meridian" style="transform: rotateY(150deg);"></div>
+
+                        <!-- 城市标记容器 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 主架构图SVG -->
+        <svg class="framework-svg" id="frameworkSvg" viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+                    <polygon points="0 0, 10 3, 0 6" fill="#6b8cce" />
+                </marker>
+                <marker id="arrowhead-rev" markerWidth="10" markerHeight="10" refX="0" refY="3" orient="auto">
+                    <polygon points="10 0, 0 3, 10 6" fill="#6b8cce" />
+                </marker>
+                <filter id="boxShadow">
+                    <feDropShadow dx="0" dy="4" stdDeviation="8" flood-opacity="0.3"/>
+                </filter>
+            </defs>
+
+            <!-- 第三层：制度协同层 (底层) -->
+            <g id="layer3" transform="translate(0, 480)">
+                <rect class="layer-box" x="50" y="0" width="900" height="140" filter="url(#boxShadow)"/>
+                <ellipse cx="500" cy="0" rx="80" ry="20" fill="#0a0e27" stroke="#4a9eff" stroke-width="2"/>
+                <text class="layer-title" x="500" y="5" data-zh="制度协同层" data-en="Institutional Coordination">制度协同层</text>
+                
+                <!-- 三个内容框 -->
+                <rect class="content-box" x="100" y="40" width="200" height="60" onclick="openModal('market')"/>
+                <text class="content-text" x="200" y="70" data-zh="监管规则与标准" data-en="Regulatory Rules & Standards">监管规则与标准</text>
+                
+                <rect class="content-box" x="400" y="40" width="200" height="60" onclick="openModal('market')"/>
+                <text class="content-text" x="500" y="70" data-zh="法律与仲裁服务" data-en="Legal & Arbitration Services">法律与仲裁服务</text>
+                
+                <rect class="content-box" x="700" y="40" width="200" height="60" onclick="openModal('market')"/>
+                <text class="content-text" x="800" y="70" data-zh="专业人才体系" data-en="Professional Talent System">专业人才体系</text>
+                
+                <!-- 内部连接线 -->
+                <line class="bidirectional-line" x1="300" y1="70" x2="400" y2="70"/>
+                <line class="bidirectional-line" x1="600" y1="70" x2="700" y2="70"/>
+            </g>
+
+            <!-- 第二层：战略对接层 (中层) -->
+            <g id="layer2" transform="translate(0, 280)">
+                <rect class="layer-box" x="200" y="0" width="600" height="120" filter="url(#boxShadow)"/>
+                <ellipse cx="500" cy="0" rx="80" ry="20" fill="#0a0e27" stroke="#4a9eff" stroke-width="2"/>
+                <text class="layer-title" x="500" y="5" data-zh="战略对接层" data-en="Strategic Alignment">战略对接层</text>
+                
+                <rect class="content-box" x="250" y="40" width="200" height="60" onclick="openModal('strategic')"/>
+                <text class="content-text" x="350" y="70" data-zh="马来西亚国家战略" data-en="Malaysia National Strategy">马来西亚国家战略</text>
+                
+                <rect class="content-box" x="550" y="40" width="200" height="60" onclick="openModal('strategic')"/>
+                <text class="content-text" x="650" y="70" data-zh="“一带一路”倡议" data-en="Belt & Road Initiative">“一带一路”倡议</text>
+                
+                <!-- 内部双向箭头 -->
+                <line class="bidirectional-line" x1="450" y1="70" x2="550" y2="70"/>
+            </g>
+
+            <!-- 第一层：市场融合层 (顶层) -->
+            <g id="layer1" transform="translate(0, 80)">
+                <rect class="layer-box" x="50" y="0" width="900" height="120" filter="url(#boxShadow)"/>
+                <ellipse cx="500" cy="0" rx="80" ry="20" fill="#0a0e27" stroke="#4a9eff" stroke-width="2"/>
+                <text class="layer-title" x="500" y="5" data-zh="市场融合层" data-en="Market Integration">市场融合层</text>
+                
+                <rect class="content-box" x="100" y="40" width="200" height="60" onclick="openModal('market')"/>
+                <text class="content-text" x="200" y="70" data-zh="资本双向流动" data-en="Two-way Capital Flow">资本双向流动</text>
+                
+                <rect class="content-box" x="400" y="40" width="200" height="60" onclick="openModal('market')"/>
+                <text class="content-text" x="500" y="70" data-zh="金融产品创新" data-en="Financial Product Innovation">金融产品创新</text>
+                
+                <rect class="content-box" x="700" y="40" width="200" height="60" onclick="openModal('market')"/>
+                <text class="content-text" x="800" y="70" data-zh="机构跨境合作" data-en="Cross-border Institutional Cooperation">机构跨境合作</text>
+                
+                <!-- 内部连接线 -->
+                <line class="bidirectional-line" x1="300" y1="70" x2="400" y2="70"/>
+                <line class="bidirectional-line" x1="600" y1="70" x2="700" y2="70"/>
+            </g>
+
+            <!-- 层间连接线 -->
+            
+            <!-- 制度协同层 -> 战略对接层 (左) -->
+            <line class="connection-line" x1="350" y1="480" x2="350" y2="400"/>
+            <rect class="label-box" x="270" y="420" width="160" height="40"/>
+            <text class="label-text" x="350" y="440" data-zh="提供顶层动力&#10;与政策合法性" data-en="Provide Top-level&#10;Drive & Legitimacy">提供顶层动力与政策合法性</text>
+
+            <!-- 制度协同层 -> 战略对接层 (右) -->
+            <line class="connection-line" x1="650" y1="480" x2="650" y2="400"/>
+            <rect class="label-box" x="570" y="420" width="160" height="40"/>
+            <text class="label-text" x="650" y="440" data-zh="提供顶层动力&#10;与政策合法性" data-en="Provide Top-level&#10;Drive & Legitimacy">提供顶层动力与政策合法性</text>
+
+            <!-- 战略对接层 -> 市场融合层 (左) -->
+            <line class="connection-line" x1="400" y1="280" x2="400" y2="200"/>
+            <rect class="label-box" x="320" y="220" width="160" height="40"/>
+            <text class="label-text" x="400" y="240" data-zh="成果体现强化&#10;战略认同与深化" data-en="Strengthen Strategic&#10;Recognition & Deepening">成果体现强化战略认同与深化</text>
+
+            <!-- 战略对接层 -> 市场融合层 (右) -->
+            <line class="connection-line" x1="600" y1="280" x2="600" y2="200"/>
+            <rect class="label-box" x="520" y="220" width="160" height="40"/>
+            <text class="label-text" x="600" y="240" data-zh="创造市场需求&#10;与合作空间" data-en="Create Market Demand&#10;& Cooperation Space">创造市场需求与合作空间</text>
+
+            <!-- 关键动态箭头：制度协同层 -> 市场融合层 (右侧，向上跑道灯) -->
+            <!-- 路径：从制度协同层右侧(800,480) 上升到 市场融合层右侧(800,200) -->
+            <path class="runway-line runway-line-up" d="M 850 480 Q 950 340 850 200"/>
+            <rect class="label-box" x="880" y="320" width="140" height="50" fill="rgba(0,255,255,0.1)" stroke="#00ffff"/>
+            <text class="label-text" x="950" y="345" fill="#00ffff" data-zh="为市场活动提供&#10;规则保障与基础设施" data-en="Provide Regulatory&#10;Guarantee & Infrastructure">
+                <tspan x="950" dy="-5">为市场活动提供</tspan>
+                <tspan x="950" dy="20">规则保障与基础设施</tspan>
+            </text>
+            <!-- 箭头头部 -->
+            <polygon points="850,200 845,210 855,210" fill="#00ffff" filter="drop-shadow(0 0 5px #00ffff)"/>
+
+            <!-- 关键动态箭头：市场融合层 -> 制度协同层 (左侧，向下跑道灯) -->
+            <!-- 路径：从市场融合层左侧(200,200) 下降到 制度协同层左侧(200,480) -->
+            <path class="runway-line runway-line-down" d="M 150 200 Q 50 340 150 480"/>
+            <rect class="label-box" x="20" y="310" width="140" height="50" fill="rgba(0,255,255,0.1)" stroke="#00ffff"/>
+            <text class="label-text" x="90" y="335" fill="#00ffff" data-zh="实践反馈推动&#10;制度优化与战略调整" data-en="Practice Feedback Drives&#10;Institutional Optimization">
+                <tspan x="90" dy="-5">实践反馈推动</tspan>
+                <tspan x="90" dy="20">制度优化与战略调整</tspan>
+            </text>
+            <!-- 箭头头部 -->
+            <polygon points="150,480 145,470 155,470" fill="#00ffff" filter="drop-shadow(0 0 5px #00ffff)"/>
+
+        </svg>
+    </div>
+
+    <script>
+
+        // 弹出层内容数据（中英文）
+        const modalContents = {
+            strategic: {
+                zh: {
+                    title: "战略协同层（Strategic Alignment Dimension）",
+                    text: `<p><strong>第一，战略协同层</strong>——这是互动的顶层驱动因素。它包含马来西亚将发展伊斯兰金融作为经济现代化支柱的国家战略与其参与一带一路以获取发展资源和市场机遇的战略之间的契合。这一层面为合作提供政治意愿和政策合法性，定义其基本方向和范围。在这一层面，互动表现为国家政策文件、双边协议、高层政治接触和战略定位。</p>`
+                },
+                en: {
+                    title: "Strategic Synergy Dimension",
+                    text: `<p><strong>First, the strategic synergy dimension</strong>—the top‑level driver of interaction. It encompasses the alignment between Malaysia's national strategy of developing Islamic finance as a pillar of economic modernization and its strategy of engaging with the BRI to access development resources and market opportunities. This level provides the political will and policy legitimacy for cooperation, defining its basic direction and scope. At this level, interaction manifests in national policy documents, bilateral agreements, high‑level political contacts, and strategic positioning.</p>`
+                }
+            },
+            institutional: {
+                zh: {
+                    title: "制度协同层（Institutional Synergy Dimension）",
+                    text: `<p><strong>第二，制度协同层</strong>——这一层面构成互动的保障和基础设施。伊斯兰金融需要一个由法规、法律和伊斯兰教法合规组成的独特生态系统。吉隆坡成熟的伊斯兰金融生态系统提供了现成的、高标准的"软基础设施"。在这一层面的互动涉及监管规则的相互适应、跨境法律和仲裁服务的合作，以及专业人才的培养。制度协同的程度决定了市场交易的成本和风险。</p>`
+                },
+                en: {
+                    title: "Institutional Synergy Dimension",
+                    text: `<p><strong>Second, the institutional synergy dimension</strong>—the enabling infrastructure for interaction. Islamic finance requires a distinctive ecosystem of regulations, laws, and Shariah compliance. Kuala Lumpur's mature Islamic finance ecosystem provides ready‑made, high‑standard "soft infrastructure." Interaction at this level involves mutual adaptation of regulatory rules, cross‑border legal and arbitration services cooperation, and professional talent development. The degree of institutional synergy determines the cost and risk of market transactions.</p>`
+                }
+            },
+            market: {
+                zh: {
+                    title: "市场融合层（Market Integration Dimension）",
+                    text: `<p><strong>第三，市场融合层</strong>——这是互动的具体体现和最终结果。在战略引导和制度支持下，实际的市场活动得以开展。这包括跨境资本流动、金融产品创新（如 Sukuk、伊斯兰银团贷款）以及金融机构之间的深度合作。市场融合的深度和广度反映了互动在现实经济中的成效。</p>
+                    <p style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(74, 158, 255, 0.2); color: #8aa4d0; font-size: 14px;"><em>注：该框架强调维度之间的动态、双向互动，而非线性的单向因果关系。自上而下的赋能：战略协同为制度发展和市场活动提供政治合法性和政策支持。没有战略承诺，制度创新可能缺乏授权，市场倡议可能缺乏支持。</em></p>`
+                },
+                en: {
+                    title: "Market Integration Dimension",
+                    text: `<p><strong>Third, the market integration dimension</strong>—the concrete manifestation and ultimate outcome of interaction. With strategic guidance and institutional support, actual market activities take place. These include cross‑border capital flows, financial product innovations (such as sukuk and Islamic syndicated loans), and deep cooperation between financial institutions. The depth and breadth of market integration reflect the real‑world effectiveness of the interaction.</p>
+                    <p style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(74, 158, 255, 0.2); color: #8aa4d0; font-size: 14px;"><em>Note: The framework emphasizes dynamic, two‑way interactions between dimensions, rather than linear, one‑way causal relationships. Top‑down enablement: Strategic synergy provides political legitimacy and policy support for institutional development and market activities. Without strategic commitment, institutional innovation may lack authorization, and market initiatives may lack support.</em></p>`
+                }
+            }
+        };
+
+        // 打开弹出层
+        function openModal(type) {
+            const modal = document.getElementById('modalOverlay');
+            const title = document.getElementById('modalTitle');
+            const text = document.getElementById('modalText');
+            const framework = document.getElementById('frameworkSvg');
+
+            const content = modalContents[type][currentLang];
+            title.textContent = content.title;
+            text.innerHTML = content.text;
+
+            modal.classList.add('active');
+            if (framework) framework.classList.add('framework-blur');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // 关闭弹出层
+        function closeModal(event) {
+            if (event && event.target.closest('.modal-content') && !event.target.classList.contains('modal-close')) {
+                return;
+            }
+
+            const modal = document.getElementById('modalOverlay');
+            const framework = document.getElementById('frameworkSvg');
+
+            modal.classList.remove('active');
+            if (framework) framework.classList.remove('framework-blur');
+            document.body.style.overflow = '';
+        }
+
+        // ESC键关闭
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        let isFrameworkVisible = true;
+        let currentLang = 'zh';
+
+        // 城市数据（包含原有和新增的）
+        const cities = [
+            { name: "迪拜", nameEn: "Dubai", lat: 25.2048, lon: 55.2708, color: "#ffd700" },
+            { name: "北京", nameEn: "Beijing", lat: 39.9042, lon: 116.4074, color: "#ff4444" },
+            { name: "成都", nameEn: "Chengdu", lat: 30.5728, lon: 104.0668, color: "#ff8844" },
+            { name: "吉隆坡", nameEn: "Kuala Lumpur", lat: 3.139, lon: 101.6869, color: "#44ff88" },
+            { name: "新加坡", nameEn: "Singapore", lat: 1.3521, lon: 103.8198, color: "#ffd700" },
+            { name: "香港", nameEn: "Hong Kong", lat: 22.3193, lon: 114.1694, color: "#ffd700" },
+            { name: "喀布尔", nameEn: "Kabul", lat: 34.5553, lon: 69.2075, color: "#ff6b6b" },
+            { name: "阿布扎比", nameEn: "Abu Dhabi", lat: 24.4539, lon: 54.3773, color: "#ff6b6b" },
+            { name: "马斯喀特", nameEn: "Muscat", lat: 23.5859, lon: 58.4059, color: "#ff6b6b" },
+            { name: "巴库", nameEn: "Baku", lat: 40.4093, lon: 49.8671, color: "#ff6b6b" },
+            { name: "伊斯兰堡", nameEn: "Islamabad", lat: 33.6844, lon: 73.0479, color: "#ff6b6b" },
+            { name: "拉姆安拉", nameEn: "Ramallah", lat: 31.898, lon: 35.2045, color: "#ff6b6b" },
+            { name: "麦纳麦", nameEn: "Manama", lat: 26.2285, lon: 50.586, color: "#ff6b6b" },
+            { name: "帝力", nameEn: "Dili", lat: -8.5569, lon: 125.5603, color: "#ff6b6b" },
+            { name: "马尼拉", nameEn: "Manila", lat: 14.5995, lon: 120.9842, color: "#ff6b6b" },
+            { name: "第比利斯", nameEn: "Tbilisi", lat: 41.7151, lon: 44.8271, color: "#ff6b6b" },
+            { name: "阿斯塔纳", nameEn: "Astana", lat: 51.1699, lon: 71.4491, color: "#ff6b6b" },
+            { name: "首尔", nameEn: "Seoul", lat: 37.5665, lon: 126.978, color: "#ff6b6b" },
+            { name: "比什凯克", nameEn: "Bishkek", lat: 42.8746, lon: 74.5698, color: "#ff6b6b" },
+            { name: "金边", nameEn: "Phnom Penh", lat: 11.5564, lon: 104.9282, color: "#ff6b6b" },
+            { name: "多哈", nameEn: "Doha", lat: 25.2854, lon: 51.531, color: "#ff6b6b" },
+            { name: "科威特城", nameEn: "Kuwait City", lat: 29.3759, lon: 47.9774, color: "#ff6b6b" },
+            { name: "万象", nameEn: "Vientiane", lat: 17.9757, lon: 102.6331, color: "#ff6b6b" },
+            { name: "贝鲁特", nameEn: "Beirut", lat: 33.8938, lon: 35.5018, color: "#ff6b6b" },
+            { name: "马累", nameEn: "Male", lat: 4.1755, lon: 73.5093, color: "#ff6b6b" },
+            { name: "吉隆坡", nameEn: "Kuala Lumpur", lat: 3.139, lon: 101.6869, color: "#ff6b6b" },
+            { name: "乌兰巴托", nameEn: "Ulaanbaatar", lat: 47.8864, lon: 106.9057, color: "#ff6b6b" },
+            { name: "达卡", nameEn: "Dhaka", lat: 23.8103, lon: 90.4125, color: "#ff6b6b" },
+            { name: "内比都", nameEn: "Naypyidaw", lat: 19.7633, lon: 96.0785, color: "#ff6b6b" },
+            { name: "加德满都", nameEn: "Kathmandu", lat: 27.7172, lon: 85.324, color: "#ff6b6b" },
+            { name: "利雅得", nameEn: "Riyadh", lat: 24.7136, lon: 46.6753, color: "#ff6b6b" },
+            { name: "科伦坡", nameEn: "Colombo", lat: 6.9271, lon: 79.8612, color: "#ff6b6b" },
+            { name: "杜尚别", nameEn: "Dushanbe", lat: 38.5598, lon: 68.787, color: "#ff6b6b" },
+            { name: "曼谷", nameEn: "Bangkok", lat: 13.7563, lon: 100.5018, color: "#ff6b6b" },
+            { name: "安卡拉", nameEn: "Ankara", lat: 39.9334, lon: 32.8597, color: "#ff6b6b" },
+            { name: "阿什哈巴德", nameEn: "Ashgabat", lat: 37.9601, lon: 58.3261, color: "#ff6b6b" },
+            { name: "斯里巴加湾", nameEn: "Bandar Seri Begawan", lat: 4.9031, lon: 114.9398, color: "#ff6b6b" },
+            { name: "塔什干", nameEn: "Tashkent", lat: 41.2995, lon: 69.2401, color: "#ff6b6b" },
+            { name: "新加坡", nameEn: "Singapore", lat: 1.3521, lon: 103.8198, color: "#ff6b6b" },
+            { name: "大马士革", nameEn: "Damascus", lat: 33.5138, lon: 36.2765, color: "#ff6b6b" },
+            { name: "埃里温", nameEn: "Yerevan", lat: 40.1792, lon: 44.4991, color: "#ff6b6b" },
+            { name: "萨那", nameEn: "Sanaa", lat: 15.3694, lon: 44.191, color: "#ff6b6b" },
+            { name: "巴格达", nameEn: "Baghdad", lat: 33.3152, lon: 44.3661, color: "#ff6b6b" },
+            { name: "德黑兰", nameEn: "Tehran", lat: 35.6892, lon: 51.389, color: "#ff6b6b" },
+            { name: "雅加达", nameEn: "Jakarta", lat: -6.2088, lon: 106.8456, color: "#ff6b6b" },
+            { name: "安曼", nameEn: "Amman", lat: 31.9454, lon: 35.9284, color: "#ff6b6b" },
+            { name: "河内", nameEn: "Hanoi", lat: 21.0285, lon: 105.8542, color: "#ff6b6b" },
+            { name: "阿尔及尔", nameEn: "Algiers", lat: 36.7538, lon: 3.0588, color: "#ffd93d" },
+            { name: "开罗", nameEn: "Cairo", lat: 30.0444, lon: 31.2357, color: "#ffd93d" },
+            { name: "亚的斯亚贝巴", nameEn: "Addis Ababa", lat: 9.0084, lon: 38.7575, color: "#ffd93d" },
+            { name: "罗安达", nameEn: "Luanda", lat: -8.839, lon: 13.2894, color: "#ffd93d" },
+            { name: "波多诺伏", nameEn: "Porto-Novo", lat: 6.4969, lon: 2.6283, color: "#ffd93d" },
+            { name: "哈博罗内", nameEn: "Gaborone", lat: -24.6282, lon: 25.9231, color: "#ffd93d" },
+            { name: "瓦加杜古", nameEn: "Ouagadougou", lat: 12.3714, lon: -1.5197, color: "#ffd93d" },
+            { name: "基特加", nameEn: "Gitega", lat: -3.4264, lon: 29.9308, color: "#ffd93d" },
+            { name: "马拉博", nameEn: "Malabo", lat: 3.7501, lon: 8.7371, color: "#ffd93d" },
+            { name: "洛美", nameEn: "Lome", lat: 6.1256, lon: 1.2254, color: "#ffd93d" },
+            { name: "阿斯马拉", nameEn: "Asmara", lat: 15.3229, lon: 38.9251, color: "#ffd93d" },
+            { name: "普拉亚", nameEn: "Praia", lat: 14.933, lon: -23.5133, color: "#ffd93d" },
+            { name: "班珠尔", nameEn: "Banjul", lat: 13.4432, lon: -16.5775, color: "#ffd93d" },
+            { name: "布拉柴维尔", nameEn: "Brazzaville", lat: -4.2634, lon: 15.2429, color: "#ffd93d" },
+            { name: "金沙萨", nameEn: "Kinshasa", lat: -4.4419, lon: 15.2663, color: "#ffd93d" },
+            { name: "吉布提市", nameEn: "Djibouti", lat: 11.5721, lon: 43.1456, color: "#ffd93d" },
+            { name: "科纳克里", nameEn: "Conakry", lat: 9.6412, lon: -13.5784, color: "#ffd93d" },
+            { name: "比绍", nameEn: "Bissau", lat: 11.8632, lon: -15.5843, color: "#ffd93d" },
+            { name: "阿克拉", nameEn: "Accra", lat: 5.6037, lon: -0.187, color: "#ffd93d" },
+            { name: "利伯维尔", nameEn: "Libreville", lat: 0.4162, lon: 9.4673, color: "#ffd93d" },
+            { name: "哈拉雷", nameEn: "Harare", lat: -17.8252, lon: 31.0335, color: "#ffd93d" },
+            { name: "雅温得", nameEn: "Yaounde", lat: 3.848, lon: 11.5027, color: "#ffd93d" },
+            { name: "莫罗尼", nameEn: "Moroni", lat: -11.7172, lon: 43.2473, color: "#ffd93d" },
+            { name: "阿比让", nameEn: "Abidjan", lat: 5.36, lon: -4.0083, color: "#ffd93d" },
+            { name: "内罗毕", nameEn: "Nairobi", lat: -1.2921, lon: 36.8219, color: "#ffd93d" },
+            { name: "马塞卢", nameEn: "Maseru", lat: -29.3632, lon: 27.5148, color: "#ffd93d" },
+            { name: "蒙罗维亚", nameEn: "Monrovia", lat: 6.2907, lon: -10.7605, color: "#ffd93d" },
+            { name: "的黎波里", nameEn: "Tripoli", lat: 32.8872, lon: 13.1913, color: "#ffd93d" },
+            { name: "基加利", nameEn: "Kigali", lat: -1.9706, lon: 30.1044, color: "#ffd93d" },
+            { name: "塔那那利佛", nameEn: "Antananarivo", lat: -18.8792, lon: 47.5079, color: "#ffd93d" },
+            { name: "利隆圭", nameEn: "Lilongwe", lat: -13.9626, lon: 33.7741, color: "#ffd93d" },
+            { name: "巴马科", nameEn: "Bamako", lat: 12.6392, lon: -8.0029, color: "#ffd93d" },
+            { name: "努瓦克肖特", nameEn: "Nouakchott", lat: 18.0735, lon: -15.9582, color: "#ffd93d" },
+            { name: "拉巴特", nameEn: "Rabat", lat: 34.0209, lon: -6.8416, color: "#ffd93d" },
+            { name: "马普托", nameEn: "Maputo", lat: -25.8919, lon: 32.6051, color: "#ffd93d" },
+            { name: "温得和克", nameEn: "Windhoek", lat: -22.5609, lon: 17.0658, color: "#ffd93d" },
+            { name: "比勒陀利亚", nameEn: "Pretoria", lat: -25.7479, lon: 28.2293, color: "#ffd93d" },
+            { name: "朱巴", nameEn: "Juba", lat: 4.8594, lon: 31.5713, color: "#ffd93d" },
+            { name: "尼亚美", nameEn: "Niamey", lat: 13.5116, lon: 2.1254, color: "#ffd93d" },
+            { name: "阿布贾", nameEn: "Abuja", lat: 9.0765, lon: 7.3986, color: "#ffd93d" },
+            { name: "弗里敦", nameEn: "Freetown", lat: 8.4657, lon: -13.2317, color: "#ffd93d" },
+            { name: "达喀尔", nameEn: "Dakar", lat: 14.7167, lon: -17.4677, color: "#ffd93d" },
+            { name: "维多利亚", nameEn: "Victoria", lat: -4.6191, lon: 55.4513, color: "#ffd93d" },
+            { name: "圣多美", nameEn: "Sao Tome", lat: 0.3302, lon: 6.7333, color: "#ffd93d" },
+            { name: "喀土穆", nameEn: "Khartoum", lat: 15.5007, lon: 32.5599, color: "#ffd93d" },
+            { name: "摩加迪沙", nameEn: "Mogadishu", lat: 2.0469, lon: 45.3182, color: "#ffd93d" },
+            { name: "多多马", nameEn: "Dodoma", lat: -6.163, lon: 35.7516, color: "#ffd93d" },
+            { name: "突尼斯", nameEn: "Tunis", lat: 36.8065, lon: 10.1815, color: "#ffd93d" },
+            { name: "坎帕拉", nameEn: "Kampala", lat: 0.3476, lon: 32.5825, color: "#ffd93d" },
+            { name: "卢萨卡", nameEn: "Lusaka", lat: -15.3875, lon: 28.3228, color: "#ffd93d" },
+            { name: "恩贾梅纳", nameEn: "N'Djamena", lat: 12.1348, lon: 15.0557, color: "#ffd93d" },
+            { name: "班吉", nameEn: "Bangui", lat: 4.3947, lon: 18.5582, color: "#ffd93d" },
+            { name: "地拉那", nameEn: "Tirana", lat: 41.3275, lon: 19.8187, color: "#6bcfbf" },
+            { name: "塔林", nameEn: "Tallinn", lat: 59.437, lon: 24.7536, color: "#6bcfbf" },
+            { name: "维也纳", nameEn: "Vienna", lat: 48.2082, lon: 16.3738, color: "#6bcfbf" },
+            { name: "明斯克", nameEn: "Minsk", lat: 53.9045, lon: 27.5615, color: "#6bcfbf" },
+            { name: "索非亚", nameEn: "Sofia", lat: 42.6977, lon: 23.3219, color: "#6bcfbf" },
+            { name: "斯科普里", nameEn: "Skopje", lat: 41.9973, lon: 21.428, color: "#6bcfbf" },
+            { name: "萨拉热窝", nameEn: "Sarajevo", lat: 43.8563, lon: 18.4131, color: "#6bcfbf" },
+            { name: "华沙", nameEn: "Warsaw", lat: 52.2297, lon: 21.0122, color: "#6bcfbf" },
+            { name: "莫斯科", nameEn: "Moscow", lat: 55.7558, lon: 37.6173, color: "#6bcfbf" },
+            { name: "波德戈里察", nameEn: "Podgorica", lat: 42.4304, lon: 19.2594, color: "#6bcfbf" },
+            { name: "布拉格", nameEn: "Prague", lat: 50.0755, lon: 14.4378, color: "#6bcfbf" },
+            { name: "萨格勒布", nameEn: "Zagreb", lat: 45.815, lon: 15.9819, color: "#6bcfbf" },
+            { name: "里加", nameEn: "Riga", lat: 56.9496, lon: 24.1052, color: "#6bcfbf" },
+            { name: "维尔纽斯", nameEn: "Vilnius", lat: 54.6872, lon: 25.2797, color: "#6bcfbf" },
+            { name: "卢森堡", nameEn: "Luxembourg", lat: 49.6116, lon: 6.1319, color: "#6bcfbf" },
+            { name: "布加勒斯特", nameEn: "Bucharest", lat: 44.4268, lon: 26.1025, color: "#6bcfbf" },
+            { name: "瓦莱塔", nameEn: "Valletta", lat: 35.8989, lon: 14.5146, color: "#6bcfbf" },
+            { name: "基希讷乌", nameEn: "Chisinau", lat: 47.0105, lon: 28.8638, color: "#6bcfbf" },
+            { name: "里斯本", nameEn: "Lisbon", lat: 38.7223, lon: -9.1393, color: "#6bcfbf" },
+            { name: "贝尔格莱德", nameEn: "Belgrade", lat: 44.7866, lon: 20.4489, color: "#6bcfbf" },
+            { name: "尼科西亚", nameEn: "Nicosia", lat: 35.1856, lon: 33.3823, color: "#6bcfbf" },
+            { name: "布拉迪斯拉发", nameEn: "Bratislava", lat: 48.1486, lon: 17.1077, color: "#6bcfbf" },
+            { name: "卢布尔雅那", nameEn: "Ljubljana", lat: 46.0569, lon: 14.5058, color: "#6bcfbf" },
+            { name: "基辅", nameEn: "Kyiv", lat: 50.4501, lon: 30.5234, color: "#6bcfbf" },
+            { name: "雅典", nameEn: "Athens", lat: 37.9838, lon: 23.7275, color: "#6bcfbf" },
+            { name: "布达佩斯", nameEn: "Budapest", lat: 47.4979, lon: 19.0402, color: "#6bcfbf" },
+            { name: "罗马", nameEn: "Rome", lat: 41.9028, lon: 12.4964, color: "#6bcfbf" },
+            { name: "堪培拉", nameEn: "Canberra", lat: -35.2809, lon: 149.13, color: "#c084fc" },
+            { name: "惠灵顿", nameEn: "Wellington", lat: -41.2865, lon: 174.7762, color: "#c084fc" },
+            { name: "阿瓦鲁阿", nameEn: "Avarua", lat: -21.2124, lon: -159.7825, color: "#c084fc" },
+            { name: "帕利基尔", nameEn: "Palikir", lat: 6.9248, lon: 158.1611, color: "#c084fc" },
+            { name: "阿洛菲", nameEn: "Alofi", lat: -19.0544, lon: -169.9176, color: "#c084fc" },
+            { name: "霍尼亚拉", nameEn: "Honiara", lat: -9.4456, lon: 159.9729, color: "#c084fc" },
+            { name: "努库阿洛法", nameEn: "Nuku'alofa", lat: -21.1394, lon: -175.2018, color: "#c084fc" },
+            { name: "维拉港", nameEn: "Port Vila", lat: -17.7333, lon: 168.3273, color: "#c084fc" },
+            { name: "苏瓦", nameEn: "Suva", lat: -18.1248, lon: 178.4501, color: "#c084fc" },
+            { name: "塔拉瓦", nameEn: "Tarawa", lat: 1.3272, lon: 172.9813, color: "#c084fc" },
+            { name: "马久罗", nameEn: "Majuro", lat: 7.1164, lon: 171.184, color: "#c084fc" },
+            { name: "布宜诺斯艾利斯", nameEn: "Buenos Aires", lat: -34.6037, lon: -58.3816, color: "#52d681" },
+            { name: "西班牙港", nameEn: "Port of Spain", lat: 10.6549, lon: -61.5019, color: "#52d681" },
+            { name: "圣何塞", nameEn: "San Jose", lat: 9.9281, lon: -84.0907, color: "#52d681" },
+            { name: "哈瓦那", nameEn: "Havana", lat: 23.1136, lon: -82.3666, color: "#52d681" },
+            { name: "圣多明各", nameEn: "Santo Domingo", lat: 18.4861, lon: -69.9312, color: "#52d681" },
+            { name: "基多", nameEn: "Quito", lat: -0.1807, lon: -78.4678, color: "#52d681" },
+            { name: "圣萨尔瓦多", nameEn: "San Salvador", lat: 13.6929, lon: -89.2182, color: "#52d681" },
+            { name: "圣乔治", nameEn: "St. George's", lat: 12.0561, lon: -61.7488, color: "#52d681" },
+            { name: "马那瓜", nameEn: "Managua", lat: 12.115, lon: -86.2362, color: "#52d681" },
+            { name: "亚松森", nameEn: "Asuncion", lat: -25.2637, lon: -57.5759, color: "#52d681" },
+            { name: "帕拉马里博", nameEn: "Paramaribo", lat: 5.852, lon: -55.2038, color: "#52d681" },
+            { name: "蒙得维的亚", nameEn: "Montevideo", lat: -34.9011, lon: -56.1645, color: "#52d681" },
+            { name: "加拉加斯", nameEn: "Caracas", lat: 10.4806, lon: -66.9036, color: "#52d681" },
+            { name: "乔治敦", nameEn: "Georgetown", lat: 6.8013, lon: -58.1553, color: "#52d681" },
+            { name: "圣约翰", nameEn: "St. John's", lat: 17.1274, lon: -61.8468, color: "#52d681" },
+            { name: "罗索", nameEn: "Roseau", lat: 15.415, lon: -61.371, color: "#52d681" },
+            { name: "太子港", nameEn: "Port-au-Prince", lat: 18.5944, lon: -72.3074, color: "#52d681" },
+            { name: "巴拿马城", nameEn: "Panama City", lat: 8.9824, lon: -79.5199, color: "#52d681" },
+            { name: "圣菲波哥大", nameEn: "Bogota", lat: 4.711, lon: -74.0721, color: "#52d681" },
+            { name: "圣地亚哥", nameEn: "Santiago", lat: -33.4489, lon: -70.6693, color: "#52d681" },
+            { name: "巴西利亚", nameEn: "Brasilia", lat: -15.7975, lon: -47.8919, color: "#52d681" },
+            { name: "利马", nameEn: "Lima", lat: -12.0464, lon: -77.0428, color: "#52d681" },
+            { name: "拉巴斯", nameEn: "La Paz", lat: -16.5, lon: -68.15, color: "#52d681" }
+        ];
+
+        // 经纬度转换为3D坐标（水平面正上方视角）
+        function latLonToXYZ(lat, lon, radius) {
+            const latRad = lat * Math.PI / 180;
+            const lonRad = lon * Math.PI / 180;
+            
+            // 正上方俯视（北极视角），经度对应平面角度
+            const x = radius * Math.cos(latRad) * Math.sin(lonRad);
+            const y = -radius * Math.sin(latRad);
+            const z = radius * Math.cos(latRad) * Math.cos(lonRad);
+            
+            return { x, y, z };
+        }
+
+        // 初始化城市标记
+        function initCities() {
+            const container = document.getElementById('earthWireframe');
+            const radius = 42.5; // vmin单位
+
+            cities.forEach((city, index) => {
+                const pos = latLonToXYZ(city.lat, city.lon, radius);
+                
+                const marker = document.createElement('div');
+                marker.className = 'city-marker';
+                marker.style.color = city.color;
+                marker.style.transform = `translate3d(${pos.x}vmin, ${pos.y}vmin, ${pos.z}vmin)`;
+                
+                marker.innerHTML = `
+                    <div class="city-point" style="background-color: ${city.color}; animation-delay: ${index * 0.2}s;"></div>
+                    <div class="city-label">${city.name}</div>
+                    <div class="city-label city-label-en">${city.nameEn}</div>
+                `;
+                
+                container.appendChild(marker);
+            });
+        }
+
+        // 切换框架显示/隐藏
+        function toggleFramework() {
+            const framework = document.getElementById('frameworkSvg');
+            const scene = document.getElementById('earthScene');
+            const overlay = document.getElementById('glassOverlay');
+            const title = document.getElementById('mainTitle');
+            const langSwitch = document.getElementById('langSwitch');
+            const hint = document.getElementById('hintText');
+
+            isFrameworkVisible = !isFrameworkVisible;
+
+            if (isFrameworkVisible) {
+                framework.classList.remove('hidden');
+                scene.classList.remove('fullscreen');
+                scene.classList.add('blur');
+                overlay.classList.add('active');
+                title.classList.remove('hidden-mode');
+                langSwitch.style.opacity = '1';
+                hint.classList.remove('visible');
+                hint.textContent = currentLang === 'zh' ? '点击标题隐藏框架 | Click title to hide' : '点击标题隐藏框架 | Click title to hide';
+            } else {
+                framework.classList.add('hidden');
+                scene.classList.add('fullscreen');
+                if (scene) scene.classList.remove('blur');
+                overlay.classList.remove('active');
+                title.classList.add('hidden-mode');
+                langSwitch.style.opacity = '0';
+                hint.classList.add('visible');
+                hint.textContent = currentLang === 'zh' ? '点击标题显示框架 | Click title to show framework' : '点击标题显示框架 | Click title to show framework';
+            }
+        }
+
+        // 语言切换功能
+        function switchLang(lang) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            const hint = document.getElementById('hintText');
+            if (isFrameworkVisible) {
+                hint.textContent = lang === 'zh' ? '点击标题隐藏框架 | Click title to hide' : '点击标题隐藏框架 | Click title to hide';
+            } else {
+                hint.textContent = lang === 'zh' ? '点击标题显示框架 | Click title to show framework' : '点击标题显示框架 | Click title to show framework';
+            }
+
+            const elements = document.querySelectorAll('[data-zh][data-en]');
+            elements.forEach(el => {
+                const content = lang === 'zh' ? el.getAttribute('data-zh') : el.getAttribute('data-en');
+
+                // 添加/移除英文样式类
+                if (lang === 'en') {
+                    el.classList.add('en');
+                } else {
+                    el.classList.remove('en');
+                }
+                
+                if (el.tagName === 'text') {
+                    el.innerHTML = '';
+                    
+                    if (content.includes('&#10;')) {
+                        const lines = content.split('&#10;');
+                        lines.forEach((line, index) => {
+                            const tspan = document.createElementNS('http://www.w3.org/2000/svg', 'tspan');
+                            tspan.textContent = line;
+                            tspan.setAttribute('x', el.getAttribute('x'));
+                            
+                            let dy;
+                            if (lang === 'en') {
+                                // 英文使用更紧凑的行间距
+                                if (lines.length === 2) {
+                                    dy = index === 0 ? '-3' : '11';
+                                } else if (lines.length === 3) {
+                                    dy = index === 0 ? '-6' : (index === 1 ? '10' : '10');
+                                } else if (lines.length === 4) {
+                                    dy = index === 0 ? '-7' : (index === 1 ? '8' : (index === 2 ? '8' : '8'));
+                                }
+                            } else {
+                                // 中文使用正常行间距
+                                if (lines.length === 2) {
+                                    dy = index === 0 ? '-5' : '13';
+                                } else if (lines.length === 3) {
+                                    dy = index === 0 ? '-10' : (index === 1 ? '12' : '12');
+                                } else if (lines.length === 4) {
+                                    dy = index === 0 ? '-12' : (index === 1 ? '10' : (index === 2 ? '10' : '10'));
+                                }
+                            }
+                            tspan.setAttribute('dy', dy);
+                            el.appendChild(tspan);
+                        });
+
+                        if (lang === 'en' && (el.id === 'title1' || el.id === 'title2' || el.id === 'title3')) {
+                            el.classList.add('en-small');
+                        } else {
+                            el.classList.remove('en-small');
+                        }
+                    } else {
+                        el.textContent = content;
+                        el.classList.remove('en-small');
+                    }
+                } else {
+                    el.textContent = content;
+                }
+            });
+
+                    // 更新图例语言
+        document.querySelectorAll('.region-legend [data-zh][data-en]').forEach(el => {
+            const content = lang === 'zh' ? el.getAttribute('data-zh') : el.getAttribute('data-en');
+
+                // 添加/移除英文样式类
+                if (lang === 'en') {
+                    el.classList.add('en');
+                } else {
+                    el.classList.remove('en');
+                }
+            el.textContent = content;
+        });
+        document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+        }
+
+        // 初始化
+        window.addEventListener('load', function() {
+            // 初始化：显示框架，地球模糊
+            const scene = document.getElementById('earthScene');
+            const overlay = document.getElementById('glassOverlay');
+            if (scene) scene.classList.add('blur');
+            if (overlay) overlay.classList.add('active');
+
+            initCities();
+            switchLang('zh');
+            document.getElementById('glassOverlay').classList.add('active');
+        });
+
+        // 鼠标悬停效果
+        document.querySelectorAll('.content-box').forEach(box => {
+            box.addEventListener('mouseenter', function() {
+                this.style.fill = 'rgba(74, 158, 255, 0.4)';
+                this.style.stroke = '#00ffff';
+                this.style.transition = 'all 0.3s';
+            });
+            box.addEventListener('mouseleave', function() {
+                this.style.fill = 'rgba(20, 30, 60, 0.9)';
+                this.style.stroke = '#6b8cce';
+            });
+        });
+    </script>
+
+    <!-- 弹出层（模态框） -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <div class="modal-close" onclick="closeModal()">×</div>
+            <div class="modal-title" id="modalTitle"></div>
+            <div class="modal-text" id="modalText"></div>
+        </div>
+    </div>
+
+</body>
+</html>
