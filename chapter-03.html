@@ -224,29 +224,111 @@
             margin-bottom: 0.5rem;
         }
         
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .three-panel-grid {
-                grid-template-columns: 1fr;
-                height: auto;
-                overflow-y: auto;
+        /* ============================================
+           RESPONSIVE DESIGN - Mobile & Desktop
+           ============================================ */
+
+        /* Desktop First (Default): Above styles apply for desktop */
+
+        /* Mobile Override */
+        @media screen and (max-width: 1024px) {
+            /* Reset all constraints */
+            html, body {
+                height: auto !important;
+                min-height: 100vh !important;
+                max-height: none !important;
+                overflow: visible !important;
+                overflow-x: hidden !important;
+                position: static !important;
             }
+
+            /* Stack vertically */
+            .three-panel-grid {
+                display: block !important;
+                width: 100% !important;
+                height: auto !important;
+                min-height: auto !important;
+                max-height: none !important;
+                overflow: visible !important;
+                padding: 10px !important;
+                gap: 0 !important;
+                grid-template-columns: none !important;
+            }
+
+            /* Each panel as block */
             .panel-card {
-                height: auto;
-                max-height: none;
+                display: block !important;
+                width: 100% !important;
+                height: auto !important;
+                min-height: auto !important;
+                max-height: none !important;
+                overflow: visible !important;
+                margin-bottom: 15px !important;
+                border-radius: 8px !important;
+                position: relative !important;
+                flex: none !important;
             }
+
+            .panel-card:last-child {
+                margin-bottom: 30px !important;
+            }
+
+            /* Header */
+            .panel-header {
+                position: relative !important;
+                height: auto !important;
+                flex-shrink: 0 !important;
+            }
+
+            /* Content */
             .panel-content {
-                max-height: 600px;
+                display: block !important;
+                height: auto !important;
+                min-height: auto !important;
+                max-height: none !important;
+                overflow: visible !important;
+                padding: 15px !important;
+                flex: none !important;
+            }
+
+            /* Ensure L3 cards work */
+            .l3-entry-card {
+                cursor: pointer !important;
+                position: relative !important;
             }
         }
-        
-        @media (max-width: 768px) {
+
+        @media screen and (max-width: 480px) {
             .three-panel-grid {
-                padding: 1rem;
-                gap: 1rem;
+                padding: 8px !important;
             }
+
+            .panel-card {
+                margin-bottom: 12px !important;
+            }
+        }</style>
+
+    <!-- Mobile Fix Script -->
+    <script>
+    (function() {
+        // Detect mobile immediately
+        if (window.innerWidth <= 1024 || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+            // Force mobile styles
+            var style = document.createElement('style');
+            style.innerHTML = [
+                'html,body{height:auto!important;min-height:100vh!important;overflow:visible!important;overflow-x:hidden!important}',
+                '.three-panel-grid{display:block!important;height:auto!important;overflow:visible!important;padding:10px!important}',
+                '.panel-card{display:block!important;width:100%!important;height:auto!important;margin-bottom:15px!important;overflow:visible!important}',
+                '.panel-content{height:auto!important;overflow:visible!important}',
+                '.panel-header{position:relative!important}'
+            ].join('');
+            document.head.appendChild(style);
+            console.log('Mobile layout applied');
         }
-    </style>
+    })();
+    </script>
+
+<base target="_blank">
 </head>
 <body>
 
@@ -375,7 +457,7 @@
                         </div>
                         <div class="flex-1">
                             <div class="flex items-center gap-2 mb-1">
-                                <h4 class="font-bold text-white text-base">View ECRL SDG Sukuk Structure</h4>
+                                <h4 class="font-bold text-white text-xs">View ECRL SDG Sukuk Structure</h4>
                                 <span class="px-2 py-0.5 bg-amber-500/30 border border-amber-400/50 rounded text-[10px] text-amber-100">L3</span>
                             </div>
                             <p class="text-amber-100 text-xs leading-relaxed mb-2">
@@ -436,7 +518,7 @@
                         </div>
                         <div class="flex-1">
                             <div class="flex items-center gap-2 mb-1">
-                                <h4 class="font-bold text-white text-base">View Data Analysis Framework</h4>
+                                <h4 class="font-bold text-white text-xs">View Data Analysis Framework</h4>
                                 <span class="px-2 py-0.5 bg-teal-500/30 border border-teal-400/50 rounded text-[10px] text-teal-100">L3</span>
                             </div>
                             <p class="text-teal-100 text-xs leading-relaxed mb-2">
