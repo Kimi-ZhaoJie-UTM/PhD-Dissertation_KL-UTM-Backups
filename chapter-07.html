@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 07 - Case Study: ECRL SDG Sukuk | 第七章 案例深描</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f8fafc;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .serif-sc {
+            font-family: 'Noto Serif SC', serif;
+        }
+        
+        /* Three Panel Layout - Critical for independent scrolling */
+        .three-panel-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1.5rem;
+            height: 100%;
+            padding: 1.5rem;
+        }
+        
+        .panel-card {
+            background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: 1rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            height: 100%;
+        }
+        
+        .panel-header {
+            padding: 1.25rem;
+            border-bottom: 1px solid #e2e8f0;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            flex-shrink: 0;
+        }
+        
+        .panel-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1.25rem;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(0,0,0,0.15) transparent;
+        }
+        
+        .panel-content::-webkit-scrollbar {
+            width: 6px;
+        }
+        .panel-content::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.03);
+            border-radius: 3px;
+        }
+        .panel-content::-webkit-scrollbar-thumb {
+            background: rgba(0,0,0,0.15);
+            border-radius: 3px;
+        }
+        .panel-content::-webkit-scrollbar-thumb:hover {
+            background: rgba(0,0,0,0.25);
+        }
+
+        /* Amber theme for Chapter 07 (Core Chapter) */
+        .border-t-amber { border-top-color: #d97706; }
+        .bg-amber-50 { background-color: #fffbeb; }
+        .border-amber-200 { border-color: #fde68a; }
+        .text-amber-900 { color: #78350f; }
+        .text-amber-800 { color: #92400e; }
+        .text-amber-700 { color: #b45309; }
+        .text-amber-600 { color: #d97706; }
+        .bg-gradient-to-br { background-image: linear-gradient(to bottom right, var(--tw-gradient-stops)); }
+        .from-amber-50 { --tw-gradient-from: #fffbeb; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(255, 251, 235, 0)); }
+        
+        /* Content Styling */
+        .bilingual-item {
+            margin-bottom: 0.75rem;
+        }
+        .bilingual-en {
+            display: block;
+            font-size: 0.75rem;
+            line-height: 1.4;
+            color: #475569;
+        }
+        .bilingual-cn {
+            display: block;
+            font-size: 0.7rem;
+            line-height: 1.4;
+            color: #64748b;
+            font-family: 'Noto Serif SC', serif;
+            margin-top: 0.15rem;
+        }
+        
+        /* Feature cards with accent colors */
+        .feature-card {
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+        .feature-card.border-accent-amber { border-top: 3px solid #f59e0b; }
+        .feature-card.border-accent-blue { border-top: 3px solid #3b82f6; }
+        .feature-card.border-accent-green { border-top: 3px solid #10b981; }
+        .feature-card.border-accent-purple { border-top: 3px solid #8b5cf6; }
+        .feature-card.border-accent-red { border-top: 3px solid #ef4444; }
+        
+        /* Section headers */
+        .section-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        
+        /* Risk allocation cards */
+        .risk-card {
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 0.5rem;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            border-left: 3px solid;
+        }
+        .risk-card.political { border-left-color: #dc2626; background: #fef2f2; }
+        .risk-card.construction { border-left-color: #ea580c; background: #fff7ed; }
+        .risk-card.operational { border-left-color: #ca8a04; background: #fefce8; }
+        .risk-card.market { border-left-color: #16a34a; background: #f0fdf4; }
+        
+        .risk-title {
+            font-weight: 700;
+            font-size: 0.75rem;
+            margin-bottom: 0.25rem;
+        }
+        .risk-card.political .risk-title { color: #991b1b; }
+        .risk-card.construction .risk-title { color: #9a3412; }
+        .risk-card.operational .risk-title { color: #854d0e; }
+        .risk-card.market .risk-title { color: #166534; }
+        
+        .risk-content {
+            font-size: 0.7rem;
+            color: #475569;
+            line-height: 1.3;
+        }
+        .risk-content .cn {
+            display: block;
+            color: #64748b;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.65rem;
+            margin-top: 0.1rem;
+        }
+        
+        /* SDG Tags */
+        .sdg-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        .sdg-tag {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.375rem;
+            padding: 0.5rem;
+            text-align: center;
+            font-size: 0.65rem;
+        }
+        .sdg-tag .number {
+            font-weight: 700;
+            color: #d97706;
+            font-size: 0.8rem;
+        }
+        .sdg-tag .name {
+            color: #475569;
+            display: block;
+            margin-top: 0.1rem;
+        }
+        .sdg-tag .cn {
+            color: #64748b;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.6rem;
+            display: block;
+            margin-top: 0.1rem;
+        }
+        
+        /* Comparison table */
+        .comparison-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.7rem;
+        }
+        .comparison-row:last-child {
+            border-bottom: none;
+        }
+        .comparison-label {
+            font-weight: 600;
+            color: #475569;
+        }
+        .comparison-value {
+            color: #64748b;
+            text-align: right;
+        }
+        .comparison-value.traditional {
+            color: #dc2626;
+        }
+        .comparison-value.sukuk {
+            color: #16a34a;
+        }
+        
+        /* Validation checklist */
+        .validation-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .validation-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            font-size: 0.7rem;
+            color: #475569;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .validation-item:last-child {
+            border-bottom: none;
+        }
+        .check-icon {
+            width: 1rem;
+            height: 1rem;
+            background: #d97706;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 0.6rem;
+        }
+        .validation-item .cn {
+            display: block;
+            color: #64748b;
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.65rem;
+            margin-top: 0.1rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .three-panel-grid {
+                grid-template-columns: 1fr;
+                height: auto;
+                overflow-y: auto;
+            }
+            .panel-card {
+                height: auto;
+                max-height: none;
+                margin-bottom: 1rem;
+            }
+            .panel-content {
+                max-height: 500px;
+            }
+            .sdg-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .three-panel-grid {
+                padding: 1rem;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Three Panel Layout -->
+    <div class="three-panel-grid">
+        
+        <!-- Left Panel: Transaction Structure -->
+        <div class="panel-card border-t-4 border-t-amber">
+            <div class="panel-header">
+                <h3 class="text-lg font-bold text-slate-800">Transaction Structure | 交易结构</h3>
+            </div>
+            <div class="panel-content space-y-4">
+                
+                <!-- ECRL Project Overview -->
+                <div class="feature-card border-accent-amber">
+                    <h4 class="section-title">
+                        <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        ECRL Project | 东海岸铁路项目
+                    </h4>
+                    <div class="space-y-2">
+                        <div class="bilingual-item">
+                            <span class="bilingual-en font-medium">665km railway connecting Kota Bharu (Kelantan) to Port Klang (Selangor), traversing the Malaysian Peninsula.</span>
+                            <span class="bilingual-cn">665公里铁路连接哥打巴鲁（吉兰丹）至巴生港（雪兰莪），穿越马来西亚半岛。</span>
+                        </div>
+                        <div class="bg-amber-50 p-2 rounded border border-amber-200 text-xs">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-bold text-amber-800">Project Value:</span>
+                                <span class="font-bold text-amber-900">RM44 billion</span>
+                            </div>
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-bold text-amber-800">Status:</span>
+                                <span class="text-amber-800">Renegotiated (2019)</span>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <span class="font-bold text-amber-800">Classification:</span>
+                                <span class="text-amber-800">Flagship BRI Project</span>
+                            </div>
+                            <div class="mt-2 text-[10px] text-amber-700 font-serif-sc border-t border-amber-200 pt-1">
+                                项目价值440亿令吉（重新谈判后），马来西亚最大基础设施项目，一带一路旗舰项目
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sukuk Structure -->
+                <div class="feature-card border-accent-blue">
+                    <h4 class="section-title">
+                        <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                        Sukuk Structure | 债券结构
+                    </h4>
+                    <div class="space-y-2 text-xs">
+                        <div class="bilingual-item">
+                            <span class="bilingual-en"><span class="font-medium text-blue-800">Structure Type:</span> Ijarah (lease-based) with hybrid Mudarabah elements</span>
+                            <span class="bilingual-cn">结构类型：租赁型（Ijarah）含混合 Mudarabah 元素</span>
+                        </div>
+                        <div class="bilingual-item">
+                            <span class="bilingual-en"><span class="font-medium text-blue-800">Guarantee:</span> Sovereign guarantee from Government of Malaysia</span>
+                            <span class="bilingual-cn">担保：马来西亚政府主权担保</span>
+                        </div>
+                        <div class="bilingual-item">
+                            <span class="bilingual-en"><span class="font-medium text-blue-800">Historical Significance:</span> First government-guaranteed SDG Sukuk in Malaysia</span>
+                            <span class="bilingual-cn">历史意义：马来西亚首个政府担保SDG伊斯兰债券</span>
+                        </div>
+                        <div class="bg-blue-50 p-2 rounded border border-blue-200 mt-2">
+                            <div class="text-blue-900 font-medium mb-1">Key Innovation:</div>
+                            <div class="text-blue-800 text-[10px]">
+                                Multi-tranche structure with ESG-linked pricing mechanism - demonstrating innovative blended finance approach
+                                <span class="block text-blue-700 font-serif-sc mt-1">多批次结构与ESG挂钩定价机制 - 展示创新混合融资方法</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Financing Architecture -->
+                <div class="bg-gradient-to-br from-amber-50 to-white rounded-lg p-3 border border-amber-200">
+                    <h4 class="font-bold text-amber-900 text-xs mb-2 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                        Financing Architecture | 融资架构
+                    </h4>
+                    <div class="space-y-2">
+                        <div class="bg-white/70 p-2 rounded text-xs">
+                            <div class="font-medium text-amber-800 mb-1">Capital Stack:</div>
+                            <div class="space-y-1 text-amber-900">
+                                <div class="flex justify-between">
+                                    <span>Senior Tranche (Sovereign-backed)</span>
+                                    <span class="font-medium">70%</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Mezzanine Tranche</span>
+                                    <span class="font-medium">20%</span>
+                                </div>
+                                <div class="flex justify-between">
+                                    <span>Equity/Subordinated</span>
+                                    <span class="font-medium">10%</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-[10px] text-amber-800 font-serif-sc">
+                            优先批次（主权支持）占70%，次级批次20%，股权/次级占10%，形成多层次风险分配
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Parties Involved -->
+                <div class="bg-slate-50 rounded-lg p-3 border border-slate-200">
+                    <h4 class="font-bold text-slate-800 text-xs mb-2">Key Parties | 参与方</h4>
+                    <div class="space-y-1 text-xs text-slate-600">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 bg-amber-500 rounded-full"></span>
+                            <span><strong>Issuer:</strong> Malaysia Rail Link Sdn Bhd</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 bg-blue-500 rounded-full"></span>
+                            <span><strong>Lead Arranger:</strong> Maybank Islamic</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                            <span><strong>Guarantor:</strong> Government of Malaysia</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 bg-purple-500 rounded-full"></span>
+                            <span><strong>Shariah Advisor:</strong> Shariah Advisory Council (SAC) of BNM</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Center Panel: Risk Sharing -->
+        <div class="panel-card border-t-4 border-t-amber">
+            <div class="panel-header">
+                <h3 class="text-lg font-bold text-slate-800">Risk Sharing | 风险分担机制</h3>
+            </div>
+            <div class="panel-content space-y-4">
+                
+                <!-- Risk Allocation Framework -->
+                <div class="feature-card border-accent-green">
+                    <h4 class="section-title">
+                        <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                        Risk Allocation Framework | 风险分配框架
+                    </h4>
+                    
+                    <div class="risk-card political">
+                        <div class="risk-title">Political Risk | 政治风险</div>
+                        <div class="risk-content">
+                            <strong>Borne by:</strong> Government of Malaysia (via sovereign guarantee)
+                            <span class="cn">由马来西亚政府承担（通过主权担保）</span>
+                        </div>
+                    </div>
+                    
+                    <div class="risk-card construction">
+                        <div class="risk-title">Construction Risk | 完工风险</div>
+                        <div class="risk-content">
+                            <strong>Borne by:</strong> CCCC (China Communications Construction Company) as EPC contractor
+                            <span class="cn">由中国交建作为EPC承包商承担</span>
+                        </div>
+                    </div>
+                    
+                    <div class="risk-card operational">
+                        <div class="risk-title">Operational Risk | 运营风险</div>
+                        <div class="risk-content">
+                            <strong>Borne by:</strong> Shared between project company (MRL) and operator (future concessionaire)
+                            <span class="cn">由项目公司（MRL）与运营商（未来特许经营者）分担</span>
+                        </div>
+                    </div>
+                    
+                    <div class="risk-card market">
+                        <div class="risk-title">Market Risk | 市场风险</div>
+                        <div class="risk-content">
+                            <strong>Borne by:</strong> Sukuk holders (based on asset/project performance and ridership revenue)
+                            <span class="cn">由债券持有人承担（基于资产/项目表现和客流量收入）</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comparison with Traditional Financing -->
+                <div class="bg-blue-50 rounded-lg p-3 border border-blue-200">
+                    <h4 class="font-bold text-blue-900 text-xs mb-2 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path></svg>
+                        Comparison | 与传统融资对比
+                    </h4>
+                    
+                    <div class="bg-white rounded border border-blue-100 overflow-hidden">
+                        <div class="comparison-row bg-blue-50">
+                            <span class="comparison-label">Feature | 特征</span>
+                            <div class="flex gap-2">
+                                <span class="comparison-value traditional">Traditional Loan</span>
+                                <span class="comparison-value sukuk">Sukuk</span>
+                            </div>
+                        </div>
+                        <div class="comparison-row">
+                            <span class="comparison-label">Returns | 回报</span>
+                            <div class="flex gap-2 text-[10px]">
+                                <span class="comparison-value traditional">Fixed interest</span>
+                                <span class="comparison-value sukuk">Asset-linked</span>
+                            </div>
+                        </div>
+                        <div class="comparison-row">
+                            <span class="comparison-label">Risk | 风险</span>
+                            <div class="flex gap-2 text-[10px]">
+                                <span class="comparison-value traditional">Borrower bears all</span>
+                                <span class="comparison-value sukuk">Shared among parties</span>
+                            </div>
+                        </div>
+                        <div class="comparison-row">
+                            <span class="comparison-label">Asset | 资产</span>
+                            <div class="flex gap-2 text-[10px]">
+                                <span class="comparison-value traditional">No transfer</span>
+                                <span class="comparison-value sukuk">True sale/lease</span>
+                            </div>
+                        </div>
+                        <div class="comparison-row">
+                            <span class="comparison-label">Compliance | 合规</span>
+                            <div class="flex gap-2 text-[10px]">
+                                <span class="comparison-value traditional">Conventional</span>
+                                <span class="comparison-value sukuk">Shariah-compliant</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-2 text-[10px] text-blue-800 font-serif-sc">
+                        与传统银行贷款（固定利息）不同，伊斯兰债券回报与资产/项目表现挂钩，创造真正的风险分担而非债务关系
+                    </div>
+                </div>
+
+                <!-- Risk Sharing Mechanism -->
+                <div class="bg-green-50 rounded-lg p-3 border border-green-200">
+                    <h4 class="font-bold text-green-900 text-xs mb-2">Islamic Finance Principle | 伊斯兰金融原则</h4>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en font-medium">Unlike conventional loans where the borrower bears nearly all risks while paying fixed interest, Sukuk embodies the Islamic principle of <em>al-ghunm bi al-ghurm</em> (profit accompanies risk).</span>
+                        <span class="bilingual-cn">与传统贷款不同（借款人承担几乎所有风险同时支付固定利息），伊斯兰债券体现了<em>al-ghunm bi al-ghurm</em>（利润伴随风险）的伊斯兰原则。</span>
+                    </div>
+                    <div class="mt-2 bg-white/60 p-2 rounded text-xs text-green-800">
+                        <strong>Key Distinction:</strong> Investors are not creditors but asset co-owners, sharing both upside potential and downside risks
+                        <span class="block text-green-700 font-serif-sc mt-1">关键区别：投资者不是债权人而是资产共有人，共享上行潜力和下行风险</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Right Panel: SDG Integration -->
+        <div class="panel-card border-t-4 border-t-amber">
+            <div class="panel-header">
+                <h3 class="text-lg font-bold text-slate-800">SDG Integration | SDG融合</h3>
+            </div>
+            <div class="panel-content space-y-4">
+                
+                <!-- SDG Alignment -->
+                <div class="feature-card border-accent-purple">
+                    <h4 class="section-title">
+                        <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        SDG Alignment | SDG对接
+                    </h4>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en font-medium">ECRL SDG Sukuk explicitly links financing to sustainable development outcomes, contributing to Malaysia's commitment to the UN 2030 Agenda.</span>
+                        <span class="bilingual-cn">ECRL SDG Sukuk 明确将融资与可持续发展成果挂钩，为马来西亚履行联合国2030议程承诺做出贡献。</span>
+                    </div>
+                    
+                    <div class="sdg-grid">
+                        <div class="sdg-tag">
+                            <div class="number">SDG 9</div>
+                            <div class="name">Industry, Innovation</div>
+                            <div class="cn">产业与创新</div>
+                        </div>
+                        <div class="sdg-tag">
+                            <div class="number">SDG 11</div>
+                            <div class="name">Sustainable Cities</div>
+                            <div class="cn">可持续城市</div>
+                        </div>
+                        <div class="sdg-tag">
+                            <div class="number">SDG 13</div>
+                            <div class="name">Climate Action</div>
+                            <div class="cn">气候行动</div>
+                        </div>
+                        <div class="sdg-tag">
+                            <div class="number">SDG 17</div>
+                            <div class="name">Partnerships</div>
+                            <div class="cn">目标伙伴关系</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Certification & Monitoring -->
+                <div class="bg-green-50 rounded-lg p-3 border border-green-200">
+                    <h4 class="font-bold text-green-900 text-xs mb-2 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        Certification & Monitoring | 认证与监督
+                    </h4>
+                    <div class="space-y-2 text-xs">
+                        <div class="bilingual-item">
+                            <span class="bilingual-en"><span class="font-medium text-green-800">Third-party ESG Certification:</span> Sustainalytics providing independent assessment of environmental and social impact</span>
+                            <span class="bilingual-cn">第三方ESG认证：Sustainalytics 提供环境和社会影响的独立评估</span>
+                        </div>
+                        <div class="bilingual-item">
+                            <span class="bilingual-en"><span class="font-medium text-green-800">Annual Impact Reporting:</span> Mandatory disclosure of SDG contribution metrics (carbon reduction, jobs created, connectivity improvement)</span>
+                            <span class="bilingual-cn">年度影响报告：强制披露SDG贡献指标（碳减排、创造就业、连通性改善）</span>
+                        </div>
+                        <div class="bilingual-item">
+                            <span class="bilingual-en"><span class="font-medium text-green-800">Use-of-Proceeds Tracking:</span> Ring-fenced accounts ensuring funds deployed to certified green/sustainable infrastructure</span>
+                            <span class="bilingual-cn">资金用途追踪：隔离账户确保资金用于认证的绿色/可持续基础设施</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Framework Validation -->
+                <div class="bg-amber-50 rounded-lg p-3 border border-amber-200">
+                    <h4 class="font-bold text-amber-900 text-xs mb-2 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+                        Framework Validation | 框架验证
+                    </h4>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en font-medium">ECRL SDG Sukuk validates the 3D framework's explanatory power by demonstrating concrete interaction mechanisms across all three dimensions:</span>
+                        <span class="bilingual-cn">ECRL SDG Sukuk 通过展示三个维度的具体互动机制，验证了三维框架的解释力：</span>
+                    </div>
+                    
+                    <ul class="validation-list">
+                        <li class="validation-item">
+                            <span class="check-icon">✓</span>
+                            <div>
+                                <strong>Strategic:</strong> Malaysia-China BRI cooperation at highest political level
+                                <span class="cn">战略层：马中最高层政治合作</span>
+                            </div>
+                        </li>
+                        <li class="validation-item">
+                            <span class="check-icon">✓</span>
+                            <div>
+                                <strong>Institutional:</strong> Shariah governance + SDG compliance frameworks working in tandem
+                                <span class="cn">制度层：教法治理与SDG合规框架协同运作</span>
+                            </div>
+                        </li>
+                        <li class="validation-item">
+                            <span class="check-icon">✓</span>
+                            <div>
+                                <strong>Market:</strong> Diverse investor base (Middle East, Malaysia, ESG funds) demonstrating market integration
+                                <span class="cn">市场层：多元投资者基础（中东、马来西亚、ESG基金）展示市场融合</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Innovation Significance -->
+                <div class="bg-purple-50 rounded-lg p-3 border border-purple-200">
+                    <h4 class="font-bold text-purple-900 text-xs mb-2 flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        Innovation Significance | 创新意义
+                    </h4>
+                    <div class="bilingual-item">
+                        <span class="bilingual-en font-medium">First sovereign SDG Sukuk demonstrates KL's leadership in innovative Islamic finance structuring for infrastructure, creating a template for future BRI project financing globally.</span>
+                        <span class="bilingual-cn">首个主权SDG伊斯兰债券展示吉隆坡在基础设施创新伊斯兰金融结构设计中的领导地位，为全球未来一带一路项目融资创建模板。</span>
+                    </div>
+                    <div class="mt-2 bg-white/60 p-2 rounded text-xs text-purple-800">
+                        <strong>Replicability:</strong> The ECRL model can be replicated for other BRI projects in Indonesia, Central Asia, and Africa seeking Shariah-compliant, ESG-aligned financing
+                        <span class="block text-purple-700 font-serif-sc mt-1">可复制性：ECRL模型可复制用于印度尼西亚、中亚和非洲其他寻求符合教法、ESG对齐融资的一带一路项目</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
