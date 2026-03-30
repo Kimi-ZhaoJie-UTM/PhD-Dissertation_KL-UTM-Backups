@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECRL SDG Sukuk 交易结构简图 | Transaction Structure</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', 'Inter', sans-serif;
+            background: linear-gradient(135deg, #fef9e7 0%, #fcf3cf 30%, #f9e79f 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            overflow-x: hidden;
+            color: #5d4e37;
+        }
+        
+        /* 金色背景装饰 */
+        .gold-bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.15;
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 50% 20%, rgba(212, 175, 55, 0.2) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .header-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid rgba(212, 175, 55, 0.5);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: #b8860b;
+            margin-bottom: 16px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.2);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #5d4e37;
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        
+        .header-subtitle {
+            color: #8b7355;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .header-desc {
+            color: #a0826d;
+            font-size: 0.9rem;
+            margin-top: 12px;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.6;
+        }
+        
+        .structure-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+            position: relative;
+        }
+        
+        /* 实体卡片 - 金色主题 */
+        .entity-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 20px;
+            padding: 28px 36px;
+            position: relative;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 2;
+            box-shadow: 
+                0 10px 30px rgba(139, 115, 85, 0.15),
+                0 4px 6px rgba(139, 115, 85, 0.05);
+        }
+        
+        .entity-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 
+                0 20px 40px rgba(139, 115, 85, 0.2),
+                0 0 0 4px rgba(212, 175, 55, 0.1);
+            border-color: rgba(212, 175, 55, 0.6);
+        }
+        
+        .entity-card.government {
+            width: 100%;
+            max-width: 650px;
+            border-top: 5px solid #d97706;
+            text-align: center;
+        }
+        
+        .entity-card.spv {
+            width: 100%;
+            max-width: 650px;
+            border-top: 5px solid #2563eb;
+            text-align: center;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.98), rgba(255,253,245,0.95));
+        }
+        
+        .entity-card.project {
+            border-top: 5px solid #dc2626;
+            text-align: center;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.98), rgba(255,250,250,0.95));
+        }
+        
+        .entity-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            margin: 0 auto 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .government .entity-icon { 
+            background: linear-gradient(135deg, #fbbf24, #f59e0b); 
+            color: white;
+        }
+        .spv .entity-icon { 
+            background: linear-gradient(135deg, #3b82f6, #2563eb); 
+            color: white;
+        }
+        .investors .entity-icon { 
+            background: linear-gradient(135deg, #10b981, #059669); 
+            color: white;
+        }
+        .asset .entity-icon { 
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed); 
+            color: white;
+        }
+        .project .entity-icon { 
+            background: linear-gradient(135deg, #f87171, #dc2626); 
+            color: white;
+        }
+        
+        .entity-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #4a4035;
+            margin-bottom: 6px;
+        }
+        
+        .entity-subtitle {
+            font-size: 0.9rem;
+            color: #8b7355;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+        }
+        
+        .entity-stats {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 12px 20px;
+            background: rgba(212, 175, 55, 0.08);
+            border-radius: 12px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        
+        .stat-value {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #b8860b;
+            margin-bottom: 4px;
+        }
+        
+        .stat-label {
+            font-size: 0.75rem;
+            color: #8b7355;
+            font-weight: 500;
+        }
+        
+        /* 连接线 */
+        .connector {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 16px 0;
+            position: relative;
+        }
+        
+        .connector-line {
+            width: 3px;
+            height: 50px;
+            background: linear-gradient(180deg, #d4af37 0%, #b8860b 50%, #d4af37 100%);
+            border-radius: 2px;
+        }
+        
+        .connector-label {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid #d97706;
+            border-radius: 50px;
+            padding: 6px 16px;
+            font-size: 0.8rem;
+            color: #d97706;
+            font-weight: 600;
+            white-space: nowrap;
+            box-shadow: 0 4px 12px rgba(217, 119, 6, 0.2);
+        }
+        
+        .connector-label.guarantee {
+            right: -100px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        
+        @media (max-width: 768px) {
+            .connector-label.guarantee {
+                right: auto;
+                top: auto;
+                bottom: -35px;
+                transform: none;
+            }
+        }
+        
+        /* 分叉区域 */
+        .split-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            width: 100%;
+            max-width: 900px;
+            position: relative;
+        }
+        
+        @media (max-width: 768px) {
+            .split-section {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+        }
+        
+        .split-connector {
+            position: absolute;
+            top: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 3px;
+            height: 50px;
+            background: linear-gradient(180deg, #b8860b, #d4af37);
+            border-radius: 2px;
+        }
+        
+        .branch-line {
+            position: absolute;
+            top: -25px;
+            left: 25%;
+            right: 25%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #d4af37, transparent);
+            border-radius: 2px;
+        }
+        
+        .branch-line::before,
+        .branch-line::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            width: 3px;
+            height: 25px;
+            background: #d4af37;
+            border-radius: 2px;
+        }
+        
+        .branch-line::before { left: 0; }
+        .branch-line::after { right: 0; }
+        
+        /* 侧边卡片 */
+        .side-card {
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid rgba(212, 175, 55, 0.25);
+            border-radius: 20px;
+            padding: 28px;
+            position: relative;
+            box-shadow: 0 8px 25px rgba(139, 115, 85, 0.12);
+        }
+        
+        .side-card.investors {
+            border-top: 5px solid #10b981;
+        }
+        
+        .side-card.asset {
+            border-top: 5px solid #8b5cf6;
+        }
+        
+        .side-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #4a4035;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .side-items {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .side-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px;
+            background: rgba(212, 175, 55, 0.06);
+            border-radius: 12px;
+            font-size: 0.9rem;
+            color: #5d4e37;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            transition: all 0.3s ease;
+        }
+        
+        .side-item:hover {
+            background: rgba(212, 175, 55, 0.12);
+            transform: translateX(4px);
+        }
+        
+        .side-item i {
+            font-size: 1rem;
+            width: 24px;
+            text-align: center;
+        }
+        
+        .investors .side-item i { color: #059669; }
+        .asset .side-item i { color: #7c3aed; }
+        
+        /* 流动标识 */
+        .flow-connector {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            font-size: 0.85rem;
+            color: #8b7355;
+            font-weight: 500;
+            padding: 10px;
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 50px;
+            border: 1px dashed rgba(212, 175, 55, 0.4);
+        }
+        
+        .flow-connector i {
+            color: #b8860b;
+            font-size: 1rem;
+        }
+        
+        .bottom-section {
+            width: 100%;
+            max-width: 650px;
+            margin-top: 20px;
+        }
+        
+        /* 项目标签 */
+        .project-features {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .feature-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            background: rgba(220, 38, 38, 0.08);
+            border: 1px solid rgba(220, 38, 38, 0.25);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            color: #dc2626;
+            font-weight: 500;
+        }
+        
+        .sdg-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+        }
+        
+        /* 奖项 */
+        .awards-section {
+            margin-top: 16px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        
+        .award-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(251, 191, 36, 0.15);
+            border: 1px solid rgba(251, 191, 36, 0.4);
+            border-radius: 50px;
+            font-size: 0.75rem;
+            color: #b45309;
+            font-weight: 600;
+        }
+        
+        /* 风险分担区域 */
+        .risk-section {
+            margin-top: 60px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 24px;
+            padding: 40px;
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 10px 30px rgba(139, 115, 85, 0.15);
+        }
+        
+        .risk-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .risk-header h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #5d4e37;
+            margin-bottom: 8px;
+        }
+        
+        .risk-header p {
+            color: #8b7355;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .risk-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        @media (max-width: 768px) {
+            .risk-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .risk-card {
+            background: rgba(255, 255, 255, 0.98);
+            border: 2px solid rgba(212, 175, 55, 0.2);
+            border-radius: 16px;
+            padding: 24px;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        .risk-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(139, 115, 85, 0.15);
+            border-color: rgba(212, 175, 55, 0.4);
+        }
+        
+        .risk-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        
+        .risk-card.political .risk-icon { 
+            background: linear-gradient(135deg, #fbbf24, #f59e0b); 
+            color: white; 
+        }
+        .risk-card.completion .risk-icon { 
+            background: linear-gradient(135deg, #60a5fa, #3b82f6); 
+            color: white; 
+        }
+        .risk-card.operation .risk-icon { 
+            background: linear-gradient(135deg, #a78bfa, #8b5cf6); 
+            color: white; 
+        }
+        .risk-card.sdg .risk-icon { 
+            background: linear-gradient(135deg, #34d399, #10b981); 
+            color: white; 
+        }
+        
+        .risk-content h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #4a4035;
+            margin-bottom: 8px;
+        }
+        
+        .risk-content p {
+            font-size: 0.9rem;
+            color: #6b5b4f;
+            line-height: 1.6;
+        }
+        
+        .risk-content .en {
+            font-size: 0.8rem;
+            color: #a0826d;
+            margin-top: 6px;
+            font-style: italic;
+        }
+        
+        /* 项目信息统计 */
+        .project-info-section {
+            margin-top: 50px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        
+        @media (max-width: 768px) {
+            .project-info-section {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .info-card {
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 20px;
+            padding: 32px 24px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(139, 115, 85, 0.12);
+            transition: all 0.3s ease;
+        }
+        
+        .info-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 35px rgba(139, 115, 85, 0.2);
+            border-color: rgba(212, 175, 55, 0.5);
+        }
+        
+        .info-card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin: 0 auto 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            color: white;
+        }
+        
+        .info-card:nth-child(1) .info-card-icon { 
+            background: linear-gradient(135deg, #3b82f6, #2563eb); 
+        }
+        .info-card:nth-child(2) .info-card-icon { 
+            background: linear-gradient(135deg, #10b981, #059669); 
+        }
+        .info-card:nth-child(3) .info-card-icon { 
+            background: linear-gradient(135deg, #f59e0b, #d97706); 
+        }
+        
+        .info-card h3 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #5d4e37;
+            margin-bottom: 10px;
+        }
+        
+        .info-card p {
+            font-size: 0.9rem;
+            color: #8b7355;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+        
+        .info-card .en {
+            font-size: 0.75rem;
+            color: #a0826d;
+            margin-top: 4px;
+        }
+        
+        /* 时间线 */
+        .timeline-section {
+            margin-top: 50px;
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 24px;
+            padding: 36px 40px;
+            box-shadow: 0 8px 25px rgba(139, 115, 85, 0.12);
+        }
+        
+        .timeline-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        
+        .timeline-header h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #5d4e37;
+        }
+        
+        .timeline-header .en {
+            font-size: 0.9rem;
+            color: #8b7355;
+            margin-top: 4px;
+        }
+        
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+        }
+        
+        @media (max-width: 768px) {
+            .timeline {
+                flex-direction: column;
+                gap: 24px;
+            }
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 24px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #d4af37, #f59e0b, #d97706);
+            border-radius: 2px;
+        }
+        
+        @media (max-width: 768px) {
+            .timeline::before {
+                display: none;
+            }
+        }
+        
+        .timeline-item {
+            text-align: center;
+            position: relative;
+            flex: 1;
+            padding: 0 10px;
+        }
+        
+        @media (max-width: 768px) {
+            .timeline-item {
+                background: rgba(212, 175, 55, 0.1);
+                padding: 20px;
+                border-radius: 16px;
+                border: 1px solid rgba(212, 175, 55, 0.2);
+            }
+        }
+        
+        .timeline-dot {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #d4af37;
+            margin: 14px auto;
+            position: relative;
+            z-index: 1;
+            border: 4px solid white;
+            box-shadow: 0 0 0 2px #d4af37;
+        }
+        
+        .timeline-item:nth-child(2) .timeline-dot { background: #f59e0b; box-shadow: 0 0 0 2px #f59e0b; }
+        .timeline-item:nth-child(3) .timeline-dot { background: #d97706; box-shadow: 0 0 0 2px #d97706; }
+        .timeline-item:nth-child(4) .timeline-dot { background: #b45309; box-shadow: 0 0 0 2px #b45309; }
+        
+        .timeline-date {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #5d4e37;
+        }
+        
+        .timeline-event {
+            font-size: 0.85rem;
+            color: #6b5b4f;
+            margin-top: 8px;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+        
+        .timeline-event .en {
+            font-size: 0.75rem;
+            color: #8b7355;
+            margin-top: 4px;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            
+            .entity-stats {
+                gap: 16px;
+            }
+            
+            .connector-label.guarantee {
+                position: relative;
+                right: auto;
+                margin-top: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="gold-bg-pattern"></div>
+    
+    <div class="container">
+        <div class="header">
+            <div class="header-badge">
+                <i class="fas fa-leaf"></i>
+            </div>
+            <h1>ECRL SDG Sukuk 交易结构简图</h1>
+            <p class="header-subtitle">ECRL SDG Sukuk Transaction Structure</p>
+            <p class="header-desc">
+                马来西亚首个政府担保的可持续发展目标伊斯兰债券 | Malaysia's First Government-Guaranteed SDG Islamic Bond<br>
+                连接吉兰丹哥打巴鲁至雪兰莪巴生港，665公里"一带一路"旗舰铁路项目 | 665km Belt & Road Flagship Rail from Kota Bharu to Port Klang
+            </p>
+        </div>
+        
+        <div class="structure-container">
+            <!-- 政府层 -->
+            <div class="entity-card government">
+                <div class="entity-icon">
+                    <i class="fas fa-landmark"></i>
+                </div>
+                <h3 class="entity-title">马来西亚政府</h3>
+                <p class="entity-subtitle">Government of Malaysia | 主权担保方 Sovereign Guarantor</p>
+                <div class="entity-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">RM50B</div>
+                        <div class="stat-label">项目总预算<br>Total Project Budget</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">100%</div>
+                        <div class="stat-label">主权担保<br>Sovereign Guarantee</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">AAA</div>
+                        <div class="stat-label">隐含评级<br>Implied Rating</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="connector">
+                <div class="connector-line"></div>
+                <span class="connector-label guarantee">
+                    <i class="fas fa-shield-alt mr-2"></i>担保函 | Guarantee
+                </span>
+            </div>
+            
+            <!-- SPV层 -->
+            <div class="entity-card spv">
+                <div class="entity-icon">
+                    <i class="fas fa-building"></i>
+                </div>
+                <h3 class="entity-title">MRL 项目公司 (发行人)</h3>
+                <p class="entity-subtitle">MRL Project Company (Issuer) | 特殊目的机构 SPV</p>
+                <div style="margin-top: 16px; padding: 16px; background: rgba(37, 99, 235, 0.05); border-radius: 12px; border: 1px dashed rgba(37, 99, 235, 0.3);">
+                    <div style="font-size: 0.85rem; color: #4a4035; font-weight: 600; margin-bottom: 8px;">
+                        <i class="fas fa-mosque mr-2" style="color: #2563eb;"></i>伊斯兰结构 | Islamic Structure
+                    </div>
+                    <div style="font-size: 0.8rem; color: #6b5b4f; line-height: 1.6;">
+                        Ijara（租赁）+ Musharakah（合伙）混合结构<br>
+                        <span style="color: #8b7355; font-size: 0.75rem;">Hybrid Ijara (Lease) + Musharakah (Partnership) Structure</span>
+                    </div>
+                </div>
+                <div class="awards-section">
+                    <span class="award-tag"><i class="fas fa-trophy"></i>2024最佳伊斯兰金融交易 | Best Islamic Finance Deal</span>
+                    <span class="award-tag"><i class="fas fa-award"></i>最佳绿色Sukuk | Best Green Sukuk</span>
+                </div>
+            </div>
+            
+            <div class="connector">
+                <div class="connector-line"></div>
+            </div>
+            
+            <!-- 分叉：投资者与资产 -->
+            <div class="split-section">
+                <div class="split-connector"></div>
+                <div class="branch-line"></div>
+                
+                <!-- 投资者侧 -->
+                <div class="side-card investors">
+                    <div class="entity-icon" style="width: 56px; height: 56px; font-size: 1.4rem; margin-bottom: 16px;">
+                        <i class="fas fa-hand-holding-dollar"></i>
+                    </div>
+                    <h3 class="side-title">Sukuk 投资者<br><span style="font-size: 0.9rem; color: #8b7355; font-weight: 500;">Sukuk Investors</span></h3>
+                    <div class="side-items">
+                        <div class="side-item">
+                            <i class="fas fa-mosque"></i>
+                            <div>
+                                <div style="font-weight: 600;">中东伊斯兰资本</div>
+                                <div style="font-size: 0.75rem; color: #8b7355;">Middle East Islamic Capital (GCC)</div>
+                            </div>
+                        </div>
+                        <div class="side-item">
+                            <i class="fas fa-university"></i>
+                            <div>
+                                <div style="font-weight: 600;">马来西亚本地机构</div>
+                                <div style="font-size: 0.75rem; color: #8b7355;">Malaysian Institutions (RHB, Maybank)</div>
+                            </div>
+                        </div>
+                        <div class="side-item">
+                            <i class="fas fa-globe"></i>
+                            <div>
+                                <div style="font-weight: 600;">国际ESG投资者</div>
+                                <div style="font-size: 0.75rem; color: #8b7355;">International ESG Investors</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flow-connector">
+                        <span>资金流入 | Capital Inflow</span>
+                        <i class="fas fa-arrow-down"></i>
+                    </div>
+                </div>
+                
+                <!-- 资产侧 -->
+                <div class="side-card asset">
+                    <div class="entity-icon" style="width: 56px; height: 56px; font-size: 1.4rem; margin-bottom: 16px;">
+                        <i class="fas fa-train-subway"></i>
+                    </div>
+                    <h3 class="side-title">基础资产<br><span style="font-size: 0.9rem; color: #8b7355; font-weight: 500;">Underlying Assets</span></h3>
+                    <div class="side-items">
+                        <div class="side-item">
+                            <i class="fas fa-route"></i>
+                            <div>
+                                <div style="font-weight: 600;">665公里铁路资产</div>
+                                <div style="font-size: 0.75rem; color: #8b7355;">665km Railway Infrastructure</div>
+                            </div>
+                        </div>
+                        <div class="side-item">
+                            <i class="fas fa-file-contract"></i>
+                            <div>
+                                <div style="font-weight: 600;">租赁合同 (Ijara)</div>
+                                <div style="font-size: 0.75rem; color: #8b7355;">Lease Agreement</div>
+                            </div>
+                        </div>
+                        <div class="side-item">
+                            <i class="fas fa-certificate"></i>
+                            <div>
+                                <div style="font-weight: 600;">SDG合规认证</div>
+                                <div style="font-size: 0.75rem; color: #8b7355;">SDG Compliance Certified</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flow-connector">
+                        <i class="fas fa-arrow-up"></i>
+                        <span>租金支付 | Rental Payments</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="connector">
+                <div class="connector-line"></div>
+            </div>
+            
+            <!-- 项目层 -->
+            <div class="bottom-section">
+                <div class="entity-card project">
+                    <div class="entity-icon">
+                        <i class="fas fa-hammer"></i>
+                    </div>
+                    <h3 class="entity-title">东海岸铁路项目资金用途</h3>
+                    <p class="entity-subtitle">ECRL Project Construction | 中国-马来西亚"一带一路"旗舰项目 China-Malaysia BRI Flagship</p>
+                    <div class="project-features">
+                        <span class="feature-tag"><i class="fas fa-road"></i>665公里电气化 | Electrified</span>
+                        <span class="feature-tag"><i class="fas fa-mountain"></i>41条隧道 | Tunnels</span>
+                        <span class="feature-tag"><i class="fas fa-bridge"></i>154公里高架 | Elevated</span>
+                        <span class="feature-tag"><i class="fas fa-paw"></i>28处野生动物通道 | Crossings</span>
+                    </div>
+                    <div class="sdg-badge">
+                        <i class="fas fa-leaf"></i>
+                        <span>SDG 9: 产业创新与基础设施 | Industry, Innovation & Infrastructure</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 项目统计 -->
+        <div class="project-info-section">
+            <div class="info-card">
+                <div class="info-card-icon">
+                    <i class="fas fa-percentage"></i>
+                </div>
+                <h3>86.07%</h3>
+                <p>工程完成度<br>Project Completion</p>
+                <p class="en">As of July 2025</p>
+            </div>
+            <div class="info-card">
+                <div class="info-card-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3>21,000+</h3>
+                <p>创造就业<br>Jobs Created</p>
+                <p class="en">Involving 2,000+ Local Companies</p>
+            </div>
+            <div class="info-card">
+                <div class="info-card-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h3>RM184B</h3>
+                <p>20年GDP贡献<br>GDP Contribution</p>
+                <p class="en">Four-State Economic Corridor</p>
+            </div>
+        </div>
+        
+        <!-- 时间线 -->
+        <div class="timeline-section">
+            <div class="timeline-header">
+                <h3><i class="fas fa-calendar-check mr-2" style="color: #d97706;"></i>关键项目里程碑</h3>
+                <div class="en">Key Project Milestones</div>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">2024年2月<br><span style="font-size: 0.8rem; color: #8b7355;">Feb 2024</span></div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-event">
+                        SDG Sukuk首次发行<br>筹集45亿令吉
+                        <div class="en">First Issuance<br>RM4.5B Raised</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2026年12月<br><span style="font-size: 0.8rem; color: #8b7355;">Dec 2026</span></div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-event">
+                        第一阶段完工<br>哥打巴鲁-鹅唛
+                        <div class="en">Phase 1 Completion<br>Kota Bharu-Gombak</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2027年1月<br><span style="font-size: 0.8rem; color: #8b7355;">Jan 2027</span></div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-event">
+                        第一阶段运营<br>客运服务启动
+                        <div class="en">Phase 1 Operations<br>Passenger Service Begins</div>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-date">2028年1月<br><span style="font-size: 0.8rem; color: #8b7355;">Jan 2028</span></div>
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-event">
+                        全线运营<br>鹅唛-巴生港
+                        <div class="en">Full Line Operations<br>Gombak-Port Klang</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 风险分担机制 -->
+        <div class="risk-section">
+            <div class="risk-header">
+                <h2><i class="fas fa-shield-halved mr-2" style="color: #d97706;"></i>风险分担机制</h2>
+                <p>Risk Allocation Mechanism | 三维互动框架在市场层面的具体体现</p>
+            </div>
+            
+            <div class="risk-grid">
+                <div class="risk-card political">
+                    <div class="risk-icon">
+                        <i class="fas fa-landmark"></i>
+                    </div>
+                    <div class="risk-content">
+                        <h4>政治风险 | Political Risk</h4>
+                        <p>马来西亚政府承担政权更迭、政策变更风险。2018年项目暂停事件后，政府担保的有效性成为投资者关注核心，主权担保将项目风险转化为主权信用风险。</p>
+                        <p class="en">Government bears political risks including regime change. Post-2018 suspension, sovereign guarantee converts project risk to sovereign credit risk.</p>
+                    </div>
+                </div>
+                
+                <div class="risk-card completion">
+                    <div class="risk-icon">
+                        <i class="fas fa-hard-hat"></i>
+                    </div>
+                    <div class="risk-content">
+                        <h4>完工风险 | Completion Risk</h4>
+                        <p>中国交建（CCCC）作为主要承包商，通过固定总价EPC合同和履约保函承担建设延期及成本超支风险。目前项目进度86.07%，提前于计划。</p>
+                        <p class="en">CCCC bears construction delay/cost overrun via fixed-price EPC contract. Current progress 86.07%, ahead of schedule.</p>
+                    </div>
+                </div>
+                
+                <div class="risk-card operation">
+                    <div class="risk-icon">
+                        <i class="fas fa-train-subway"></i>
+                    </div>
+                    <div class="risk-content">
+                        <h4>运营风险 | Operational Risk</h4>
+                        <p>运营商承担客流量不足、票价收入低于预期等风险。通过可用性付费（Availability Payment）机制部分缓释，预计年客运量560万人次。</p>
+                        <p class="en">Operator bears demand risk. Mitigated via availability payments. Expected ridership: 5.6M passengers/year.</p>
+                    </div>
+                </div>
+                
+                <div class="risk-card sdg">
+                    <div class="risk-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div class="risk-content">
+                        <h4>SDG合规风险 | SDG Compliance</h4>
+                        <p>第三方认证机构持续监督资金用途符合SDG 9目标。项目预计每年减少100万吨碳排放，需定期提交影响报告。</p>
+                        <p class="en">Third-party certification ensures SDG 9 alignment. Annual CO₂ reduction: 1M tonnes. Regular impact reporting required.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 脚注 -->
+        <div style="margin-top: 50px; text-align: center; color: #8b7355; font-size: 0.85rem; padding-top: 30px; border-top: 2px solid rgba(212, 175, 55, 0.3);">
+            <p style="margin-bottom: 8px; font-weight: 600; color: #5d4e37;">
+                <i class="fas fa-book-open mr-2"></i>ECRL SDG Sukuk 交易结构及风险分担框架 | Transaction Structure & Risk Allocation
+            </p>
+            <p style="font-size: 0.8rem; line-height: 1.6;">
+                资料来源：基于交易文件及Bank Negara Malaysia监管披露绘制 | Source: Based on transaction documents & BNM regulatory disclosures<br>
+                注：本图展示"战略-制度-市场"三维框架在标志性交易中的互动机制 | Note: Illustrates the three-dimensional interaction framework in the landmark transaction
+            </p>
+        </div>
+    </div>
+</body>
+</html>
