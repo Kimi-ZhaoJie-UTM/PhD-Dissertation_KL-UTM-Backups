@@ -1,0 +1,1632 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuala Lumpur Institutional Ecosystem | 吉隆坡制度生态系统</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #059669;
+            --secondary: #0d9488;
+            --regulatory: #d97706;
+            --human: #059669;
+            --market: #0891b2;
+            --services: #7c3aed;
+            --bg-warm: #fafaf9;
+            --text-primary: #1f2937;
+            --text-secondary: #6b7280;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Noto Sans SC', 'Inter', sans-serif;
+            background: linear-gradient(135deg, #fafaf9 0%, #f0fdf4 50%, #ecfeff 100%);
+            min-height: 100vh;
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+        
+        .eco-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.4;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(5, 150, 105, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(8, 145, 178, 0.08) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(217, 119, 6, 0.05) 0%, transparent 60%);
+            pointer-events: none;
+        }
+        
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 40px 24px;
+        }
+        
+        /* 标题区域双语 */
+        .header {
+            text-align: center;
+            margin-bottom: 48px;
+            padding: 0 20px;
+        }
+        
+        .header-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(5, 150, 105, 0.2);
+            border-radius: 50px;
+            font-size: 0.8rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            font-weight: 500;
+        }
+        
+        .header h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            letter-spacing: -0.02em;
+            line-height: 1.3;
+        }
+        
+        .header .subtitle-en {
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            font-style: italic;
+        }
+        
+        .header p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+        
+        .header .desc-en {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            opacity: 0.8;
+            margin-top: 8px;
+            font-style: italic;
+        }
+        
+        /* 生态系统网格 */
+        .ecosystem-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        
+        @media (min-width: 1024px) {
+            .ecosystem-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        /* 支柱卡片 - 双语优化 */
+        .pillar-card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 24px;
+            box-shadow: 
+                0 4px 6px -1px rgba(0, 0, 0, 0.05),
+                0 10px 15px -3px rgba(0, 0, 0, 0.05),
+                0 0 0 1px rgba(0, 0, 0, 0.02);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            border-top: 4px solid transparent;
+        }
+        
+        .pillar-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 
+                0 20px 25px -5px rgba(0, 0, 0, 0.08),
+                0 10px 10px -5px rgba(0, 0, 0, 0.02);
+        }
+        
+        .pillar-card.regulatory { border-top-color: var(--regulatory); }
+        .pillar-card.human-capital { border-top-color: var(--human); }
+        .pillar-card.market { border-top-color: var(--market); }
+        .pillar-card.services { border-top-color: var(--services); }
+        
+        .pillar-header {
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding-bottom: 16px;
+        }
+        
+        .pillar-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            margin-bottom: 12px;
+        }
+        
+        .regulatory .pillar-icon {
+            background: rgba(217, 119, 6, 0.1);
+            color: var(--regulatory);
+        }
+        
+        .human-capital .pillar-icon {
+            background: rgba(5, 150, 105, 0.1);
+            color: var(--human);
+        }
+        
+        .market .pillar-icon {
+            background: rgba(8, 145, 178, 0.1);
+            color: var(--market);
+        }
+        
+        .services .pillar-icon {
+            background: rgba(124, 58, 237, 0.1);
+            color: var(--services);
+        }
+        
+        .pillar-title-zh {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+            line-height: 1.3;
+        }
+        
+        .pillar-title-en {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-weight: 500;
+        }
+        
+        .pillar-content {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .pillar-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 12px;
+            background: rgba(249, 250, 251, 0.8);
+            border-radius: 10px;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+            transition: all 0.2s ease;
+        }
+        
+        .pillar-item:hover {
+            background: rgba(255, 255, 255, 1);
+            border-color: rgba(0, 0, 0, 0.08);
+            transform: translateX(2px);
+        }
+        
+        .pillar-item i {
+            margin-top: 3px;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        
+        .regulatory .pillar-item i { color: var(--regulatory); }
+        .human-capital .pillar-item i { color: var(--human); }
+        .market .pillar-item i { color: var(--market); }
+        .services .pillar-item i { color: var(--services); }
+        
+        .pillar-item-content {
+            flex: 1;
+            min-width: 0;
+        }
+        
+        .pillar-item-title {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 2px;
+            line-height: 1.4;
+        }
+        
+        .pillar-item-desc {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            line-height: 1.4;
+            font-style: italic;
+        }
+        
+        /* 中心连接区双语 */
+        .center-section {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(240, 253, 244, 0.95));
+            border-radius: 24px;
+            padding: 40px 32px;
+            margin: 32px 0;
+            border: 2px solid rgba(5, 150, 105, 0.15);
+            text-align: center;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(5, 150, 105, 0.08);
+        }
+        
+        .center-icon {
+            width: 72px;
+            height: 72px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 1.8rem;
+            color: white;
+            box-shadow: 0 10px 25px rgba(5, 150, 105, 0.3);
+        }
+        
+        .center-title-zh {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+        }
+        
+        .center-title-en {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            font-style: italic;
+        }
+        
+        .center-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+        
+        .center-desc-en {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            opacity: 0.85;
+            margin-top: 12px;
+            font-style: italic;
+            line-height: 1.6;
+        }
+        
+        /* 影响分析区域 - 双语 */
+        .impact-section {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+            margin-top: 40px;
+        }
+        
+        @media (min-width: 768px) {
+            .impact-section {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .impact-card {
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid transparent;
+        }
+        
+        .impact-card.positive {
+            border-left-color: var(--human);
+        }
+        
+        .impact-card.negative {
+            border-left-color: #dc2626;
+        }
+        
+        .impact-header {
+            margin-bottom: 24px;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            padding-bottom: 16px;
+        }
+        
+        .impact-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            margin-bottom: 12px;
+        }
+        
+        .positive .impact-icon {
+            background: rgba(5, 150, 105, 0.1);
+            color: var(--human);
+        }
+        
+        .negative .impact-icon {
+            background: rgba(220, 38, 38, 0.1);
+            color: #dc2626;
+        }
+        
+        .impact-title-zh {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+        
+        .impact-title-en {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+        
+        .impact-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .impact-item {
+            display: flex;
+            gap: 12px;
+            padding: 14px;
+            background: rgba(249, 250, 251, 0.8);
+            border-radius: 12px;
+            transition: all 0.2s ease;
+        }
+        
+        .impact-item:hover {
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+        
+        .impact-item i {
+            margin-top: 3px;
+            flex-shrink: 0;
+        }
+        
+        .positive .impact-item i { color: var(--human); }
+        .negative .impact-item i { color: #dc2626; }
+        
+        .impact-item-content h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
+        
+        .impact-item-content h4 .en {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-top: 2px;
+        }
+        
+        .impact-item-content p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+        
+        .impact-item-content p .en {
+            display: block;
+            margin-top: 4px;
+            font-style: italic;
+            opacity: 0.9;
+        }
+        
+        /* 模态框 - 双语优化 */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+        
+        .modal {
+            background: #ffffff;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 900px;
+            max-height: 90vh;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transform: scale(0.95);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .modal-overlay.active .modal {
+            transform: scale(1);
+            opacity: 1;
+        }
+        
+        .modal-header {
+            padding: 28px 32px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(249, 250, 251, 0.5);
+        }
+        
+        .modal-title-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .modal-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            flex-shrink: 0;
+        }
+        
+        .modal-title-text h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+            line-height: 1.3;
+        }
+        
+        .modal-title-text p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-style: italic;
+        }
+        
+        .modal-close {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: rgba(0, 0, 0, 0.05);
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+        
+        .modal-close:hover {
+            background: rgba(220, 38, 38, 0.1);
+            color: #dc2626;
+        }
+        
+        .modal-body {
+            padding: 32px;
+            overflow-y: auto;
+            max-height: calc(90vh - 120px);
+            background: #ffffff;
+        }
+        
+        .modal-body::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .modal-body::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.03);
+            border-radius: 4px;
+        }
+        
+        .modal-body::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 4px;
+        }
+        
+        .detail-section {
+            margin-bottom: 28px;
+        }
+        
+        .detail-section:last-child {
+            margin-bottom: 0;
+        }
+        
+        .detail-section h4 {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            line-height: 1.4;
+        }
+        
+        .detail-section h4 .en {
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            font-style: italic;
+            margin-left: 8px;
+        }
+        
+        .detail-section > p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+        }
+        
+        .detail-section > p .en {
+            display: block;
+            margin-top: 6px;
+            font-style: italic;
+            opacity: 0.9;
+        }
+        
+        .detail-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .detail-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 14px;
+            background: rgba(249, 250, 251, 0.8);
+            border-radius: 10px;
+            border-left: 3px solid;
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+        
+        .detail-list li i {
+            margin-top: 4px;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+        
+        .highlight {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        
+        .highlight .en {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+        
+        .theory-box {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(5, 150, 105, 0.05);
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .theory-box p {
+            margin: 0;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .theory-box strong {
+            color: var(--text-primary);
+        }
+        
+        /* 图注双语 */
+        .caption {
+            margin-top: 40px;
+            padding: 20px 24px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 16px;
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        }
+        
+        .caption .en {
+            display: block;
+            margin-top: 6px;
+            font-size: 0.8rem;
+            font-style: italic;
+            opacity: 0.8;
+        }
+        
+        /* 动画 */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .animate-in {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+        
+        .delay-1 { animation-delay: 0.1s; }
+        .delay-2 { animation-delay: 0.2s; }
+        .delay-3 { animation-delay: 0.3s; }
+        .delay-4 { animation-delay: 0.4s; }
+        
+        /* 响应式优化 */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.6rem;
+            }
+            
+            .header .subtitle-en {
+                font-size: 1.1rem;
+            }
+            
+            .ecosystem-grid {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+            
+            .pillar-card {
+                padding: 20px;
+            }
+            
+            .impact-section {
+                grid-template-columns: 1fr;
+            }
+            
+            .modal {
+                max-height: 95vh;
+                border-radius: 20px;
+                margin: 10px;
+            }
+            
+            .modal-body {
+                padding: 20px;
+            }
+            
+            .modal-header {
+                padding: 20px;
+            }
+            
+            .modal-title-text h3 {
+                font-size: 1.1rem;
+            }
+        }
+        
+        @media (max-width: 640px) {
+            .pillar-item-title {
+                font-size: 0.85rem;
+            }
+            
+            .pillar-item-desc {
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="eco-bg"></div>
+    
+    <div class="container">
+        <!-- 标题 -->
+        <div class="header animate-in">
+            <div class="header-badge">
+                <i class="fas fa-leaf"></i>
+            </div>
+            <h1>吉隆坡制度生态系统</h1>
+            <div class="subtitle-en">Kuala Lumpur Institutional Ecosystem</div>
+            <p>
+                四十年国家主导的制度建设形成的伊斯兰金融基础设施，支持复杂跨境伊斯兰金融交易与"一带一路"倡议互动
+            </p>
+            <div class="desc-en">
+                Four decades of state-led institutional development in Islamic finance infrastructure, supporting complex cross-border Islamic financial transactions and Belt and Road Initiative interactions.
+            </div>
+        </div>
+        
+        <!-- 四大支柱网格 -->
+        <div class="ecosystem-grid">
+            <!-- 监管基础设施 -->
+            <div class="pillar-card regulatory animate-in delay-1" onclick="openModal('regulatory')">
+                <div class="pillar-header">
+                    <div class="pillar-icon">
+                        <i class="fas fa-landmark"></i>
+                    </div>
+                    <div>
+                        <div class="pillar-title-zh">监管基础设施</div>
+                        <div class="pillar-title-en">Regulatory Infrastructure</div>
+                    </div>
+                </div>
+                <div class="pillar-content">
+                    <div class="pillar-item">
+                        <i class="fas fa-university"></i>
+                        <div class="pillar-item-content">
+                            <div class="pillar-item-title">中央银行监管 (BNM)</div>
+                            <div class="pillar-item-desc">Central Bank Regulation - Dual banking system with SAC authority</div>
+                        </div>
+                    </div>
+                    <div class="pillar-item">
+                        <i class="fas fa-chart-line"></i>
+                        <div class="pillar-item-content">
+                            <div class="pillar-item-title">证券委员会 (SC)</div>
+                            <div class="pillar-item-desc">Securities Commission - Sukuk issuance & capital market frameworks</div>
+                        </div>
+                    </div>
+                    <div class="pillar-item">
+                        <i class="fas fa-gavel"></i>
+                        <div class="pillar-item-content">
+                            <div class="pillar-item-title">法律框架</div>
+                            <div class="pillar-item-desc">Legal Framework - IFSA 2013 & dual banking legal foundation</div>
+                        </div>
+                    </div>
+                    <div class="pillar-item">
+                        <i class="fas fa-balance-scale"></i>
+                        <div class="pillar-item-content">
+                            <div class="pillar-item-title">伊斯兰教法治理</div>
+                            <div class="pillar-item-desc">Shariah Governance - Centralized SAC & institutional compliance</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 人力资本 -->
+            <div class="pillar-card human-capital animate-in delay-2" onclick="openModal('humanCapital')">
+                <div class="pillar-header">
+                    <div class="pillar-icon">
+                        <i class="fas fa-user-graduate"></i>
+                    </div>
+                    <div>
+                        <div class="pillar-title-zh">人力资本</div>
+                        <div class="pillar-title-en">Human Capital</div>
+                    </div>
+                </div>
+                <div class="pillar-content">
+                    <div class="pillar-item">
+                        <i class="fas fa-school"></i>
+                        <div class="pillar-item-content">
+                            <div class="pillar-item-title">INCEIF全球首所伊斯兰金融大学</div>
+                            <div class="pillar-item-desc">INCEIF - World's first global university in Islamic finance</div>
+                        </div>
+                    </div>
+                    <div class="pillar-item">
+                        <i class="fas fa-book"></i>
+                        <div class="pillar-item-content">
+                            <div class="pillar-item-title">双金融体系优势</div>
+                            <div class="pillar-item-desc">Dual Banking Advantage - Conventional & Islamic expertise</div>
+                        </div>
+                    </div>
+                    <div class="pillar-item">
+                        <i class="fas fa-certificate"></i>
+                        <div class="pillar-item-content">
+                            <div class="pillar-item-title">专业认证体系</div>
+                            <div class="pillar-item-desc">Professional Certification - CIFP & continuous development</div>
+                        </div>
+                    </div>
+                    <div class="pillar-item">
+                        <i class="fas fa-globe"></i>
+                        <div class="pillar-item-content">
+                            <div class="pillar-item-title">国际网络效应</div>
+                            <div class="pillar-item-desc">Global Network - International alumni & scholar networks</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 市场基础设施 -->
+            <div class="pillar-card market animate-in delay-3" onclick="openModal('market')">
+                <div class="pillar-header">
+                    <div class="pillar-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <div>
+                        <div class="pillar-title-zh">市场基础设施</div>
+                        <div class="pillar-title-en">Market Infrastructure</div>
+                    </div>
+                </div>
+                <div class="pillar-content">
+                    <div class="pillar-item">
+                        <i class="fas fa-file-invoice-dollar"></i>
+                        <div class="pillar-item-content">
+                            <div class="pillar-item-title">Sukuk发行平台</div>
+                            <div class="pillar-item-desc">Sukuk Platform - 60%+ global market share, standardized issuance</div>
+                        </div>
+                    </div>
+                    <div class="pillar-item">
+                        <i class="fas fa-desktop"></i>
+                        <div class="pillar-item-content">
+                            <div class="pillar-item-title">交易平台与流动性</div>
+                            <div class="pillar-item-desc">Trading Platforms - Bursa Malaysia Islamic segment & market making</div>
+                        </div>
+                    </div>
+                    <div class="pillar-item">
+                        <i class="fas fa-sync"></i>
+                        <div class="pillar-item-content">
+                            <div class="pillar-item-title">清算结算系统</div>
+                            <div class="pillar-item-desc">Clearing & Settlement - International clearing system integration</div>
+                        </div>
+                    </div>
+                    <div class="pillar-item">
+                        <i class="fas fa-chart-bar"></i>
+                        <div class="pillar-item-content">
+                            <div class="pillar-item-title">市场深度数据</div>
+                            <div class="pillar-item-desc">Market Depth - RM2.5 trillion Islamic finance assets</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 配套服务 -->
+            <div class="pillar-card services animate-in delay-4" onclick="openModal('services')">
+                <div class="pillar-header">
+                    <div class="pillar-icon">
+                        <i class="fas fa-hands-helping"></i>
+                    </div>
+                    <div>
+                        <div class="pillar-title-zh">配套服务</div>
+                        <div class="pillar-title-en">Supporting Services</div>
+                    </div>
+                </div>
+                <div class="pillar-content">
+                    <div class="pillar-item">
+                        <i class="fas fa-briefcase"></i>
+                        <div class="pillar-item-content">
+                            <div class="pillar-item-title">专业法律服务</div>
+                            <div class="pillar-item-desc">Legal Services - Shariah-compliant structuring & cross-border</div>
+                        </div>
+                    </div>
+                    <div class="pillar-item">
+                        <i class="fas fa-calculator"></i>
+                        <div class="pillar-item-content">
+                            <div class="pillar-item-title">会计与审计</div>
+                            <div class="pillar-item-desc">Accounting - AAOIFI standards & Big Four Islamic divisions</div>
+                        </div>
+                    </div>
+                    <div class="pillar-item">
+                        <i class="fas fa-star"></i>
+                        <div class="pillar-item-content">
+                            <div class="pillar-item-title">评级与咨询</div>
+                            <div class="pillar-item-desc">Rating & Advisory - Moody's, S&P, Fitch Islamic methodologies</div>
+                        </div>
+                    </div>
+                    <div class="pillar-item">
+                        <i class="fas fa-puzzle-piece"></i>
+                        <div class="pillar-item-content">
+                            <div class="pillar-item-title">生态协同网络</div>
+                            <div class="pillar-item-desc">Ecosystem Synergy - MIFC coordination & industry alliances</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 中心连接区 -->
+        <div class="center-section animate-in delay-2">
+            <div class="center-icon">
+                <i class="fas fa-sitemap"></i>
+            </div>
+            <div class="center-title-zh">制度生态系统协同运作</div>
+            <div class="center-title-en">Institutional Ecosystem Synergy</div>
+            <div class="center-desc">
+                四大支柱深度整合，形成支持复杂跨境伊斯兰金融交易的完整生态。这一"软基础设施"使吉隆坡能够在"一带一路"框架下发挥金融中介枢纽作用，连接中东伊斯兰资本与亚洲基础设施投资机会。
+            </div>
+            <div class="center-desc-en">
+                Four pillars deeply integrated to form a complete ecosystem supporting complex cross-border Islamic financial transactions. This "soft infrastructure" enables Kuala Lumpur to serve as a financial intermediary hub under the Belt and Road Initiative, connecting Middle Eastern Islamic capital with Asian infrastructure investment opportunities.
+            </div>
+        </div>
+        
+        <!-- 影响分析 -->
+        <div class="impact-section animate-in delay-3">
+            <div class="impact-card positive">
+                <div class="impact-header">
+                    <div class="impact-icon">
+                        <i class="fas fa-plus-circle"></i>
+                    </div>
+                    <div>
+                        <div class="impact-title-zh">对"一带一路"互动的积极影响</div>
+                        <div class="impact-title-en">Positive Impacts on BRI Interactions</div>
+                    </div>
+                </div>
+                <ul class="impact-list">
+                    <li class="impact-item">
+                        <i class="fas fa-check-circle"></i>
+                        <div class="impact-item-content">
+                            <h4>
+                                复杂交易执行能力
+                                <span class="en">Complex Transaction Execution Capability</span>
+                            </h4>
+                            <p>
+                                拥有构建和执行复杂伊斯兰金融交易所需的监管框架、专业知识和市场基础设施
+                                <span class="en">Possesses regulatory frameworks, expertise, and market infrastructure necessary for structuring and executing complex Islamic financial transactions</span>
+                            </p>
+                        </div>
+                    </li>
+                    <li class="impact-item">
+                        <i class="fas fa-check-circle"></i>
+                        <div class="impact-item-content">
+                            <h4>
+                                国际信誉与教法确定性
+                                <span class="en">International Credibility & Shariah Certainty</span>
+                            </h4>
+                            <p>
+                                四十年伊斯兰金融领域过往记录赢得伊斯兰投资者信任；SAC权威解释为跨境交易提供教法确定性
+                                <span class="en">Four decades of track record in Islamic finance wins investor trust; SAC authoritative interpretations provide Shariah certainty for cross-border transactions</span>
+                            </p>
+                        </div>
+                    </li>
+                    <li class="impact-item">
+                        <i class="fas fa-check-circle"></i>
+                        <div class="impact-item-content">
+                            <h4>
+                                产品创新经验
+                                <span class="en">Product Innovation Experience</span>
+                            </h4>
+                            <p>
+                                能够创新新结构（如SDG Sukuk、绿色Sukuk）以满足特定融资需求，结合政府担保与可持续发展目标
+                                <span class="en">Ability to innovate new structures (SDG Sukuk, Green Sukuk) meeting specific financing needs, combining government guarantees with sustainable development goals</span>
+                            </p>
+                        </div>
+                    </li>
+                    <li class="impact-item">
+                        <i class="fas fa-check-circle"></i>
+                        <div class="impact-item-content">
+                            <h4>
+                                资本流动调节潜力
+                                <span class="en">Capital Flow Intermediation Potential</span>
+                            </h4>
+                            <p>
+                                与伊斯兰教学者网络、中东GCC国家投资者和区域市场的联系，创造调节"一带一路"资本流动的中介潜力
+                                <span class="en">Connections with Shariah scholar networks, Middle Eastern GCC investors, and regional markets create intermediary potential for regulating Belt and Road capital flows</span>
+                            </p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="impact-card negative">
+                <div class="impact-header">
+                    <div class="impact-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div>
+                        <div class="impact-title-zh">制度约束与挑战</div>
+                        <div class="impact-title-en">Institutional Constraints & Challenges</div>
+                    </div>
+                </div>
+                <ul class="impact-list">
+                    <li class="impact-item">
+                        <i class="fas fa-minus-circle"></i>
+                        <div class="impact-item-content">
+                            <h4>
+                                双重合规复杂性
+                                <span class="en">Dual Compliance Complexity</span>
+                            </h4>
+                            <p>
+                                涉及中方实体的交易需同时遵循马来西亚伊斯兰金融法规和中国金融法规，可能导致合规复杂性和执行成本
+                                <span class="en">Transactions involving Chinese entities must comply with both Malaysian Islamic finance regulations and Chinese financial laws, potentially causing compliance complexity and execution costs</span>
+                            </p>
+                        </div>
+                    </li>
+                    <li class="impact-item">
+                        <i class="fas fa-minus-circle"></i>
+                        <div class="impact-item-content">
+                            <h4>
+                                教法标准差异
+                                <span class="en">Shariah Standard Divergence</span>
+                            </h4>
+                            <p>
+                                马来西亚伊斯兰教法标准虽受国际尊重，但可能与所有投资者群体偏好不完全一致，存在形式合规与本质合规的张力
+                                <span class="en">While internationally respected, Malaysian Shariah standards may not fully align with all investor preferences, creating tensions between form and substance compliance</span>
+                            </p>
+                        </div>
+                    </li>
+                    <li class="impact-item">
+                        <i class="fas fa-minus-circle"></i>
+                        <div class="impact-item-content">
+                            <h4>
+                                地缘政治与竞争压力
+                                <span class="en">Geopolitical & Competitive Pressures</span>
+                            </h4>
+                            <p>
+                                政权更迭（2018年、2022年）对项目执行产生直接影响；迪拜、香港、新加坡等中心正在发展伊斯兰金融能力
+                                <span class="en">Regime changes (2018, 2022) directly impact project execution; competing centers (Dubai, Hong Kong, Singapore) are developing Islamic finance capabilities</span>
+                            </p>
+                        </div>
+                    </li>
+                    <li class="impact-item">
+                        <i class="fas fa-minus-circle"></i>
+                        <div class="impact-item-content">
+                            <h4>
+                                风险分担机制局限
+                                <span class="en">Risk-Sharing Mechanism Limitations</span>
+                            </h4>
+                            <p>
+                                大型基础设施项目（如ECRL）中政府担保的引入可能稀释风险分担原则，接近传统债务融资实质
+                                <span class="en">Introduction of government guarantees in large infrastructure projects (e.g., ECRL) may dilute risk-sharing principles, approaching conventional debt financing substance</span>
+                            </p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- 图注 -->
+        <div class="caption animate-in delay-4">
+            <i class="fas fa-info-circle" style="margin-right: 8px; color: var(--primary);"></i>
+            <strong>吉隆坡制度生态系统及其对"一带一路"互动的影响</strong>
+            <span class="en">Kuala Lumpur Institutional Ecosystem and Its Impact on Belt and Road Initiative Interactions</span>
+            <span class="en" style="margin-top: 4px; display: block; opacity: 0.7;">
+                Source: Based on Chapter 4 (Evolutionary Foundations Analysis) | Click pillars for detailed mechanisms
+            </span>
+        </div>
+    </div>
+    
+    <!-- 模态框 -->
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModalOnOverlay(event)">
+        <div class="modal" onclick="event.stopPropagation()">
+            <div class="modal-header" id="modalHeader">
+                <div class="modal-title-section">
+                    <div class="modal-icon" id="modalIcon"></div>
+                    <div class="modal-title-text">
+                        <h3 id="modalTitle"></h3>
+                        <p id="modalSubtitle"></p>
+                    </div>
+                </div>
+                <button class="modal-close" onclick="closeModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+        const modalData = {
+            regulatory: {
+                title: '监管基础设施 <span style="font-size: 0.7em; color: #6b7280; font-weight: 400;">Regulatory Infrastructure</span>',
+                subtitle: '四十年发展形成的成熟监管框架与集中化伊斯兰教法治理 | Four decades of mature regulatory framework and centralized Shariah governance',
+                icon: 'fa-landmark',
+                color: '#d97706',
+                content: `
+                    <div class="detail-section">
+                        <h4>
+                            <i class="fas fa-university" style="color: #d97706;"></i>
+                            中央银行监管体系 (Bank Negara Malaysia)
+                            <span class="en">Central Banking Regulatory System</span>
+                        </h4>
+                        <p>
+                            马来西亚国家银行（BNM）以专业知识监督伊斯兰银行和伊斯兰保险（Takaful），在适当情况下使用独立监管框架。
+                            <span class="en">Bank Negara Malaysia (BNM) supervises Islamic banks and Takaful with specialized expertise, utilizing independent regulatory frameworks where appropriate.</span>
+                        </p>
+                        <ul class="detail-list">
+                            <li style="border-left-color: #d97706;">
+                                <i class="fas fa-check" style="color: #d97706;"></i>
+                                <span>
+                                    <span class="highlight">
+                                        双银行体系监管 Dual Banking System
+                                        <span class="en">Parallel operation of Islamic and conventional finance under unified regulatory framework</span>
+                                    </span>
+                                </span>
+                            </li>
+                            <li style="border-left-color: #d97706;">
+                                <i class="fas fa-check" style="color: #d97706;"></i>
+                                <span>
+                                    <span class="highlight">
+                                        国家伊斯兰教法委员会 (SAC)
+                                        <span class="en">National Shariah Advisory Council - Highest authority providing binding interpretations for the entire industry</span>
+                                    </span>
+                                </span>
+                            </li>
+                            <li style="border-left-color: #d97706;">
+                                <i class="fas fa-check" style="color: #d97706;"></i>
+                                <span>
+                                    <span class="highlight">
+                                        监管沙盒与创新发展
+                                        <span class="en">Regulatory Sandbox - Supporting Islamic fintech innovation through controlled testing environments</span>
+                                    </span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h4>
+                            <i class="fas fa-chart-line" style="color: #d97706;"></i>
+                            证券委员会 (Securities Commission)
+                            <span class="en">Capital Market Regulation</span>
+                        </h4>
+                        <ul class="detail-list">
+                            <li style="border-left-color: #d97706;">
+                                <i class="fas fa-check" style="color: #d97706;"></i>
+                                <span>
+                                    <span class="highlight">
+                                        Sukuk发行框架
+                                        <span class="en">Sukuk Issuance Framework - Standardized processes, disclosure requirements, and investor protection mechanisms</span>
+                                    </span>
+                                </span>
+                            </li>
+                            <li style="border-left-color: #d97706;">
+                                <i class="fas fa-check" style="color: #d97706;"></i>
+                                <span>
+                                    <span class="highlight">
+                                        伊斯兰基金管理
+                                        <span class="en">Islamic Fund Management - Comprehensive registration, supervision, and disclosure frameworks</span>
+                                    </span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h4>
+                            <i class="fas fa-gavel" style="color: #d97706;"></i>
+                            法律框架与伊斯兰教法治理
+                            <span class="en">Legal Framework & Shariah Governance</span>
+                        </h4>
+                        <ul class="detail-list">
+                            <li style="border-left-color: #d97706;">
+                                <i class="fas fa-check" style="color: #d97706;"></i>
+                                <span>
+                                    <span class="highlight">
+                                        2013年伊斯兰金融服务法 (IFSA)
+                                        <span class="en">Islamic Financial Services Act 2013 - Comprehensive updated framework clarifying legal status of Islamic finance contracts</span>
+                                    </span>
+                                </span>
+                            </li>
+                            <li style="border-left-color: #d97706;">
+                                <i class="fas fa-check" style="color: #d97706;"></i>
+                                <span>
+                                    <span class="highlight">
+                                        多层次教法治理架构
+                                        <span class="en">Multi-level Governance: National SAC (supreme authority), Institutional Shariah Committees (daily supervision), Industry guidelines (standardization)</span>
+                                    </span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="theory-box">
+                        <p>
+                            <i class="fas fa-lightbulb" style="margin-right: 8px; color: #d97706;"></i>
+                            <strong>理论洞察 Theoretical Insight:</strong> 
+                            马来西亚的集中化伊斯兰教法治理代表了"强制性同构"（DiMaggio & Powell, 1983）与"国家主导"（Developmental State）模式的结合。
+                            <span style="display: block; margin-top: 6px; font-style: italic;">
+                                Malaysia's centralized Shariah governance represents the combination of "coercive isomorphism" (DiMaggio & Powell, 1983) and "Developmental State" models, providing institutional certainty for cross-border transactions.
+                            </span>
+                        </p>
+                    </div>
+                `
+            },
+            humanCapital: {
+                title: '人力资本 <span style="font-size: 0.7em; color: #6b7280; font-weight: 400;">Human Capital</span>',
+                subtitle: '全球领先的伊斯兰金融人才培养体系 | World-leading Islamic finance talent development system',
+                icon: 'fa-user-graduate',
+                color: '#059669',
+                content: `
+                    <div class="detail-section">
+                        <h4>
+                            <i class="fas fa-school" style="color: #059669;"></i>
+                            专业教育机构体系
+                            <span class="en">Professional Education Institutions</span>
+                        </h4>
+                        <p>
+                            马来西亚在培养伊斯兰金融专业人力资本方面进行了大量投资，形成了全球独特的教育生态系统。
+                            <span class="en">Malaysia has invested heavily in cultivating Islamic finance human capital, forming a globally unique educational ecosystem.</span>
+                        </p>
+                        <ul class="detail-list">
+                            <li style="border-left-color: #059669;">
+                                <i class="fas fa-check" style="color: #059669;"></i>
+                                <span>
+                                    <span class="highlight">
+                                        INCEIF（伊斯兰金融国际中心）
+                                        <span class="en">International Centre for Education in Islamic Finance - World's first university dedicated to Islamic finance, supported by BNM since 2008</span>
+                                    </span>
+                                </span>
+                            </li>
+                            <li style="border-left-color: #059669;">
+                                <i class="fas fa-check" style="color: #059669;"></i>
+                                <span>
+                                    <span class="highlight">
+                                        马来西亚国际伊斯兰大学 (IIUM)
+                                        <span class="en">International Islamic University Malaysia - Comprehensive interdisciplinary education in Islamic law, finance, and business</span>
+                                    </span>
+                                </span>
+                            </li>
+                            <li style="border-left-color: #059669;">
+                                <i class="fas fa-check" style="color: #059669;"></i>
+                                <span>
+                                    <span class="highlight">
+                                        马来亚大学
+                                        <span class="en">University of Malaya - Specialized Islamic finance programs integrated with conventional finance disciplines</span>
+                                    </span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h4>
+                            <i class="fas fa-certificate" style="color: #059669;"></i>
+                            双金融体系优势
+                            <span class="en">Dual Banking System Advantage</span>
+                        </h4>
+                        <ul class="detail-list">
+                            <li style="border-left-color: #059669;">
+                                <i class="fas fa-check" style="color: #059669;"></i>
+                                <span>
+                                    <span class="highlight">
+                                        跨体系知识转移
+                                        <span class="en">Cross-system Knowledge Transfer - Conventional banks entering Islamic finance through windows facilitate expertise transfer</span>
+                                    </span>
+                                </span>
+                            </li>
+                            <li style="border-left-color: #059669;">
+                                <i class="fas fa-check" style="color: #059669;"></i>
+                                <span>
+                                    <span class="highlight">
+                                        桥梁与转化能力
+                                        <span class="en">Bridging & Translation Capability - Professionals capable of translating between Western conventions and Islamic principles, crucial for BRI cross-border transactions</span>
+                                    </span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h4>
+                            <i class="fas fa-globe-asia" style="color: #059669;"></i>
+                            国际影响力与网络效应
+                            <span class="en">International Influence & Network Effects</span>
+                        </h4>
+                        <ul class="detail-list">
+                            <li style="border-left-color: #059669;">
+                                <i class="fas fa-check" style="color: #059669;"></i>
+                                <span>
+                                    <span class="highlight">
+                                        全球从业者网络
+                                        <span class="en">Global Practitioner Network - International students from Middle East, Africa, and Asia spreading Malaysian standards upon returning home</span>
+                                    </span>
+                                </span>
+                            </li>
+                            <li style="border-left-color: #059669;">
+                                <i class="fas fa-check" style="color: #059669;"></i>
+                                <span>
+                                    <span class="highlight">
+                                        学者网络节点
+                                        <span class="en">Scholar Network Nodes - Kuala Lumpur serves as key node in global Shariah scholar networks (Bassens et al., 2011)</span>
+                                    </span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="theory-box">
+                        <p>
+                            <i class="fas fa-quote-left" style="margin-right: 8px; color: #059669;"></i>
+                            <strong>学术引用 Academic Reference:</strong> 
+                            根据Poon, Pollard & Chow (2016)，吉隆坡的"前沿"地位在很大程度上依赖于其人力资本储备，使其能够在西方金融惯例与伊斯兰原则之间进行调解。
+                            <span style="display: block; margin-top: 6px; font-style: italic;">
+                                According to Poon, Pollard & Chow (2016), Kuala Lumpur's "frontier" position largely depends on its human capital reserves, enabling mediation between Western financial conventions and Islamic principles.
+                            </span>
+                        </p>
+                    </div>
+                `
+            },
+            market: {
+                title: '市场基础设施 <span style="font-size: 0.7em; color: #6b7280; font-weight: 400;">Market Infrastructure</span>',
+                subtitle: '全球领先的Sukuk市场与交易体系 | World-leading Sukuk market and trading infrastructure',
+                icon: 'fa-exchange-alt',
+                color: '#0891b2',
+                content: `
+                    <div class="detail-section">
+                        <h4>
+                            <i class="fas fa-file-invoice-dollar" style="color: #0891b2;"></i>
+                            一级市场：Sukuk发行平台
+                            <span class="en">Primary Market: Sukuk Issuance Platform</span>
+                        </h4>
+                        <p>
+                            马来西亚开创了主权Sukuk发行，并发展了全球流动性最强、最多元化的Sukuk市场。
+                            <span class="en">Malaysia pioneered sovereign Sukuk issuance and developed the world's most liquid and diversified Sukuk market.</span>
+                        </p>
+                        <ul class="detail-list">
+                            <li style="border-left-color: #0891b2;">
+                                <i class="fas fa-check" style="color: #0891b2;"></i>
+                                <span>
+                                    <span class="highlight">
+                                        全球市场份额
+                                        <span class="en">Global Market Share - 60%+ of global Sukuk issuance by nominal value, undisputed leadership in Islamic capital markets</span>
+                                    </span>
+                                </span>
+                            </li>
+                            <li style="border-left-color: #0891b2;">
+                                <i class="fas fa-check" style="color: #0891b2;"></i>
+                                <span>
+                                    <span class="highlight">
+                                        多样化结构创新
+                                        <span class="en">Structural Innovation - Ijarah (lease), Musharakah (partnership), Wakalah (agency), and Murabaha structures standardized</span>
+                                    </span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h4>
+                            <i class="fas fa-desktop" style="color: #0891b2;"></i>
+                            二级市场与交易平台
+                            <span class="en">Secondary Market & Trading Platforms</span>
+                        </h4>
+                        <ul class="detail-list">
+                            <li style="border-left-color: #0891b2;">
+                                <i class="fas fa-check" style="color: #0891b2;"></i>
+                                <span>
+                                    <span class="highlight">
+                                        马来西亚证券交易所伊斯兰板块
+                                        <span class="en">Bursa Malaysia Islamic Segment - Dedicated listing and trading platform for Islamic securities with transparent price discovery</span>
+                                    </span>
+                                </span>
+                            </li>
+                            <li style="border-left-color: #0891b2;">
+                                <i class="fas fa-check" style="color: #0891b2;"></i>
+                                <span>
+                                    <span class="highlight">
+                                        做市安排与流动性
+                                        <span class="en">Market Making - Primary Dealer system providing liquidity support and reducing bid-ask spreads</span>
+                                    </span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h4>
+                            <i class="fas fa-chart-bar" style="color: #0891b2;"></i>
+                            绿色与可持续金融创新
+                            <span class="en">Green & Sustainable Finance Innovation</span>
+                        </h4>
+                        <ul class="detail-list">
+                            <li style="border-left-color: #0891b2;">
+                                <i class="fas fa-check" style="color: #0891b2;"></i>
+                                <span>
+                                    <span class="highlight">
+                                        全球首只绿色Sukuk (2017)
+                                        <span class="en">World's First Green Sukuk (2017) - Establishing templates for sustainable Islamic finance and BRI green financing</span>
+                                    </span>
+                                </span>
+                            </li>
+                            <li style="border-left-color: #0891b2;">
+                                <i class="fas fa-check" style="color: #0891b2;"></i>
+                                <span>
+                                    <span class="highlight">
+                                        SDG Sukuk发展
+                                        <span class="en">SDG Sukuk Development - Integrating Shariah compliance with UN Sustainable Development Goals, exemplified by ECRL SDG Sukuk</span>
+                                    </span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="theory-box">
+                        <p>
+                            <i class="fas fa-chart-pie" style="margin-right: 8px; color: #0891b2;"></i>
+                            <strong>数据亮点 Data Highlight:</strong> 
+                            根据Bank Negara Malaysia (2023)，马来西亚伊斯兰金融资产规模超过2.5万亿令吉。
+                            <span style="display: block; margin-top: 6px; font-style: italic;">
+                                According to BNM (2023), Malaysian Islamic finance assets exceed RM2.5 trillion, with Sukuk outstanding balances dominating globally, providing deep market foundation for BRI project financing.
+                            </span>
+                        </p>
+                    </div>
+                `
+            },
+            services: {
+                title: '配套服务 <span style="font-size: 0.7em; color: #6b7280; font-weight: 400;">Supporting Services</span>',
+                subtitle: '完善的专业服务机构网络 | Comprehensive professional service provider network',
+                icon: 'fa-hands-helping',
+                color: '#7c3aed',
+                content: `
+                    <div class="detail-section">
+                        <h4>
+                            <i class="fas fa-briefcase" style="color: #7c3aed;"></i>
+                            专业法律服务
+                            <span class="en">Professional Legal Services</span>
+                        </h4>
+                        <p>
+                            多家国际和本地律师事务所设有专门的伊斯兰金融团队，精通Sukuk结构和跨境交易的法律安排。
+                            <span class="en">Multiple international and local law firms maintain dedicated Islamic finance practices, expert in Sukuk structuring and cross-border transaction arrangements.</span>
+                        </p>
+                        <ul class="detail-list">
+                            <li style="border-left-color: #7c3aed;">
+                                <i class="fas fa-check" style="color: #7c3aed;"></i>
+                                <span>
+                                    <span class="highlight">
+                                        国际与本地律所
+                                        <span class="en">International & Local Firms - Norton Rose Fulbright, Clifford Chance, Zaid Ibrahim & Co (KPMG Law) with specialized Islamic finance teams</span>
+                                    </span>
+                                </span>
+                            </li>
+                            <li style="border-left-color: #7c3aed;">
+                                <i class="fas fa-check" style="color: #7c3aed;"></i>
+                                <span>
+                                    <span class="highlight">
+                                        跨境法律协调
+                                        <span class="en">Cross-border Coordination - Navigating Malaysian law, Chinese law, common law, and Shariah requirements in BRI transactions</span>
+                                    </span>
+                                </span>
+                            </li>
+                            <li style="border-left-color: #7c3aed;">
+                                <i class="fas fa-check" style="color: #7c3aed;"></i>
+                                <span>
+                                    <span class="highlight">
+                                        争议解决机制
+                                        <span class="en">Dispute Resolution - KLRCA (Kuala Lumpur Regional Centre for Arbitration) provides Shariah-compliant arbitration rules</span>
+                                    </span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h4>
+                            <i class="fas fa-calculator" style="color: #7c3aed;"></i>
+                            会计、审计与评级服务
+                            <span class="en">Accounting, Audit & Rating Services</span>
+                        </h4>
+                        <ul class="detail-list">
+                            <li style="border-left-color: #7c3aed;">
+                                <i class="fas fa-check" style="color: #7c3aed;"></i>
+                                <span>
+                                    <span class="highlight">
+                                        四大事务所伊斯兰部门
+                                        <span class="en">Big Four Islamic Divisions - Deloitte, PwC, EY, KPMG providing AAOIFI-compliant audit and accounting services</span>
+                                    </span>
+                                </span>
+                            </li>
+                            <li style="border-left-color: #7c3aed;">
+                                <i class="fas fa-check" style="color: #7c3aed;"></i>
+                                <span>
+                                    <span class="highlight">
+                                        国际评级机构方法论
+                                        <span class="en">Rating Agency Methodologies - Moody's, S&P, Fitch with specialized Islamic finance rating methodologies for Sukuk</span>
+                                    </span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="detail-section">
+                        <h4>
+                            <i class="fas fa-puzzle-piece" style="color: #7c3aed;"></i>
+                            生态协同与MIFC协调
+                            <span class="en">Ecosystem Synergy & MIFC Coordination</span>
+                        </h4>
+                        <ul class="detail-list">
+                            <li style="border-left-color: #7c3aed;">
+                                <i class="fas fa-check" style="color: #7c3aed;"></i>
+                                <span>
+                                    <span class="highlight">
+                                        MIFC秘书处协调
+                                        <span class="en">MIFC Secretariat Coordination - Coordinating between law firms, accounting firms, banks, and regulators</span>
+                                    </span>
+                                </span>
+                            </li>
+                            <li style="border-left-color: #7c3aed;">
+                                <i class="fas fa-check" style="color: #7c3aed;"></i>
+                                <span>
+                                    <span class="highlight">
+                                        行业联盟
+                                        <span class="en">Industry Alliances - AIBM (Association of Islamic Banking Institutions Malaysia), MIFPA (Malaysian Islamic Finance Practitioners Association)</span>
+                                    </span>
+                                </span>
+                            </li>
+                            <li style="border-left-color: #7c3aed;">
+                                <i class="fas fa-check" style="color: #7c3aed;"></i>
+                                <span>
+                                    <span class="highlight">
+                                        一站式服务能力
+                                        <span class="en">One-Stop Service - Complete ecosystem providing structuring, documentation, Shariah certification, and distribution for complex cross-border transactions like ECRL SDG Sukuk</span>
+                                    </span>
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="theory-box">
+                        <p>
+                            <i class="fas fa-network-wired" style="margin-right: 8px; color: #7c3aed;"></i>
+                            <strong>生态系统优势 Ecosystem Advantage:</strong> 
+                            吉隆坡的配套服务机构形成了紧密的"生态系统协同"，降低了交易成本，提高了复杂跨境伊斯兰金融交易的可行性。
+                            <span style="display: block; margin-top: 6px; font-style: italic;">
+                                Kuala Lumpur's supporting services form tight "ecosystem synergy," reducing transaction costs and enhancing feasibility of complex cross-border Islamic financial transactions.
+                            </span>
+                        </p>
+                    </div>
+                `
+            }
+        };
+        
+        function openModal(type) {
+            const data = modalData[type];
+            if (!data) return;
+            
+            const iconDiv = document.getElementById('modalIcon');
+            iconDiv.style.background = data.color + '15';
+            iconDiv.style.color = data.color;
+            iconDiv.style.border = `1px solid ${data.color}30`;
+            iconDiv.innerHTML = `<i class="fas ${data.icon}"></i>`;
+            
+            document.getElementById('modalTitle').innerHTML = data.title;
+            document.getElementById('modalSubtitle').textContent = data.subtitle;
+            document.getElementById('modalBody').innerHTML = data.content;
+            
+            document.getElementById('modalOverlay').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal() {
+            document.getElementById('modalOverlay').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        function closeModalOnOverlay(event) {
+            if (event.target === document.getElementById('modalOverlay')) {
+                closeModal();
+            }
+        }
+        
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') closeModal();
+        });
+    </script>
+</body>
+</html>
