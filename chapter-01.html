@@ -236,36 +236,54 @@
         .significance-card.practice .significance-list li::before { background: #10b981; }
         .significance-list .cn { display: block; color: #64748b; font-size: 0.6rem; margin-top: 0.05rem; font-family: 'Noto Serif SC', serif; }
         
-        /* Responsive Design */
-        @media (max-width: 1024px) {
-            .three-panel-grid {
-                grid-template-columns: 1fr;
+                /* Responsive Design - Mobile: Vertical Stack | Desktop: Unchanged */
+        @media screen and (max-width: 1024px) {
+            body {
                 height: auto;
-                overflow-y: auto;
+                overflow: auto;
             }
+
+            .three-panel-grid {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+                height: auto;
+                padding: 1rem;
+            }
+
             .panel-card {
                 height: auto;
                 max-height: none;
             }
+
             .panel-content {
-                max-height: 600px;
+                overflow-y: visible;
+                max-height: none;
             }
+
             .significance-grid {
                 grid-template-columns: 1fr;
             }
         }
-        
-        @media (max-width: 768px) {
+
+        @media screen and (max-width: 768px) {
             .three-panel-grid {
-                padding: 1rem;
-                gap: 1rem;
+                padding: 0.75rem;
+                gap: 0.75rem;
             }
+
             .correspondence-matrix th,
             .correspondence-matrix td {
                 padding: 0.4rem 0.2rem;
             }
         }
-    </style>
+
+        @media screen and (max-width: 480px) {
+            .three-panel-grid {
+                padding: 0.5rem;
+            }
+        }</style>
+<base target="_blank">
 </head>
 <body>
 
