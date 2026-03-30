@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dissertation Proposal - Interactive Contents | 论文开题答辩 - 交互式目录</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .serif-sc { font-family: 'Noto Serif SC', serif; }
+        .gradient-bg { background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%); }
+        .highlight-chapter {
+            background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+            border: 2px solid #d97706;
+            box-shadow: 0 4px 6px -1px rgba(217, 119, 6, 0.1);
+        }
+        .normal-chapter {
+            background: white;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+        }
+        .chapter-01, .chapter-02, .chapter-03, .chapter-04, .chapter-05, 
+        .chapter-06, .chapter-07, .chapter-08, .chapter-09 {
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .chapter-01:hover, .chapter-02:hover, .chapter-03:hover, .chapter-04:hover,
+        .chapter-05:hover, .chapter-06:hover, .chapter-07:hover, .chapter-08:hover, .chapter-09:hover {
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .chapter-number {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+        }
+        .highlight-chapter .chapter-number {
+            background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+        }
+        .cn-text {
+            font-family: 'Noto Serif SC', serif;
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+        .islamic-pattern {
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231e3a8a' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+        
+        /* Glass Modal Styles - 简化版 */
+        .glass-modal {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease-in-out;
+        }
+        .glass-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .glass-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(8px);
+        }
+        .glass-content {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            height: 90vh;
+            background: rgba(255, 255, 255, 0.98);
+            border-radius: 1.5rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transform: scale(0.95) translateY(20px);
+            transition: transform 0.3s ease-out;
+        }
+        .glass-modal.active .glass-content {
+            transform: scale(1) translateY(0);
+        }
+        .glass-header {
+            flex-shrink: 0;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .glass-body {
+            flex: 1;
+            overflow: hidden;
+            position: relative;
+        }
+        .glass-body iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        /* 主题色 */
+        .amber-theme .glass-header {
+            background: linear-gradient(135deg, #92400e 0%, #b45309 100%);
+            color: white;
+        }
+        .blue-theme .glass-header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            color: white;
+        }
+
+        /* 密码门样式 */
+        #gate {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #312e81 100%);
+            display: grid;
+            place-items: center;
+            z-index: 9999;
+            font-family: 'Inter', sans-serif;
+        }
+        #gate-box {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 48px;
+            border-radius: 16px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            max-width: 480px;
+            width: 90%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        #gate-box h2 {
+            margin: 0 0 8px 0;
+            color: #1e3a8a;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .gate-subtitle {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+        .gate-subtitle .cn {
+            font-family: 'Noto Serif SC', serif;
+            color: #94a3b8;
+            font-size: 13px;
+        }
+        #gate-box input {
+            width: 100%;
+            padding: 14px 16px;
+            margin: 8px 0;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 15px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+        #gate-box input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+        #gate-box button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 12px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        #gate-box button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.4);
+        }
+        .gate-divider {
+            margin: 28px 0;
+            border-top: 1px solid #e2e8f0;
+            position: relative;
+        }
+        .gate-divider::before {
+            content: "OR | 或";
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            padding: 0 12px;
+            color: #94a3b8;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .gate-apply-btn {
+            display: inline-block;
+            width: 100%;
+            padding: 12px;
+            background: #f1f5f9;
+            color: #1e3a8a;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: 1px solid #e2e8f0;
+        }
+        .gate-apply-btn:hover {
+            background: #e2e8f0;
+        }
+        .gate-hint {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 20px;
+            line-height: 1.5;
+        }
+        .gate-hint .cn {
+            font-family: 'Noto Serif SC', serif;
+        }
+        .gate-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        .gate-label {
+            display: block;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .gate-label .cn {
+            font-family: 'Noto Serif SC', serif;
+            font-weight: 400;
+            color: #94a3b8;
+            margin-left: 4px;
+        }
+    </style>
+</head>
+<body class="gradient-bg min-h-screen p-4 md:p-8 relative">
+
+    <!-- 密码门 -->
+    <div id="gate">
+        <div id="gate-box">
+            <div class="gate-icon">🔐</div>
+            <h2>Access Required<br><span class="serif-sc" style="font-size: 20px; color: #64748b;">需要授权访问</span></h2>
+            <p class="gate-subtitle">
+                PhD Dissertation Proposal | Private Content<br>
+                <span class="cn">博士论文开题汇报 · 私密学术材料</span>
+            </p>
+            
+            <label class="gate-label">
+                Access Password <span class="cn">访问密码</span>
+            </label>
+            <input type="password" id="pwd" placeholder="Enter password | 输入密码" onkeydown="if(event.key==='Enter')check()">
+            <button onclick="check()">
+                Enter System | 进入系统
+            </button>
+            
+            <div class="gate-divider"></div>
+            
+            <a href="https://docs.google.com/forms/d/e/1FAIpQLSc6ufXiJEl5nYM0sjVnrEgtOhK2NMHOadwnSDZd5o5yr8t49Q/viewform?usp=header" target="_blank" class="gate-apply-btn">
+                📩 Request Access | 申请查看权限
+            </a>
+            
+            <p class="gate-hint">
+                Password will be sent via email after approval.<br>
+                <span class="cn">审核通过后，密码将发送至您的邮箱（通常需要1-24小时）</span>
+            </p>
+        </div>
+    </div>
+
+    <!-- Background Decorations -->
+    <div class="absolute inset-0 islamic-pattern pointer-events-none"></div>
+    <div class="absolute left-0 top-0 w-2 h-full bg-gradient-to-b from-blue-900 via-amber-600 to-blue-900 pointer-events-none"></div>
+
+    <!-- Main Container -->
+    <div class="max-w-7xl w-full mx-auto bg-white shadow-2xl rounded-xl overflow-hidden relative z-10 border border-slate-200 mb-8">
+        
+        <!-- Header Section -->
+        <div class="bg-slate-900 text-white p-6 md:p-8 relative overflow-hidden">
+            <div class="absolute inset-0 opacity-10">
+                <div class="absolute inset-0" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(255,255,255,.1) 35px, rgba(255,255,255,.1) 70px);"></div>
+            </div>
+            
+            <div class="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <div class="flex-1">
+                    <div class="text-xs text-amber-400 tracking-widest mb-1 uppercase font-semibold">PhD Dissertation Proposal Defense | 博士论文开题答辩</div>
+                    <h1 class="text-2xl md:text-3xl font-bold serif-sc mb-2 leading-tight">
+                        The Internationalization Pathway of Kuala Lumpur's Financial Hub
+                    </h1>
+                    <h2 class="text-lg text-slate-300 serif-sc mb-3">
+                        吉隆坡金融中心的国际化路径：伊斯兰金融与"一带一路"倡议的互动研究
+                    </h2>
+                    <div class="flex flex-wrap items-center gap-2 text-xs text-slate-300">
+                        <span class="px-2 py-1 bg-slate-800 rounded border border-slate-700">Islamic Finance 伊斯兰金融</span>
+                        <span class="text-slate-500">×</span>
+                        <span class="px-2 py-1 bg-slate-800 rounded border border-slate-700">Belt & Road Initiative 一带一路倡议</span>
+                        <span class="text-slate-500">×</span>
+                        <span class="px-2 py-1 bg-slate-800 rounded border border-slate-700">Financial Center 金融中心</span>
+                    </div>
+                </div>
+                
+                <!-- 3D Framework Badge -->
+                <div class="hidden md:block w-36 h-28 bg-white/10 rounded-lg p-3 backdrop-blur border border-white/20 shrink-0">
+                    <svg viewBox="0 0 120 90" class="w-full h-full opacity-90">
+                        <rect x="15" y="5" width="40" height="25" fill="#fbbf24" rx="3"/>
+                        <text x="35" y="20" text-anchor="middle" fill="#1e3a8a" font-size="8" font-weight="bold">Strategy</text>
+                        <text x="35" y="30" text-anchor="middle" fill="#1e3a8a" font-size="6" class="serif-sc">战略</text>
+                        
+                        <rect x="40" y="32" width="40" height="25" fill="#60a5fa" rx="3"/>
+                        <text x="60" y="47" text-anchor="middle" fill="white" font-size="8" font-weight="bold">Institution</text>
+                        <text x="60" y="57" text-anchor="middle" fill="white" font-size="6" class="serif-sc">制度</text>
+                        
+                        <rect x="65" y="59" width="40" height="25" fill="#34d399" rx="3"/>
+                        <text x="85" y="74" text-anchor="middle" fill="white" font-size="8" font-weight="bold">Market</text>
+                        <text x="85" y="84" text-anchor="middle" fill="white" font-size="6" class="serif-sc">市场</text>
+                        
+                        <line x1="35" y1="30" x2="60" y2="32" stroke="white" stroke-width="1.5"/>
+                        <line x1="60" y1="57" x2="85" y2="59" stroke="white" stroke-width="1.5"/>
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contents Header -->
+        <div class="bg-slate-50 border-b border-slate-200 px-6 py-4 flex justify-between items-center">
+            <h3 class="text-xl font-bold text-slate-800 flex items-center gap-3">
+                <span class="w-10 h-10 rounded-full bg-blue-900 text-white flex items-center justify-center text-lg font-bold">C</span>
+                <div class="flex flex-col">
+                    <span class="leading-tight">Contents | 目录</span>
+                    <span class="cn-text font-normal tracking-wider">共9章</span>
+                </div>
+            </h3>
+            <div class="flex items-center gap-3 text-xs">
+                <div class="flex items-center gap-1.5 px-3 py-1.5 bg-amber-100 border border-amber-300 rounded-lg">
+                    <div class="w-2.5 h-2.5 bg-amber-600 rounded-sm"></div>
+                    <span class="text-amber-800 font-medium">Key Chapters 重点章节</span>
+                </div>
+                <div class="text-slate-400 px-3 py-1.5 border border-slate-300 rounded-lg bg-white">
+                    9 Chapters <span class="text-slate-300 mx-1">|</span> 9章
+                </div>
+            </div>
+        </div>
+
+        <!-- 9 Chapters Grid -->
+        <div class="p-6 md:p-8 bg-slate-50/50">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                
+                <!-- 第一章 -->
+                <div class="normal-chapter chapter-01 rounded-xl p-5" onclick="openModal('modal01')">
+                    <div class="flex items-start gap-4">
+                        <div class="chapter-number w-12 h-12 rounded-xl text-white flex items-center justify-center font-bold text-xl shrink-0 shadow-lg">01</div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-bold text-slate-800 text-lg leading-tight mb-0.5">Introduction | 绪论</h4>
+                            <span class="block cn-text serif-sc">研究背景、问题陈述与目标</span>
+                            
+                            <div class="mt-3 space-y-2 text-sm text-slate-600 border-t border-slate-100 pt-3">
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-slate-700">Research Background & Problem Statement</span>
+                                    <span class="cn-text serif-sc">研究背景与问题陈述</span>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-slate-700">Research Objectives, Questions & Significance</span>
+                                    <span class="cn-text serif-sc">研究目标、问题与意义</span>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-slate-700">Core Concepts Definition</span>
+                                    <span class="cn-text serif-sc">核心概念界定</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 第二章 [重点] -->
+                <div class="highlight-chapter chapter-02 rounded-xl p-5 relative overflow-hidden" onclick="openModal('modal02')">
+                    <div class="absolute top-3 right-3 text-amber-600">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="chapter-number w-12 h-12 rounded-xl text-white flex items-center justify-center font-bold text-xl shrink-0 shadow-lg">02</div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-bold text-slate-900 text-lg leading-tight mb-0.5 flex items-center gap-2">
+                                Literature Review & Framework | 文献综述与理论框架
+                                <span class="text-[10px] bg-amber-600 text-white px-2 py-0.5 rounded-full uppercase tracking-wider">Core</span>
+                            </h4>
+                            <span class="block cn-text serif-sc font-medium text-amber-700">三维互动框架构建</span>
+                            
+                            <div class="mt-3 space-y-2 text-sm border-t border-amber-200/50 pt-3">
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-amber-900">Strategic-Institutional-Market Framework</span>
+                                    <span class="cn-text serif-sc text-amber-700/70">三维互动框架构建</span>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-slate-700">Islamic Finance Theory</span>
+                                    <span class="cn-text serif-sc">伊斯兰金融理论体系</span>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-slate-700">International Financial Center Theory</span>
+                                    <span class="cn-text serif-sc">国际金融中心理论</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 第三章 [重点] -->
+                <div class="highlight-chapter chapter-03 rounded-xl p-5 relative overflow-hidden" onclick="openModal('modal03')">
+                    <div class="absolute top-3 right-3 text-amber-600">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="chapter-number w-12 h-12 rounded-xl text-white flex items-center justify-center font-bold text-xl shrink-0 shadow-lg">03</div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-bold text-slate-900 text-lg leading-tight mb-0.5 flex items-center gap-2">
+                                Research Methodology | 研究方法论
+                                <span class="text-[10px] bg-amber-600 text-white px-2 py-0.5 rounded-full uppercase tracking-wider">Core</span>
+                            </h4>
+                            <span class="block cn-text serif-sc font-medium text-amber-700">定性案例研究与过程追踪</span>
+                            
+                            <div class="mt-3 space-y-2 text-sm border-t border-amber-200/50 pt-3">
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-amber-900">Qualitative Case Study Design</span>
+                                    <span class="cn-text serif-sc text-amber-700/70">定性案例研究设计</span>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-slate-700">Data Collection & Coding Framework</span>
+                                    <span class="cn-text serif-sc">数据收集与编码框架</span>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-slate-700">Process Tracing Methods</span>
+                                    <span class="cn-text serif-sc">过程追踪方法</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 第四章 -->
+                <div class="normal-chapter chapter-04 rounded-xl p-5" onclick="openModal('modal04')">
+                    <div class="flex items-start gap-4">
+                        <div class="chapter-number w-12 h-12 rounded-xl text-white flex items-center justify-center font-bold text-xl shrink-0 shadow-lg">04</div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-bold text-slate-800 text-lg leading-tight mb-0.5">Evolutionary Foundation Analysis | 演化基础分析</h4>
+                            <span class="block cn-text serif-sc">吉隆坡专业金融中心的历史演化</span>
+                            
+                            <div class="mt-3 space-y-2 text-sm text-slate-600 border-t border-slate-100 pt-3">
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-slate-700">Development Trajectory of KL Islamic Finance</span>
+                                    <span class="cn-text serif-sc">吉隆坡伊斯兰金融发展轨迹</span>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-slate-700">MIFC Initiative & Strategic Positioning</span>
+                                    <span class="cn-text serif-sc">MIFC倡议与战略定位</span>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-slate-700">Formation of Institutional Ecosystem</span>
+                                    <span class="cn-text serif-sc">制度生态系统形成</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 第五章 -->
+                <div class="normal-chapter chapter-05 rounded-xl p-5" onclick="openModal('modal05')">
+                    <div class="flex items-start gap-4">
+                        <div class="chapter-number w-12 h-12 rounded-xl text-white flex items-center justify-center font-bold text-xl shrink-0 shadow-lg">05</div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-bold text-slate-800 text-lg leading-tight mb-0.5">Institutional Coordination Analysis | 制度协同分析</h4>
+                            <span class="block cn-text serif-sc">跨境监管协调与教法治理对接</span>
+                            
+                            <div class="mt-3 space-y-2 text-sm text-slate-600 border-t border-slate-100 pt-3">
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-slate-700">Cross-border Regulatory Coordination</span>
+                                    <span class="cn-text serif-sc">跨境监管协调机制</span>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-slate-700">Shariah Governance Alignment</span>
+                                    <span class="cn-text serif-sc">伊斯兰教法治理对接</span>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-slate-700">Professional Talent Development</span>
+                                    <span class="cn-text serif-sc">专业人才培养体系</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 第六章 -->
+                <div class="normal-chapter chapter-06 rounded-xl p-5" onclick="openModal('modal06')">
+                    <div class="flex items-start gap-4">
+                        <div class="chapter-number w-12 h-12 rounded-xl text-white flex items-center justify-center font-bold text-xl shrink-0 shadow-lg">06</div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-bold text-slate-800 text-lg leading-tight mb-0.5">Market Integration Analysis | 市场融合分析</h4>
+                            <span class="block cn-text serif-sc">Sukuk创新与跨境资本流动</span>
+                            
+                            <div class="mt-3 space-y-2 text-sm text-slate-600 border-t border-slate-100 pt-3">
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-slate-700">Sukuk Innovation & Structural Design</span>
+                                    <span class="cn-text serif-sc">Sukuk产品创新与结构设计</span>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-slate-700">Cross-border Capital Flow Paths</span>
+                                    <span class="cn-text serif-sc">跨境资本流动路径</span>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-slate-700">Financial Institution Partnerships</span>
+                                    <span class="cn-text serif-sc">金融机构合作模式</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 第七章 [重点] -->
+                <div class="highlight-chapter chapter-07 rounded-xl p-5 relative overflow-hidden" onclick="openModal('modal07')">
+                    <div class="absolute top-3 right-3 text-amber-600">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    </div>
+                    <div class="flex items-start gap-4">
+                        <div class="chapter-number w-12 h-12 rounded-xl text-white flex items-center justify-center font-bold text-xl shrink-0 shadow-lg">07</div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-bold text-slate-900 text-lg leading-tight mb-0.5 flex items-center gap-2">
+                                Case Study: ECRL SDG Sukuk | 案例深描
+                                <span class="text-[10px] bg-amber-600 text-white px-2 py-0.5 rounded-full uppercase tracking-wider">Core</span>
+                            </h4>
+                            <span class="block cn-text serif-sc font-medium text-amber-700">东海岸铁路伊斯兰债券</span>
+                            
+                            <div class="mt-3 space-y-2 text-sm border-t border-amber-200/50 pt-3">
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-amber-900">Transaction Structure & Financing Architecture</span>
+                                    <span class="cn-text serif-sc text-amber-700/70">交易结构与融资架构</span>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-slate-700">Risk Sharing Mechanism Analysis</span>
+                                    <span class="cn-text serif-sc">风险分担机制分析</span>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-slate-700">SDG Integration & Framework Validation</span>
+                                    <span class="cn-text serif-sc">SDG目标融合与验证</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 第八章 -->
+                <div class="normal-chapter chapter-08 rounded-xl p-5" onclick="openModal('modal08')">
+                    <div class="flex items-start gap-4">
+                        <div class="chapter-number w-12 h-12 rounded-xl text-white flex items-center justify-center font-bold text-xl shrink-0 shadow-lg">08</div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-bold text-slate-800 text-lg leading-tight mb-0.5">Comparative Analysis & Synthesis | 比较分析与机制综合</h4>
+                            <span class="block cn-text serif-sc">与香港、迪拜的模式比较</span>
+                            
+                            <div class="mt-3 space-y-2 text-sm text-slate-600 border-t border-slate-100 pt-3">
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-slate-700">Comparison with Hong Kong & Dubai</span>
+                                    <span class="cn-text serif-sc">与香港、迪拜比较</span>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-slate-700">Uniqueness of KL Pathway</span>
+                                    <span class="cn-text serif-sc">吉隆坡路径独特性</span>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-slate-700">Synthesis of Interaction Mechanisms</span>
+                                    <span class="cn-text serif-sc">互动机制综合识别</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 第九章 -->
+                <div class="normal-chapter chapter-09 rounded-xl p-5" onclick="openModal('modal09')">
+                    <div class="flex items-start gap-4">
+                        <div class="chapter-number w-12 h-12 rounded-xl text-white flex items-center justify-center font-bold text-xl shrink-0 shadow-lg">09</div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-bold text-slate-800 text-lg leading-tight mb-0.5">Conclusion & Recommendations | 结论与建议</h4>
+                            <span class="block cn-text serif-sc">理论贡献与实践启示</span>
+                            
+                            <div class="mt-3 space-y-2 text-sm text-slate-600 border-t border-slate-100 pt-3">
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-slate-700">Theoretical Contributions</span>
+                                    <span class="cn-text serif-sc">理论贡献与创新点</span>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-slate-700">Policy Implications</span>
+                                    <span class="cn-text serif-sc">政策启示与实践建议</span>
+                                </div>
+                                <div class="flex flex-col">
+                                    <span class="font-medium text-slate-700">Limitations & Future Research</span>
+                                    <span class="cn-text serif-sc">研究局限与未来展望</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="bg-slate-900 text-white px-6 py-5 border-t border-slate-700">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
+                <div class="flex flex-wrap items-center justify-center md:justify-start gap-4 md:gap-8">
+                    <div class="text-center md:text-left">
+                        <span class="text-slate-400 text-xs uppercase tracking-wider block mb-0.5">Candidate | 答辩人</span>
+                        <p class="font-bold">Zhao Jie <span class="text-slate-400 font-normal text-xs serif-sc">赵杰</span></p>
+                    </div>
+                    <div class="hidden md:block w-px h-8 bg-slate-700"></div>
+                    <div class="text-center md:text-left">
+                        <span class="text-slate-400 text-xs uppercase tracking-wider block mb-0.5">Supervisor | 导师</span>
+                        <p class="font-bold">Ts. Dr. Suraya Binti Ya'acob</p>
+                    </div>
+                    <div class="hidden md:block w-px h-8 bg-slate-700"></div>
+                    <div class="text-center md:text-left">
+                        <span class="text-slate-400 text-xs uppercase tracking-wider block mb-0.5">Institution | 院校</span>
+                        <p class="font-bold">Universiti Teknologi Malaysia <span class="text-slate-400 font-normal text-xs serif-sc">马来西亚理工大学</span></p>
+                    </div>
+                </div>
+                <div class="text-center md:text-right">
+                    <span class="text-slate-400 text-xs uppercase tracking-wider block mb-0.5">Date | 日期</span>
+                    <p class="font-bold">March 2026 <span class="text-slate-400 font-normal serif-sc">2026年3月</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page Number -->
+    <div class="absolute bottom-4 right-8 text-slate-400 text-sm font-medium z-20 bg-white/80 px-3 py-1 rounded-full shadow-sm border border-slate-200">
+        02 / 20
+    </div>
+
+    <!-- ==================== 模态框框架（内容用iframe加载）==================== -->
+    
+    <!-- MODAL 01: Introduction -->
+    <div id="modal01" class="glass-modal blue-theme" onclick="closeModalOnBackdrop(event, 'modal01')">
+        <div class="glass-backdrop"></div>
+        <div class="glass-content" onclick="event.stopPropagation()">
+            <div class="glass-header">
+                <div>
+                    <div class="text-xs text-blue-200 uppercase tracking-wider mb-1">Chapter One | 第一章</div>
+                    <h2 class="text-2xl font-bold serif-sc">Introduction | 绪论</h2>
+                </div>
+                <button onclick="closeModal('modal01')" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors backdrop-blur border border-white/30">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="glass-body">
+                <iframe src="chapter-01.html" title="Chapter 1"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 02: Literature Review (含伊斯兰金融谱系入口) -->
+    <div id="modal02" class="glass-modal amber-theme" onclick="closeModalOnBackdrop(event, 'modal02')">
+        <div class="glass-backdrop"></div>
+        <div class="glass-content" onclick="event.stopPropagation()">
+            <div class="glass-header">
+                <div>
+                    <div class="text-xs text-amber-200 uppercase tracking-wider mb-1">Chapter Two [Core] | 第二章【重点】</div>
+                    <h2 class="text-2xl font-bold serif-sc">Literature Review & Framework | 文献综述与理论框架</h2>
+                </div>
+                <button onclick="closeModal('modal02')" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors backdrop-blur border border-white/30">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="glass-body">
+                <iframe src="chapter-02.html" title="Chapter 2"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 03: Methodology -->
+    <div id="modal03" class="glass-modal amber-theme" onclick="closeModalOnBackdrop(event, 'modal03')">
+        <div class="glass-backdrop"></div>
+        <div class="glass-content" onclick="event.stopPropagation()">
+            <div class="glass-header">
+                <div>
+                    <div class="text-xs text-amber-200 uppercase tracking-wider mb-1">Chapter Three [Core] | 第三章【重点】</div>
+                    <h2 class="text-2xl font-bold serif-sc">Research Methodology | 研究方法论</h2>
+                </div>
+                <button onclick="closeModal('modal03')" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors backdrop-blur border border-white/30">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="glass-body">
+                <iframe src="chapter-03.html" title="Chapter 3"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 04: Evolutionary Foundation -->
+    <div id="modal04" class="glass-modal blue-theme" onclick="closeModalOnBackdrop(event, 'modal04')">
+        <div class="glass-backdrop"></div>
+        <div class="glass-content" onclick="event.stopPropagation()">
+            <div class="glass-header">
+                <div>
+                    <div class="text-xs text-blue-200 uppercase tracking-wider mb-1">Chapter Four | 第四章</div>
+                    <h2 class="text-2xl font-bold serif-sc">Evolutionary Foundation Analysis | 演化基础分析</h2>
+                </div>
+                <button onclick="closeModal('modal04')" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors backdrop-blur border border-white/30">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="glass-body">
+                <iframe src="chapter-04.html" title="Chapter 4"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 05: Institutional Coordination -->
+    <div id="modal05" class="glass-modal blue-theme" onclick="closeModalOnBackdrop(event, 'modal05')">
+        <div class="glass-backdrop"></div>
+        <div class="glass-content" onclick="event.stopPropagation()">
+            <div class="glass-header">
+                <div>
+                    <div class="text-xs text-blue-200 uppercase tracking-wider mb-1">Chapter Five | 第五章</div>
+                    <h2 class="text-2xl font-bold serif-sc">Institutional Coordination Analysis | 制度协同分析</h2>
+                </div>
+                <button onclick="closeModal('modal05')" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors backdrop-blur border border-white/30">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="glass-body">
+                <iframe src="chapter-05.html" title="Chapter 5"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 06: Market Integration -->
+    <div id="modal06" class="glass-modal blue-theme" onclick="closeModalOnBackdrop(event, 'modal06')">
+        <div class="glass-backdrop"></div>
+        <div class="glass-content" onclick="event.stopPropagation()">
+            <div class="glass-header">
+                <div>
+                    <div class="text-xs text-blue-200 uppercase tracking-wider mb-1">Chapter Six | 第六章</div>
+                    <h2 class="text-2xl font-bold serif-sc">Market Integration Analysis | 市场融合分析</h2>
+                </div>
+                <button onclick="closeModal('modal06')" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors backdrop-blur border border-white/30">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="glass-body">
+                <iframe src="chapter-06.html" title="Chapter 6"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 07: Case Study -->
+    <div id="modal07" class="glass-modal amber-theme" onclick="closeModalOnBackdrop(event, 'modal07')">
+        <div class="glass-backdrop"></div>
+        <div class="glass-content" onclick="event.stopPropagation()">
+            <div class="glass-header">
+                <div>
+                    <div class="text-xs text-amber-200 uppercase tracking-wider mb-1">Chapter Seven [Core] | 第七章【重点】</div>
+                    <h2 class="text-2xl font-bold serif-sc">Case Study: ECRL SDG Sukuk | 案例深描</h2>
+                </div>
+                <button onclick="closeModal('modal07')" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors backdrop-blur border border-white/30">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="glass-body">
+                <iframe src="chapter-07.html" title="Chapter 7"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 08: Comparative Analysis -->
+    <div id="modal08" class="glass-modal blue-theme" onclick="closeModalOnBackdrop(event, 'modal08')">
+        <div class="glass-backdrop"></div>
+        <div class="glass-content" onclick="event.stopPropagation()">
+            <div class="glass-header">
+                <div>
+                    <div class="text-xs text-blue-200 uppercase tracking-wider mb-1">Chapter Eight | 第八章</div>
+                    <h2 class="text-2xl font-bold serif-sc">Comparative Analysis & Synthesis | 比较分析与机制综合</h2>
+                </div>
+                <button onclick="closeModal('modal08')" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors backdrop-blur border border-white/30">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="glass-body">
+                <iframe src="chapter-08.html" title="Chapter 8"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 09: Conclusion -->
+    <div id="modal09" class="glass-modal blue-theme" onclick="closeModalOnBackdrop(event, 'modal09')">
+        <div class="glass-backdrop"></div>
+        <div class="glass-content" onclick="event.stopPropagation()">
+            <div class="glass-header">
+                <div>
+                    <div class="text-xs text-blue-200 uppercase tracking-wider mb-1">Chapter Nine | 第九章</div>
+                    <h2 class="text-2xl font-bold serif-sc">Conclusion & Recommendations | 结论与建议</h2>
+                </div>
+                <button onclick="closeModal('modal09')" class="w-10 h-10 rounded-full bg-white/20 hover:bg-white/30 flex items-center justify-center transition-colors backdrop-blur border border-white/30">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div class="glass-body">
+                <iframe src="chapter-09.html" title="Chapter 9"></iframe>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 密码验证 - kl2026
+        const _0x6b=["\x6b\x6c\x32\x30\x32\x36"];
+        function check(){
+            if(document.getElementById('pwd').value===_0x6b[0]){
+                document.getElementById('gate').style.opacity='0';
+                setTimeout(function(){
+                    document.getElementById('gate').remove();
+                }, 300);
+                console.log("Authorized access at: " + new Date().toLocaleString());
+            } else {
+                alert('Access Denied | 访问被拒绝\nIncorrect password. Please try again or request access.\n密码错误，请重试或申请访问权限。');
+                document.getElementById('pwd').value='';
+                document.getElementById('pwd').focus();
+            }
+        }
+
+        function openModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+        
+        function closeModal(modalId) {
+            const modal = typeof modalId === 'string' ? document.getElementById(modalId) : modalId;
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+        
+        function closeModalOnBackdrop(event, modalId) {
+            if (event.target === event.currentTarget || event.target.classList.contains('glass-backdrop')) {
+                closeModal(modalId);
+            }
+        }
+        
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                const activeModal = document.querySelector('.glass-modal.active');
+                if (activeModal) {
+                    activeModal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
